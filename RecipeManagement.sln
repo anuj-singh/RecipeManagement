@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreApiProject", "CoreApiProject\CoreApiProject.csproj", "{A37F8C5D-CAC2-4637-ACF7-5D17515EBCF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularRacipeApp", "AngularRacipeApp\AngularRacipeApp.csproj", "{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A37F8C5D-CAC2-4637-ACF7-5D17515EBCF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A37F8C5D-CAC2-4637-ACF7-5D17515EBCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A37F8C5D-CAC2-4637-ACF7-5D17515EBCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A37F8C5D-CAC2-4637-ACF7-5D17515EBCF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
