@@ -15,43 +15,87 @@ namespace RecipeManagement.Service.Services
 
         public async Task<List<Recipe>> GetAllRecipesAsync()
         {
-            // Fetch all recipes from the repository
-            return await _recipeRepository.GetAllRecipesAsync();
+            try
+            {
+                return await _recipeRepository.GetAllRecipesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while retrieving all recipes.", ex);
+            }
         }
 
         // Get a recipe by its ID
         public async Task<Recipe> GetRecipeByIdAsync(int id)
         {
-            // Fetch the recipe by ID from the repository
-            return await _recipeRepository.GetRecipeByIdAsync(id);
+            try
+            {
+                return await _recipeRepository.GetRecipeByIdAsync(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException($"Recipe with ID {id} not found.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"An error occurred while retrieving recipe with ID {id}.", ex);
+            }
         }
 
         // Get all recipes by a specific user ID
         public async Task<List<Recipe>> GetAllRecipebyUserIdAsync(int userId)
         {
-            // Fetch recipes by user ID from the repository
-            return await _recipeRepository.GetRecipesByUserIdAsync(userId);
+            try
+            {
+                return await _recipeRepository.GetRecipesByUserIdAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"An error occurred while retrieving recipes for User ID {userId}.", ex);
+            }
         }
 
         // Create a new recipe
         public async Task<Recipe> CreateRecipeAsync(Recipe recipe)
         {
-            // Add the new recipe using the repository
-            return await _recipeRepository.AddRecipeAsync(recipe);
+            try
+            {
+                return await _recipeRepository.AddRecipeAsync(recipe);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while creating the recipe.", ex);
+            }
         }
 
         // Update an existing recipe
         public async Task<Recipe> UpdateRecipeAsync(int id, Recipe recipe)
         {
-            // Update the recipe using the repository
-            return await _recipeRepository.UpdateRecipeAsync(id, recipe);
+            try
+            {
+                return await _recipeRepository.UpdateRecipeAsync(id, recipe);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException($"Recipe with ID {id} not found.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"An error occurred while updating recipe with ID {id}.", ex);
+            }
         }
 
         // Delete a recipe by its ID
         public async Task<bool> DeleteRecipeAsync(int id)
         {
-            // Delete the recipe using the repository
-            return await _recipeRepository.DeleteRecipeAsync(id);
+            try
+            {
+                return await _recipeRepository.DeleteRecipeAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"An error occurred while deleting recipe with ID {id}.", ex);
+            }
         }
     }
 }

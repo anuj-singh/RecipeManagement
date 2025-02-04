@@ -4,27 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace RecipeManagement.Data.Models
+namespace RecipeManagement.Data.Models 
 {
-    public class User
+    public class Role
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int RoleId { get; set; }
         [Required]
         [MaxLength(100)]
-        public required string UserName { get; set; }
-        [Required]
-        [EmailAddress]
-        public required string Email { get; set; }
-        [Required]
-        public required string PasswordHash { get; set; }
-        [MaxLength(2000)]
-        public string? Bio {get; set;}
-        public int StatusId {get; set;}
+        public required string RoleName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int? LastModifiedUserId  { get; set; }
         public int CreatedBy { get; set; }
+
     }
 }

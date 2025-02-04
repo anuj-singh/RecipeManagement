@@ -1,33 +1,33 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeManagement.Data.Models;
 
-namespace RecipeManagement.Data
+namespace  RecipeManagement.Data 
 {
-    public class RecipeDbContext : DbContext
-    {
-        public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<User> Users { get; set; }
+public partial class RecipeDBContext : DbContext
+{
+     public RecipeDBContext() {}
+  
+     public RecipeDBContext (DbContextOptions< RecipeDBContext > options) : base(options)
+     { } 
 
-        public RecipeDbContext(DbContextOptions<RecipeDbContext> options)
-            : base(options)
-        { }
+  
+     public DbSet<User> Users { get; set; } 
+     public DbSet<Role> Roles { get; set; } 
+     public DbSet<UserRole> UserRoles { get; set; } 
+     public DbSet<Category> Categories { get; set; } 
+     public DbSet<Recipe> Recipes { get; set; } 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+   
+     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            modelBuilder.Entity<Recipe>()
-                .HasOne(r => r.Category)
-                .WithMany()
-                .HasForeignKey(r => r.CategoryID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Recipe>()
-                .HasOne(r => r.User)
-                .WithMany()
-                .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            base.OnModelCreating(modelBuilder);
+             if (!optionsBuilder.IsConfigured)
+             {
+                optionsBuilder.UseSqlite("Data Source=recipes.db");
+            }
         }
-    }
+
 }
+
+}
+
+
