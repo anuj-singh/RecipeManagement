@@ -8,6 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+
+    <ProjectReference Include="..\RecipeManagement.Data\RecipeManagement.Data.csproj" />
+    <ProjectReference Include="..\RecipeManagement.Service\RecipeManagement.Service.csproj" />
+
+    
   </ItemGroup>
 
 </Project>
