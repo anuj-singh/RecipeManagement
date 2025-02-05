@@ -17,8 +17,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RecipeDBContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IRecipeRepository,RecipeRepository>();
-builder.Services.AddScoped<IRecipeService,RecipeService>();
+builder.Services.AddTransient<IRecipeRepository,RecipeRepository>();
+builder.Services.AddTransient<IRecipeService,RecipeService>();
 
 var app = builder.Build();
 

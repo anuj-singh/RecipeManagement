@@ -50,9 +50,6 @@ namespace RecipeManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 

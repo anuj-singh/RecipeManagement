@@ -19,8 +19,8 @@ namespace RecipeManagement.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     CategoryName = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -36,8 +36,8 @@ namespace RecipeManagement.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     RoleName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -54,11 +54,11 @@ namespace RecipeManagement.Data.Migrations
                     UserName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
-                    Bio = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
+                    Bio = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: true),
                     StatusId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -74,16 +74,16 @@ namespace RecipeManagement.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false),
-                    Ingredients = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
+                    Ingredients = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: true),
                     CookingTime = table.Column<int>(type: "INTEGER", nullable: false),
-                    Instructions = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
-                    ImageUrl = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    Instructions = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: true),
+                    ImageUrl = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     StatusId = table.Column<int>(type: "INTEGER", nullable: false),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -112,8 +112,8 @@ namespace RecipeManagement.Data.Migrations
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     RoleId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LastModifiedUserId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
