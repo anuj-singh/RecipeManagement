@@ -11,7 +11,7 @@ using RecipeManagement.Data;
 namespace RecipeManagement.Data.Migrations
 {
     [DbContext(typeof(RecipeDBContext))]
-    [Migration("20250204060638_InitialCreate")]
+    [Migration("20250205103149_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -36,10 +36,10 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.HasKey("CategoryId");
@@ -66,26 +66,22 @@ namespace RecipeManagement.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Ingredients")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Instructions")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("StatusId")
@@ -96,7 +92,7 @@ namespace RecipeManagement.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
@@ -123,7 +119,7 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("RoleName")
@@ -131,7 +127,7 @@ namespace RecipeManagement.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.HasKey("RoleId");
@@ -146,7 +142,6 @@ namespace RecipeManagement.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
@@ -160,7 +155,7 @@ namespace RecipeManagement.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
@@ -170,7 +165,7 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
@@ -195,13 +190,13 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
