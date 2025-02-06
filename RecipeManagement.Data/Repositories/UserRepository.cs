@@ -60,5 +60,15 @@ public class UserRepository : IUserRepository
             }
             return false;
     }
+    public async Task<User> GetUserByEmaiAsync(string Email)
+    {
+        var getUser = await _recipeDBContext.Users
+                .FirstOrDefaultAsync(r => r.Email.ToLower() == Email);
+       if(getUser == null)
+       {
+        throw new KeyNotFoundException($"User with email {Email} not found.");
+       }
+        return getUser;
+    }
 }
 }
