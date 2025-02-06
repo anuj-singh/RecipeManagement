@@ -1,0 +1,52 @@
+<form [formGroup] ="registerForm" (ngSubmit)="registerSubmitted()" class="border p-3 rounded-3">
+    <div class="row">
+        <div class="col mb-3">
+            <input type="text" class="form-control" id="email" formControlName="email" placeholder="email">
+            <div class="form-text text-danger" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
+                Email is Required.
+            </div>
+            <div class="form-text text-danger" *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
+                Email is Invalid.
+            </div>
+            <!-- <div class="form-text"></div> -->
+        </div>
+    </div>
+     <div class="row">
+        <div class="col mb-3">
+            <input type="password" class="form-control" id="createpassword" formControlName="createpassword" placeholder="createpassword">
+            <div class="form-text text-danger" 
+            *ngIf="CreatePassword.errors?.['required'] && (CreatePassword.dirty || CreatePassword.touched)">
+                Password is Required.
+            </div>
+            <div class="form-text text-danger" 
+            *ngIf="CreatePassword.errors?.['minlength'] || CreatePassword.errors?.['maxlength'] && (CreatePassword.dirty || CreatePassword.touched)">
+                Password should be atleast 6 and at the max 15 characters long..
+            </div>
+            <!-- <div class="form-text"></div> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3">
+            <input type="password" class="form-control" id="confirmpassword" formControlName="confirmpassword" placeholder="confirmpassword">
+            <div class="form-text text-danger" [ngStyle]="{'display':confirmpassword}">
+                Confirm Password is Invalid.
+            </div>
+        </div>
+    </div> 
+    <div class="row">
+        <div class="col mb-3">
+            <div class="d-grid">
+                <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Signup</button>
+            </div>            
+        </div>
+    </div> 
+    <div class="row">
+        <div class="col-6 offset-3">
+
+                    <p>Already have an account?
+                        <a routerLink="/login">Login</a>
+                    </p>                
+         
+        </div>
+    </div>
+</form>
