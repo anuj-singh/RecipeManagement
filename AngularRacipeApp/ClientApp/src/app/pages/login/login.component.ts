@@ -1,19 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  
+  
 })
 export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
+  constructor(private router: Router, private fb: FormBuilder) {}
 
-constructor(private router: Router){}
+  ngOnInit(): void {
+    this.createLoginForm();
+  }
 
-ngOnInit(): void {
-  
-}
-  onSubmitLogin(){
-    this.router.navigate(['/login'])
+  createLoginForm() {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+  }
+
+  onSubmitLogin() {
+   console.log(this.loginForm.value);
+   this.router.navigate(['/main-dashboard']);
+  }
+
+  navigateToRegister() {
+    this.router.navigate(['/register']);
   }
 }
