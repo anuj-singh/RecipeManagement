@@ -23,6 +23,10 @@ builder.Services.AddTransient<IRecipeService,RecipeService>();
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddTransient<IUserService,UserService>();
 
+builder.Services.AddTransient<IAuthService,AuthService>();
+builder.Services.AddTransient<IUserRoleRepository,UserRoleRepository>();
+
+ 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

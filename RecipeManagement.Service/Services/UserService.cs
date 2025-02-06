@@ -1,4 +1,5 @@
 using RecipeManagement.Service.Interfaces;
+using RecipeManagement.Service.Dtos;
 using RecipeManagement.Data.Interfaces;
 using RecipeManagement.Data.Models;
 
@@ -33,5 +34,5 @@ namespace RecipeManagement.Service.Services
         {
             return await _userRepository.DeleteUser(id);
         }
-    }
+    }   
 }
