@@ -20,6 +20,9 @@ builder.Services.AddDbContext<RecipeDBContext>(options =>
 builder.Services.AddTransient<IRecipeRepository,RecipeRepository>();
 builder.Services.AddTransient<IRecipeService,RecipeService>();
 
+builder.Services.AddTransient<IUserRepository,UserRepository>();
+builder.Services.AddTransient<IUserService,UserService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
