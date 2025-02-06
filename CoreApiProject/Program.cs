@@ -25,7 +25,8 @@ builder.Services.AddTransient<IUserService,UserService>();
 
 builder.Services.AddTransient<IAuthService,AuthService>();
 builder.Services.AddTransient<IUserRoleRepository,UserRoleRepository>();
-
+builder.Services.AddTransient<IAdminService,AdminService>(); 
+ 
  
 var app = builder.Build();
 
