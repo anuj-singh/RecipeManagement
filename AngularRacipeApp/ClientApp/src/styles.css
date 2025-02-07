@@ -21,3 +21,8 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+html, body{
+  height: 100%;
+  width: 100vw;
+  overflow: hidden;
+}

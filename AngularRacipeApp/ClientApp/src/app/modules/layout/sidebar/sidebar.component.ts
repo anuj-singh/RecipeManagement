@@ -38,4 +38,5 @@ export class SidebarComponent {
     localStorage.removeItem("tokenKey");
     this.router.navigate(['/login']);
   }
+  
 }
