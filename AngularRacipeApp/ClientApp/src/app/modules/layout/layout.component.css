@@ -1,0 +1,23 @@
+.layout{
+    height: 100%;
+}
+.main {
+    overflow-y: auto;
+    height: calc(100% - 80px);;
+    display: flex;
+    flex-direction: column;
+}
+.display-area {
+    flex: 1;
+    display: flex;
+    width: 100%;
+}
+.footer-area {
+    position: relative;
+    bottom: 0;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+}
