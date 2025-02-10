@@ -21,6 +21,7 @@ namespace RecipeManagement.Data.Models
         public required string PasswordHash { get; set; }
         [MaxLength(2000)]
         public string? Bio {get; set;}
+         public string? ImageUrl { get; set; }
         public int StatusId {get; set;}
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -41,15 +41,17 @@ namespace RecipeManagement.Service.Services
                         StatusId=1
                     };
                     var result= await _userRepository.CreateUser(userData);
-                    // UserRole role= new UserRole()
-                    // {
-                    //     RoleId =3,
-                    //     UserId =result.UserId,
-                    //     User= result,
-                    //     CreatedAt = DateTime.UtcNow,
-                    //     CreatedBy=1
-                    // };
-                    // var usrRole= await _userRoleRepository.CreateUserRole
+                    var roleDtls= await _userRoleRepository.GetRoleById(3);
+                    UserRole role= new UserRole()
+                    {
+                        RoleId =3,
+                        UserId =result.UserId,
+                        User= result,
+                        Role=roleDtls,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy=1
+                    };
+                    var usrRole= await _userRoleRepository.CreateUserRole(role);
                     response.Message="User successfully registered";
                     response.Status= true;
                 }
@@ -69,6 +71,7 @@ namespace RecipeManagement.Service.Services
                     {
                         response.Message="User validated successfully";
                         response.Status=true;
+
                     }
                 }
                 else

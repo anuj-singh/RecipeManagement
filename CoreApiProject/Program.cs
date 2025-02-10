@@ -14,8 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<RecipeDBContext>(options => 
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// builder.Services.AddDbContext<RecipeDBContext>(options => 
+//     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<RecipeDBContext>(options => {});
 
 builder.Services.AddTransient<IRecipeRepository,RecipeRepository>();
 builder.Services.AddTransient<IRecipeService,RecipeService>();
@@ -30,9 +32,8 @@ builder.Services.AddTransient<IAdminService,AdminService>();
 
 builder.Services.AddTransient<ICategoryRepository,CategoryRepository>();
 builder.Services.AddTransient<ICategoryService,CategoryService>();
+builder.Services.AddTransient<ICommonService,CommonService>();
 
- 
- 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -45,7 +45,11 @@ public class UserRepository : IUserRepository
        existinguser.Bio = user.Bio;
        existinguser.Email = user.Email;       
        existinguser.UserName = user.UserName;
-
+       existinguser.ImageUrl= user.ImageUrl;
+       existinguser.PasswordHash=user.PasswordHash;
+       existinguser.LastModifiedUserId=1;
+       existinguser.UpdatedAt=DateTime.UtcNow;
+        existinguser.StatusId= user.StatusId;
        await _recipeDBContext.SaveChangesAsync();
        return user;
     }
