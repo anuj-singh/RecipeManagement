@@ -26,6 +26,11 @@ builder.Services.AddTransient<IUserService,UserService>();
 builder.Services.AddTransient<IAuthService,AuthService>();
 builder.Services.AddTransient<IUserRoleRepository,UserRoleRepository>();
 
+builder.Services.AddTransient<IAdminService,AdminService>(); 
+
+builder.Services.AddTransient<ICategoryRepository,CategoryRepository>();
+builder.Services.AddTransient<ICategoryService,CategoryService>();
+
  
  
 var app = builder.Build();
