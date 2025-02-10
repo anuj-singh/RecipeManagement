@@ -15,6 +15,13 @@ const routes: Routes = [
             (m) => m.MainDashboardModule
           ),
       },
+      {
+        path: 'recipes-management',
+        loadChildren: () =>
+          import('../recipes-management/recipes-management.module').then(
+            (m) => m.RecipesManagementModule
+          ),
+      },
     ],
   },
 ];
