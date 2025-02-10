@@ -7,6 +7,6 @@ namespace RecipeManagement.Data.Interfaces
 public interface IUserRoleRepository
 {
     Task<UserRole> CreateUserRole(UserRole usrRole);
-    
+    Task<Role> GetRoleById(int roleId);
 }
 }

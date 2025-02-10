@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Data.Models;
+using RecipeManagement.Service.Dtos;
 using RecipeManagement.Service.Interfaces;
 
 namespace CoreApiProject.Controllers;
@@ -9,13 +10,14 @@ namespace CoreApiProject.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
+    private readonly ICommonService _commonservice;
+    public UserController(IUserService userService,ICommonService commonservice)
     {
         _userService = userService;
+        _commonservice= commonservice;
     }
     [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody]User user)
+    public async Task<IActionResult> CreateUser([FromBody]UserDto user)
     { 
         var createuser = await _userService.CreateUserAsync(user);
         return Ok(createuser);
@@ -40,8 +42,16 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(int id,[FromBody]User user)
+    public async Task<IActionResult> UpdateUser(int id,[FromBody]UserDto user,IFormFile file )
     {
+         if (file != null && file.Length != 0)
+           {
+                var result= await _commonservice.UploadPicture( file);
+                if(result) 
+                {
+                    user.ImageUrl= file.FileName;
+                }
+           }
         var updateuser = await _userService.UpdateUserAsync(id,user);
         if(updateuser == null)
         {
@@ -59,5 +69,29 @@ public class UserController : ControllerBase
             return NotFound();
         }
         return Ok(result);
+    }
+    [HttpPost("UploadUserPic")]
+    public async Task<IActionResult> UploadUserPic(IFormFile file, int id)
+    {
+        CommonResponseDto response = new CommonResponseDto();
+        if (file == null || file.Length == 0)
+            return BadRequest("No file uploaded.");
+
+       var result= await _commonservice.UploadPicture( file);
+       var userDtls= await _userService.GetUserByIdAsync(id);
+       if(result && userDtls!= null)
+       {
+            userDtls.ImageUrl= file.FileName;
+            var updateuser = await _userService.UpdateUserAsync(id,userDtls);
+            response.Message= "Image successfully uploaded.";
+            response.Status= true;
+         
+       }
+        else
+        {
+            response.Message= "Image not uploaded.";
+            response.Status= false;
+        }
+        return Ok(response);
     }
 }
