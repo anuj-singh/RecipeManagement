@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "AngularRacipeApp"
+  "defaultProject": "AngularRacipeApp",
+  "cli": {
+    "analytics": false
+  }
 }
