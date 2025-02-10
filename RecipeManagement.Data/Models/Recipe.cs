@@ -1,0 +1,61 @@
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+
+namespace RecipeManagement.Data.Models
+{
+        public class Recipe
+        {
+                [Key]
+                [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+                public int RecipeId { get; set; }
+
+      
+                [ForeignKey("UserId")]
+                public required User User { get; set; }
+
+                [ForeignKey("UserId")]
+                public int UserId { get; set; }
+
+                [Required]
+                [MaxLength(200)]
+                public required string Title { get; set; }
+
+                [MaxLength(1000)]
+                public string? Description { get; set; }
+
+                [MaxLength(2000)]
+                public string? Ingredients { get; set; }
+
+                [Required]
+                public int CookingTime { get; set; }
+
+                [MaxLength(2000)]
+                public string? Instructions { get; set; }
+
+                [MaxLength(500)]
+                public string? ImageUrl { get; set; }
+
+                [Required]
+                public int StatusId { get; set; }
+
+                [Required]
+                [ForeignKey("CategoryId")]
+                public required Category Category { get; set; }
+
+                [Required]
+                [ForeignKey("CategoryId")]
+                public int CategoryID { get; set; }
+
+                public DateTime CreatedAt { get; set; }
+
+                public DateTime? UpdatedAt { get; set; }
+
+                public int? LastModifiedUserId { get; set; }
+
+                public int CreatedBy { get; set; }
+
+        }
+}

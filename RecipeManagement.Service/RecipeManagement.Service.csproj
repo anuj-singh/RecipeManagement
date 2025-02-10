@@ -13,6 +13,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+
+    <ProjectReference Include="..\RecipeManagement.Data\RecipeManagement.Data.csproj" />
+
   </ItemGroup>
 
 </Project>

@@ -32,9 +32,13 @@ registerForm=new FormGroup({
 
 registerSubmitted(){
  console.log(this.registerForm.value);
- this.dataService.httpPostRequest('',this.registerForm.value).subscribe((res)=>{
-  console.log(res);
+ this.dataService.httpPostRequest(this.router.navigate(['/main-dashboard']),this.registerForm.value).subscribe((response)=>{
+ console.log(response);
 })
+ //this.dataService.httpPostRequest('',this.registerForm.value).subscribe((response)=>{
+ // console.log(response);
+//})
+//this.router.navigate(['/main-dashboard']);
 }
 
 get UserName():FormControl{

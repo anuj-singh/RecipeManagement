@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreApiProject", "CoreApiPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularRacipeApp", "AngularRacipeApp\AngularRacipeApp.csproj", "{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeManagement.Service", "RecipeManagement.Service\RecipeManagement.Service.csproj", "{C70B6161-3E10-4394-837B-DE587C25CEC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeManagement.Data", "RecipeManagement.Data\RecipeManagement.Data.csproj", "{23C18693-1B39-4739-B1B1-71EA9A9C2103}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EEF7F5B-F98A-4BDA-A086-14DB9D7C71B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70B6161-3E10-4394-837B-DE587C25CEC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70B6161-3E10-4394-837B-DE587C25CEC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70B6161-3E10-4394-837B-DE587C25CEC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70B6161-3E10-4394-837B-DE587C25CEC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C18693-1B39-4739-B1B1-71EA9A9C2103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C18693-1B39-4739-B1B1-71EA9A9C2103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C18693-1B39-4739-B1B1-71EA9A9C2103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C18693-1B39-4739-B1B1-71EA9A9C2103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
