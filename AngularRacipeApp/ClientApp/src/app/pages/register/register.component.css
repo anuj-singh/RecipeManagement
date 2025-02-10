@@ -1,4 +1,31 @@
-form{
-    width: 500px;
+.register-section{
+    /* background-color: green; */
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(252, 248, 248);
+}
+/* form{
+    width: 340px;
+    
+} */
+
+/* form{
+    width: 00px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(252, 248, 248);
+} */
+.card{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+.login-link{
+    text-decoration: none;
+    cursor: pointer;
+}

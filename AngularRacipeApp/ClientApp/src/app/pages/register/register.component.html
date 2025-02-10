@@ -1,52 +1,69 @@
-<form [formGroup] ="registerForm" (ngSubmit)="registerSubmitted()" class="border p-3 rounded-3">
+<div class="container">
     <div class="row">
-        <div class="col mb-3">
-            <input type="text" class="form-control" id="email" formControlName="email" placeholder="email">
-            <div class="form-text text-danger" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
-                Email is Required.
-            </div>
-            <div class="form-text text-danger" *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
-                Email is Invalid.
-            </div>
-            <!-- <div class="form-text"></div> -->
-        </div>
-    </div>
-     <div class="row">
-        <div class="col mb-3">
-            <input type="password" class="form-control" id="createpassword" formControlName="createpassword" placeholder="createpassword">
-            <div class="form-text text-danger" 
-            *ngIf="CreatePassword.errors?.['required'] && (CreatePassword.dirty || CreatePassword.touched)">
-                Password is Required.
-            </div>
-            <div class="form-text text-danger" 
-            *ngIf="CreatePassword.errors?.['minlength'] || CreatePassword.errors?.['maxlength'] && (CreatePassword.dirty || CreatePassword.touched)">
-                Password should be atleast 6 and at the max 15 characters long..
-            </div>
-            <!-- <div class="form-text"></div> -->
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mb-3">
-            <input type="password" class="form-control" id="confirmpassword" formControlName="confirmpassword" placeholder="confirmpassword">
-            <div class="form-text text-danger" [ngStyle]="{'display':confirmpassword}">
-                Confirm Password is Invalid.
-            </div>
-        </div>
-    </div> 
-    <div class="row">
-        <div class="col mb-3">
-            <div class="d-grid">
-                <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Signup</button>
-            </div>            
-        </div>
-    </div> 
-    <div class="row">
-        <div class="col-6 offset-3">
+      <div class="register-section">
+        <div class="col-md-4">
+          <div class="card mt-4">
+            <div class="card-body">
 
-                    <p>Already have an account?
-                        <a routerLink="/login">Login</a>
-                    </p>                
-         
+                <form [formGroup] ="registerForm" (ngSubmit)="registerSubmitted()">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="username" class="form-label">User Name</label>
+                            <input type="username" class="form-control" id="username" formControlName="username" placeholder="UserName">
+                            <div class="form-text text-danger" *ngIf="UserName.errors?.['required'] && (UserName.dirty || UserName.touched)">
+                                UserName is Required.
+                            </div>
+                            <div class="form-text text-danger" *ngIf="UserName.errors?.['minlength'] && (UserName.dirty || UserName.touched)">
+                                UserName is Invalid.
+                            </div>
+                            <div class="form-text text-danger" *ngIf="UserName.errors?.['pattern'] && (UserName.dirty || UserName.touched)">
+                                UserName should start with Alphabet.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+                            <div class="form-text text-danger" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
+                                Email is Required.
+                            </div>
+                            <div class="form-text text-danger" *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
+                                Email is Invalid.
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" formControlName="password" placeholder="assword">
+                            <div class="form-text text-danger" 
+                            *ngIf="Password.errors?.['required'] && (Password.dirty || Password.touched)">
+                                Password is Required.
+                            </div>
+                            <div class="form-text text-danger" 
+                            *ngIf="Password.errors?.['minlength'] || Password.errors?.['maxlength'] && (Password.dirty || Password.touched)">
+                                Password should be atleast 6 and at the max 15 characters long..
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col mb-3">
+                            <div class="d-grid">
+                                <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Signup</button>
+                                <p class="text-end mt-2">Already have an account?
+                                    <a class="login-link" (click)="navigateToLogin()">Login</a>
+                                    <!-- <a routerLink="/login">Login</a> -->
+                                </p>   
+                            </div>            
+                        </div>
+                    </div> 
+                </form>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</form>
+</div>
+
