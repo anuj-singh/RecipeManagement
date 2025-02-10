@@ -32,6 +32,7 @@ builder.Services.AddTransient<ICategoryRepository,CategoryRepository>();
 builder.Services.AddTransient<ICategoryService,CategoryService>();
 
  
+ 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
