@@ -19,6 +19,7 @@ import { AuthInterceptor } from './shared/service/auth.interceptor';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
+    RegisterComponent,
     FetchDataComponent,
     LoginComponent,
   ],
@@ -29,6 +30,7 @@ import { AuthInterceptor } from './shared/service/auth.interceptor';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: '', redirectTo: 'register', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       {
