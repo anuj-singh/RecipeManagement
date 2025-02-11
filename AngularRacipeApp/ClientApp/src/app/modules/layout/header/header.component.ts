@@ -8,15 +8,30 @@ import { Component } from '@angular/core';
 export class HeaderComponent {
   title: string = "Recipes Management"
   user: string = "admin"
-  displayStyle = "none"; 
+  displayStyleUser = "none"; 
+  displayStyleUserUpdate = "none"; 
+  userModelOpened: boolean= false;
+  userUpdateModelOpened: boolean= false;
 
+  constructor(){
 
+  }
   
-  openPopup() { 
-    this.displayStyle = "block"; 
-  } 
-  closePopup() { 
-    this.displayStyle = "none"; 
-  } 
-  
+  togglePopup() { 
+    if(!this.userModelOpened === true){
+      this.displayStyleUser = "block";
+    } else {
+      this.displayStyleUser = "none"; 
+    }
+    this.userModelOpened = !this.userModelOpened;
+  }  
+  openUpdateProfile(){
+    this.togglePopup();
+    if(!this.userUpdateModelOpened === true){
+      this.displayStyleUserUpdate = "block";
+    } else {
+      this.displayStyleUserUpdate = "none"; 
+    }
+    this.userUpdateModelOpened = !this.userUpdateModelOpened;
+  }
 }
