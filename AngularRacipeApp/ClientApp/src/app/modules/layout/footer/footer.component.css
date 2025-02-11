@@ -1,3 +1,7 @@
-.footer-cls {
-    color: #0d6efd;
-}
+.footer {
+    margin-top: 10px;
+    margin-left: 16px;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: 500;
+  }
