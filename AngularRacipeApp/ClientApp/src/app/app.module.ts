@@ -9,9 +9,9 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { RegisterComponent } from './modules/users/register/register.component';
 import { AuthInterceptor } from './shared/service/auth.interceptor';
+import { LoginComponent } from './modules/users/login/login.component';
 
 @NgModule({
   declarations: [
@@ -29,10 +29,13 @@ import { AuthInterceptor } from './shared/service/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: '', redirectTo: 'users', pathMatch: 'full' },
       { path: '', redirectTo: 'register', pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./modules/users/users.module').then((m) => m.UsersModule),
+      },
       {
         path: '',
         loadChildren: () =>
