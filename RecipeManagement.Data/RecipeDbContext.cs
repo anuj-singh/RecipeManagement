@@ -20,9 +20,12 @@ public partial class RecipeDBContext : DbContext
      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
              if (!optionsBuilder.IsConfigured)
-             {
-                
-             }
+            {
+                var contentRootPath = Directory.GetCurrentDirectory();
+                var projectRootPath = Directory.GetParent(contentRootPath).FullName;
+                var databasePath = Path.Combine(projectRootPath, "RecipeManagement.Data", "recipes.db");
+                optionsBuilder.UseSqlite($"Data Source={databasePath}");
+            }
         }
 }
 
