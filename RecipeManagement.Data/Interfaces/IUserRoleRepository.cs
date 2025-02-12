@@ -8,5 +8,6 @@ public interface IUserRoleRepository
 {
     Task<UserRole> CreateUserRole(UserRole usrRole);
     Task<Role> GetRoleById(int roleId);
+   Task<UserRole> GetUserRoleId(int roleId);
 }
 }

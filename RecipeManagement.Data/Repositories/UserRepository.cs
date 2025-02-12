@@ -46,7 +46,7 @@ public class UserRepository : IUserRepository
        existinguser.Email = user.Email;       
        existinguser.UserName = user.UserName;
        existinguser.ImageUrl= user.ImageUrl;
-       existinguser.PasswordHash=user.PasswordHash;
+      // existinguser.PasswordHash=user.PasswordHash;
        existinguser.LastModifiedUserId=1;
        existinguser.UpdatedAt=DateTime.UtcNow;
         existinguser.StatusId= user.StatusId;
@@ -64,15 +64,16 @@ public class UserRepository : IUserRepository
             }
             return false;
     }
-    public async Task<User> GetUserByEmaiAsync(string Email)
+    public async Task<(User?,bool)> GetUserByEmaiAsync(string Email)
     {
+        bool flag = true;
         var getUser = await _recipeDBContext.Users
                 .FirstOrDefaultAsync(r => r.Email.ToLower() == Email);
        if(getUser == null)
        {
-        throw new KeyNotFoundException($"User with email {Email} not found.");
+           flag = false;
        }
-        return getUser;
+        return (getUser,flag);
     }
 }
 }
