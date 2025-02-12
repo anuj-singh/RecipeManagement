@@ -1,6 +1,6 @@
 .header-cls {
   height: 100% !important;
-  background: #26518f;;
+  background: #26518f;
   overflow-x: hidden;
   display: flex;
   justify-content: space-between;
@@ -34,22 +34,24 @@
   padding-left: 8px;
   font-family: sans-serif;
 }
-.username-cls:hover{
-    color: black;
-    text-decoration: underline;
+.modal{
+  pointer-events: none;
+  
 }
 .modal-user {
     position: absolute;
     right: 10px;
-    top: 50px;
+    top: 35px;
     width: 200px;
+    
 }
 .update-modal-content{
-    background-color: #fff;
+    background-color: #dcdcdc;
     
     border-radius: 20px;
     /* box-shadow: 10px 10px 5px #888888; */
 }
 .profile-update-modal{
-    top:150px;
+  pointer-events: auto;
+    top:50px;
 }
