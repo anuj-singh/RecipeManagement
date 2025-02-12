@@ -4,6 +4,10 @@ using RecipeManagement.Data.Models;
 using RecipeManagement.Service.Dtos;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace RecipeManagement.Service.Services
 {
@@ -22,7 +26,7 @@ namespace RecipeManagement.Service.Services
            if(userDtls!= null)
            {
                 var userExists= await _userRepository.GetUserByEmaiAsync(userDtls.Email.ToLower());
-                if(userExists!= null)
+                if(userExists.Item1 != null && userExists.Item2 == true)
                 {
                     response.Message="User already exists";
                 }
@@ -58,30 +62,31 @@ namespace RecipeManagement.Service.Services
            }
            return response;
         }
-         public async Task<CommonResponseDto> Authenticate(LoginDto userDtls)
-        { 
-            CommonResponseDto response= new  CommonResponseDto();
-           if(userDtls!= null)
-           {
-                var userExists= await _userRepository.GetUserByEmaiAsync(userDtls.Email.ToLower());
-                if(userExists != null)
-                {
-                    var decryptPwd= DecryptString(userExists.PasswordHash);
-                    if(userDtls.Password== decryptPwd)
-                    {
-                        response.Message="User validated successfully";
-                        response.Status=true;
+        //  public async Task<CommonResponseDto> Authenticate(LoginDto userDtls)
+        // { 
+        //     CommonResponseDto response= new  CommonResponseDto();
+        //    if(userDtls!= null)
+        //    {
+        //         var userExists= await _userRepository.GetUserByEmaiAsync(userDtls.Email.ToLower());
+        //         if(userExists != null)
+        //         {
+        //             var decryptPwd= DecryptString(userExists.PasswordHash);
+        //             if(userDtls.Password== decryptPwd)
+        //             {
+        //                 response.Message="User validated successfully";
+        //                 response.Status=true;
 
-                    }
-                }
-                else
-                {
-                    response.Message="User does not exists";
-                }
+        //             }
+
+        //         }
+        //         else
+        //         {
+        //             response.Message="User does not exists";
+        //         }
                 
-           }
-           return response;
-        }
+        //    }
+        //    return response;
+        // }
         //  public  async Task<CommonResponseDto> ForgotPassword(LoginDto userDtls)
         // { 
         //     CommonResponseDto response = new  CommonResponseDto();
@@ -102,18 +107,82 @@ namespace RecipeManagement.Service.Services
             string decrypt="";
             try{
                 b= Convert.FromBase64String(password);
-                decrypt=System.Text.ASCIIEncoding.ASCII.GetString(b);
-            }
-            catch(Exception ex){
+               decrypt=System.Text.ASCIIEncoding.ASCII.GetString(b);
                 
             }
+            catch(Exception ex)
+            {
+               throw ex;
+            }
+   
             return decrypt;
         }
         public string EncryptString(string strPassword)
         {
+            
             byte[] b= System.Text.ASCIIEncoding.ASCII.GetBytes(strPassword);
             string encryptedString= Convert.ToBase64String(b);
             return encryptedString;
         }
-    }
+
+     public async Task<AuthResponseDto?> Authenticate(LoginDto userDtls)
+        {
+            if (userDtls != null)
+            {
+                var userExists = await _userRepository.GetUserByEmaiAsync(userDtls.Email.ToLower());
+                if (userExists.Item1 != null && userExists.Item2 )
+                {  
+                    var decryptPwd = DecryptString(userExists.Item1.PasswordHash);
+                    if (userDtls.Password == decryptPwd)
+                    {
+                        var roleDtls = await _userRoleRepository.GetUserRoleId(userExists.Item1.UserId);
+                        var role = await _userRoleRepository.GetRoleById(roleDtls.RoleId);
+                        var response = GenerateToken(userExists.Item1, role);
+                    
+                        return response;
+                       
+                    }
+                }
+            }
+            return null; 
+        }
+
+    private AuthResponseDto GenerateToken(User user, Role role)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var keyString = "your-256-bit-secret-key-which-is-32-bytes-long";
+            var key = Encoding.UTF8.GetBytes(keyString);
+
+            var claims = new List<Claim>
+            {
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, role.RoleName)
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+             var token = tokenHandler.CreateToken(tokenDescriptor);
+             var tokenString = tokenHandler.WriteToken(token);
+             var refreshToken = Guid.NewGuid().ToString();
+
+             return new AuthResponseDto
+             {
+                UserId = user.UserId.ToString(),
+                UserName = user.UserName,
+                Email = user.Email,
+                Role = role.RoleName,
+                Token = tokenString,
+                RefreshToken = refreshToken
+            };
+        }       
+
+
+}
 }

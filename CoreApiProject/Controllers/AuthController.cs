@@ -21,10 +21,15 @@ namespace CoreApiProject.Controllers
             var response = await _authService.Register(user);
             return Ok(response);
         }
-         [HttpPost("Authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]LoginDto user)
-        { 
+        
+        [HttpPost("Authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] LoginDto user)
+        {
             var response = await _authService.Authenticate(user);
+            if (response == null)
+            {
+                return Unauthorized(new { Message = "Authentication failed" });
+            }
             return Ok(response);
         }
     }

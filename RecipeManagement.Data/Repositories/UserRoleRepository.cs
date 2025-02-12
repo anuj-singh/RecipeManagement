@@ -23,8 +23,17 @@ public class UserRoleRepository : IUserRoleRepository
     { 
         var getRole = await _recipeDBContext.Roles
                 .FirstOrDefaultAsync(r => r.RoleId == roleId)?? throw new KeyNotFoundException($"Category with ID {roleId} not found");
-            
+
         return getRole;
+    }
+     public async Task<UserRole> GetUserRoleId(int userId)
+    { 
+        
+        var getRoleId = await _recipeDBContext.UserRoles
+                .FirstOrDefaultAsync(r => r.UserId == userId)?? throw new KeyNotFoundException($"Category with ID {userId} not found");
+            
+          return getRoleId;        
+        
     }
 }
 }
