@@ -7,7 +7,8 @@ namespace RecipeManagement.Service.Interfaces
 {
     public interface ICommonService
     {
-        Task<bool> UploadPicture(IFormFile formFile);
-    
+        Task<(bool,string)> UploadPicture(IFormFile formFile);
+        bool DeletePicture(string name);
+        string GetCommonPath(string fileName);
     }
 }

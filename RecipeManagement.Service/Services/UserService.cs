@@ -8,10 +8,11 @@ namespace RecipeManagement.Service.Services
     public class UserService : IUserService
     {
        private readonly IUserRepository _userRepository;
-
-        public UserService(IUserRepository userRepository)
+        private readonly ICommonService _commonService;
+        public UserService(IUserRepository userRepository,ICommonService commonService)
         {
             _userRepository = userRepository;
+            _commonService=commonService;
         }
 
         public async Task<User> CreateUserAsync(UserDto user)
@@ -47,7 +48,7 @@ namespace RecipeManagement.Service.Services
                 Bio=userData.Bio,
                 CreatedAt=userData.CreatedAt,
                 CreatedBy=1,
-                ImageUrl=userData.ImageUrl,
+                ImageUrl=  (userData.ImageUrl!=null && userData.ImageUrl!="" )?_commonService.GetCommonPath( userData.ImageUrl):"",
                 StatusId= userData.StatusId
             };
         }
@@ -61,7 +62,7 @@ namespace RecipeManagement.Service.Services
                 UserId = c.UserId,
                 UserName = c.UserName,
                 Email=c.Email,
-                ImageUrl=c.ImageUrl,
+                ImageUrl=(c.ImageUrl!=null && c.ImageUrl!="" )?_commonService.GetCommonPath( c.ImageUrl):"",
                 Bio=c.Bio,
                 PasswordHash= c.PasswordHash,
                 StatusId=c.StatusId,
