@@ -22,13 +22,8 @@
     </svg>
     <span class="username-cls">{{ user | uppercase }}</span>
   </div>
-  <div
-    class="modal"
-    tabindex="-1"
-    role="dialog"
-    [ngStyle]="{ display: displayStyleUser }"
-  >    
-    <div
+  </div>
+ <div
         class="modal"
         role="dialog"
         [ngStyle]="{'display':displayStyleUser}"
@@ -36,26 +31,26 @@
         <div class="modal-dialog modal-user" role="document"> 
             <div class="modal-content"> 
                 <div class="modal-body d-flex flex-column gap-2"> 
-                <!-- modal body -->
+                
                     <button class="btn btn-primary" data-bs-toggle="modal" (click)="openUpdateProfile()">edit profile</button>
                     <button class="btn btn-primary" (click)="signout()">sign-out</button>
                 </div> 
             </div> 
         </div> 
     </div>
-</div>
 
-<div
-        class="modal"
+  <div
+        class="modal overlay "
         role="dialog"
         tabindex="-1"
+        style="border:1px solid black"
         [ngStyle]="{'display':displayStyleUserUpdate}"
     > 
         <div class="modal-dialog profile-update-modal" role="document"> 
             <div class="update-modal-content"> 
                 <div class="modal-header d-flex justify-content-between"> 
                     <h4 class="modal-title">UPDATE PROFILE</h4>
-                    <button type="button" class="btn btn-danger btn-sm" (click)="openUpdateProfile()">x</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="openUpdateProfile()"></button>
                 </div> 
                 <div class="container mt-2">
                   <form [formGroup]="userUpdateForm" (ngSubmit)="onSubmit()">
@@ -86,4 +81,5 @@
             </div> 
         </div> 
     </div>
-  </div>
+
+
