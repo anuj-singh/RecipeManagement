@@ -109,11 +109,17 @@ namespace RecipeManagement.Service.Services
                 b= Convert.FromBase64String(password);
                decrypt=System.Text.ASCIIEncoding.ASCII.GetString(b);
                 
-            }   
+            }
+            catch(Exception ex)
+            {
+               throw ex;
+            }
+   
             return decrypt;
         }
         public string EncryptString(string strPassword)
         {
+            
             byte[] b= System.Text.ASCIIEncoding.ASCII.GetBytes(strPassword);
             string encryptedString= Convert.ToBase64String(b);
             return encryptedString;
