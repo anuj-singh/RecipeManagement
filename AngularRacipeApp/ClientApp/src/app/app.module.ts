@@ -14,6 +14,7 @@ import { AuthInterceptor } from './shared/service/auth.interceptor';
 import { LoginComponent } from './modules/users/login/login.component';
 import { AuthGuard } from './shared/auth.guard';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +24,7 @@ import { AuthGuard } from './shared/auth.guard';
     RegisterComponent,
     FetchDataComponent,
     LoginComponent,
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,7 +33,7 @@ import { AuthGuard } from './shared/auth.guard';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'users', pathMatch: 'full' },
-      { path: '', redirectTo: 'register', pathMatch: 'full' },
+      
       {
         path: 'users',
         loadChildren: () =>

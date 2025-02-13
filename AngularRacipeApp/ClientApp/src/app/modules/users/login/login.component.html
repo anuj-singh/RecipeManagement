@@ -6,57 +6,42 @@
           <div class="card-body">
             <form [formGroup]="loginForm">
               <div class="mb-4">
-                <label for="exampleInputEmail1" class="form-label"
-                  >Email address</label
-                >
-                <input
-                  type="email"
-                  class="form-control"
-                  placeholder="Email address"
-                  formControlName="email"
-                />
-                <p
-                  class="text-danger"
-                  *ngIf="
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" placeholder="Email address" formControlName="email" />
+                <p class="text-danger" *ngIf="
                     loginForm.controls['email'].errors &&
                     loginForm.controls['email'].touched
-                  "
-                >
+                  ">
                   Please enter email address.
                 </p>
               </div>
 
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label"
-                  >Password</label
-                >
-                <input
-                  type="password"
-                  class="form-control"
-                  placeholder="Password"
-                  formControlName="password"
-                />
-                <p
-                  class="text-danger"
-                  *ngIf="
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password" formControlName="password" />
+                <p class="text-danger" *ngIf="
                     loginForm.controls['password'].errors &&
                     loginForm.controls['password'].touched
-                  "
-                >
+                  ">
                   Please enter password.
                 </p>
               </div>
-              <button [disabled]="loginForm.invalid"
-                type="submit"
-                class="btn btn-primary w-100 mt-3"
-                (click)="onSubmitLogin()"
-              >
+              <button [disabled]="loginForm.invalid" type="submit" class="btn btn-primary w-100 mt-3"
+                (click)="onSubmitLogin()">
                 Login
               </button>
-              <p class="text-end mt-2">
-                Don't have an account
-                <a class="signup-link" (click)="navigateToRegister()">Signup</a>
-              </p>
+
+              <div class="d-flex justify-content-between">
+                <p class="mt-2">
+                 
+                  <a class="signup-link" (click)="navigateToForgotpassword()">Forgot password?</a>
+                </p>
+
+                <p class="text-end mt-2  "style="font-size: 14px;">
+                  Don't have an account
+                  <a class="signup-link" (click)="navigateToRegister()">Signup</a>
+                </p>
+              </div>
             </form>
           </div>
         </div>
