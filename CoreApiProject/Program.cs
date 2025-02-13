@@ -56,7 +56,8 @@ builder.Services.AddTransient<IAdminService,AdminService>();
 builder.Services.AddTransient<ICategoryRepository,CategoryRepository>();
 builder.Services.AddTransient<ICategoryService,CategoryService>();
 builder.Services.AddTransient<ICommonService,CommonService>();
-
+builder.Services.AddTransient<ILogService,LogService>();
+builder.Services.AddTransient<ILogRepository,LogRepository>();
 
 var app = builder.Build();
 

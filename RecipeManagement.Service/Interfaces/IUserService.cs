@@ -7,11 +7,11 @@ namespace RecipeManagement.Service.Interfaces
 {
     public interface IUserService
     {
-        Task<User> CreateUserAsync(UserDto user);
+        Task<CommonResponseDto> CreateUserAsync(UserDto user);
         Task<UserDto?> GetUserByIdAsync(int id);
        // Task<CommonResponseDto> GetUserByEmailAsync(LoginDto userDtls);
-        Task<List<UserDto>> GetAllUserAsync();  
+        Task<List<UserDto>?> GetAllUserAsync();  
         Task<User> UpdateUserAsync(int id,UserDto user);
-        Task<bool> DeleteUserAsync(int id);
+        Task<CommonResponseDto> DeleteUserAsync(int id);
     }
 }
