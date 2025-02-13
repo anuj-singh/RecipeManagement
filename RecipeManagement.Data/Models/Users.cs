@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipeManagement.Data.Models
 {
-    public class User
+    public class Users
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,11 +20,11 @@ namespace RecipeManagement.Data.Models
         [Required]
         public required string PasswordHash { get; set; }
         [MaxLength(2000)]
-        public string? Bio {get; set;}
-        public int StatusId {get; set;}
+        public string? Bio { get; set; }
+        public int StatusId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public int? LastModifiedUserId  { get; set; }
+        public int? LastModifiedUserId { get; set; }
         public int CreatedBy { get; set; }
     }
 }

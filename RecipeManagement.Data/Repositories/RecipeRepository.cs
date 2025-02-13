@@ -13,13 +13,17 @@ namespace RecipeManagement.Data.Repositories
             _context = context;
         }
 
+
         public async Task<List<Recipe>> GetAllRecipesAsync()
         {
             try
             {
+
+                // var recipeList = await _context.Recipes.ToListAsync();
+                // return recipeList;
                 return await _context.Recipes
-                                     .Include(r => r.User)
-                                     .Include(r => r.Category)
+                                     //.Include(r => r.User)
+                                     //.Include(r => r.Category)
                                      .ToListAsync();
             }
             catch (Exception ex)
@@ -33,8 +37,8 @@ namespace RecipeManagement.Data.Repositories
             try
             {
                 var recipe = await _context.Recipes
-                                            .Include(r => r.User)
-                                            .Include(r => r.Category)
+                                            //.Include(r => r.User)
+                                            // .Include(r => r.Category)
                                             .FirstOrDefaultAsync(r => r.RecipeId == id);
 
                 if (recipe == null)
@@ -55,8 +59,8 @@ namespace RecipeManagement.Data.Repositories
             try
             {
                 return await _context.Recipes
-                                     .Include(r => r.User)
-                                     .Include(r => r.Category)
+                                     //.Include(r => r.User)
+                                     //.Include(r => r.Category)
                                      .Where(r => r.UserId == userId)
                                      .ToListAsync();
             }
@@ -83,7 +87,7 @@ namespace RecipeManagement.Data.Repositories
                 return recipe;
             }
             catch (Exception ex)
-            {       
+            {
                 throw new Exception("An error occurred while adding the recipe.", ex);
             }
         }
@@ -129,6 +133,20 @@ namespace RecipeManagement.Data.Repositories
             catch (Exception ex)
             {
                 throw new Exception($"An error occurred while deleting the recipe with ID {id}.", ex);
+            }
+        }
+        public async Task<List<Recipe>> GetUserDetails(string Email)
+        {
+            try
+            {
+                return await _context.Recipes
+                                     //.Include(r => r.User)
+                                     //.Include(r => r.Category)
+                                     .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving the recipes.", ex);
             }
         }
 

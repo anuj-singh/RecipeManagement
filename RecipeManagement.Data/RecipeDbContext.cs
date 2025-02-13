@@ -1,32 +1,39 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeManagement.Data.Models;
 
-namespace  RecipeManagement.Data 
+namespace RecipeManagement.Data
 {
-public partial class RecipeDBContext : DbContext
-{
-     public RecipeDBContext() {}
-  
-     public RecipeDBContext (DbContextOptions< RecipeDBContext > options) : base(options)
-     { } 
+    public partial class RecipeDBContext : DbContext
+    {
+        public RecipeDBContext() { }
 
-  
-     public DbSet<User> Users { get; set; } 
-     public DbSet<Role> Roles { get; set; } 
-     public DbSet<UserRole> UserRoles { get; set; } 
-     public DbSet<Category> Categories { get; set; } 
-     public DbSet<Recipe> Recipes { get; set; } 
+        public RecipeDBContext(DbContextOptions<RecipeDBContext> options) : base(options)
+        { }
 
-   
-     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-             if (!optionsBuilder.IsConfigured)
-             {
-                optionsBuilder.UseSqlite("Data Source=recipes.db");
+            if (!optionsBuilder.IsConfigured)
+            {
+                var contentRootPath = Directory.GetCurrentDirectory();
+
+                var projectRootPath = Directory.GetParent(contentRootPath).FullName;
+                var databasePath = Path.Combine(projectRootPath, "RecipeManagement.Data", "recipes.db");
+
+                optionsBuilder.UseSqlite($"Data Source={databasePath}");
+
             }
         }
 
-}
+    }
 
 }
 
