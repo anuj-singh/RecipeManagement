@@ -7,26 +7,35 @@ using System.Runtime.CompilerServices;
 
 public class CommonService : ICommonService
  {
-    public CommonService()
+    private readonly ILogService _logService;
+    public CommonService(ILogService logService)
      {
+        _logService =logService;
      }
 
     public async Task<(bool,string)> UploadPicture(IFormFile file)
     {
         bool result =false;
-         var newFileName= GenerateNewFileName(file. FileName);
-         var rootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-        if (!Directory.Exists(rootPath))
-        {
-            Directory.CreateDirectory(rootPath);
+        string newFileName="";
+        try{
+            newFileName= GenerateNewFileName(file. FileName);
+            var rootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            if (!Directory.Exists(rootPath))
+            {
+                Directory.CreateDirectory(rootPath);
+            }
+
+            var filePath = Path.Combine(rootPath, newFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+                result =true;
+            }
         }
-
-        var filePath = Path.Combine(rootPath, newFileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        catch(Exception ex)
         {
-            await file.CopyToAsync(stream);
-            result =true;
+           await _logService.CreateLogAsync(ex.Message,"UploadPicture");
         }
         return (result,newFileName);
     }
@@ -45,7 +54,7 @@ public class CommonService : ICommonService
         }
         catch (Exception ex)
         {
-            Console.WriteLine("An error occurred: " + ex.Message);
+             _logService.CreateLogAsync(ex.Message,"DeletePicture");
         }
         return result;
     }

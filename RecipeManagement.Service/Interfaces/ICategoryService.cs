@@ -11,6 +11,6 @@ namespace RecipeManagement.Service.Interfaces
         Task<CategoryDto?> GetCategoryByIdAsync(int categoryId);   
         Task<List<CategoryDto>> GetAllCategoryAsync();  
         Task<CategoryDto?> UpdateCategoryAsync(int CategoryId,Category category);
-        Task<bool> DeleteCategoryAsync(int CategoryId);
+        Task<CommonResponseDto> DeleteCategoryAsync(int CategoryId);
     }
 }

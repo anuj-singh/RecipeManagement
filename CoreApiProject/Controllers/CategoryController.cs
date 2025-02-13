@@ -54,10 +54,6 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> DeleteCategoryAsync(int id)
     {
         var result = await _categoryService.DeleteCategoryAsync(id);
-        if(!result)
-        {
-            return NotFound();
-        }
         return Ok(result);
     }
 }

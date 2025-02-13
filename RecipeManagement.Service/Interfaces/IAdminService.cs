@@ -1,10 +1,11 @@
 using RecipeManagement.Data.Models;
+using RecipeManagement.Service.Dtos;
 
 public interface IAdminService
     {
-        Task<User> BanSingleUserAsync(int id);
-        Task <User>UnBanSingleUserAsync(int id);
-        Task <List<User>> BanUserAsync(List<int> userIds);
-        Task <List<User>>UnbanUserAsync(List<int> userIds);
+        Task<CommonResponseDto> BanSingleUserAsync(int id);
+        Task <CommonResponseDto>UnBanSingleUserAsync(int id);
+        Task <CommonResponseDto> BanUserAsync(List<int> userIds);
+        Task <CommonResponseDto>UnbanUserAsync(List<int> userIds);
 
     }

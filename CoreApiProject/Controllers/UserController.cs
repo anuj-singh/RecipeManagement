@@ -27,10 +27,6 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUserById(int id) 
     {
         var user =  await _userService.GetUserByIdAsync(id);
-        if(user == null)
-        {
-            return NotFound();
-        }
         return Ok(user);
     }
 
@@ -54,30 +50,20 @@ public class UserController : ControllerBase
                 }
            }
         var updateuser = await _userService.UpdateUserAsync(id,user);
-        if(updateuser == null)
-        {
-            return NotFound();
-        }
         return Ok(updateuser);
     }
  [HttpPut("UpdateUser")]
     public async Task<IActionResult> UpdateUser(int id ,UserDto user)
     {
         var updateuser = await _userService.UpdateUserAsync(id,user);
-        if(updateuser == null)
-        {
-            return NotFound();
-        }
+        
         return Ok(updateuser);
     }
     [HttpDelete("DeleteUser")]
     public async Task<IActionResult> DeleteUser(int id)
     {
         var result = await _userService.DeleteUserAsync(id);
-        if(!result)
-        {
-            return NotFound();
-        }
+       
         return Ok(result);
     }
     [HttpPost("UploadUserPic")]

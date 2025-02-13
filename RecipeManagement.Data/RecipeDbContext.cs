@@ -15,7 +15,7 @@ public partial class RecipeDBContext : DbContext
      public DbSet<UserRole> UserRoles { get; set; } 
      public DbSet<Category> Categories { get; set; } 
      public DbSet<Recipe> Recipes { get; set; } 
-
+      public DbSet<Log> Logs { get; set; } 
    
      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

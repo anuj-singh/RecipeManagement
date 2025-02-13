@@ -13,12 +13,12 @@ namespace RecipeManagement.Data.Models
         public int UserId { get; set; }
         [Required]
         [MaxLength(100)]
-        public required string UserName { get; set; }
+        public string UserName { get; set; }="";
         [Required]
         [EmailAddress]
-        public required string Email { get; set; }
+        public  string Email { get; set; }="";
         [Required]
-        public required string PasswordHash { get; set; }
+        public  string PasswordHash { get; set; }="";
         [MaxLength(2000)]
         public string? Bio {get; set;}
          public string? ImageUrl { get; set; }

@@ -15,10 +15,12 @@ namespace RecipeManagement.Service.Services
     {
        private readonly IUserRepository _userRepository;
         private readonly IUserRoleRepository _userRoleRepository;
-        public AuthService(IUserRepository userRepository,IUserRoleRepository userRoleRepository)
+        private readonly ILogService _logService;
+        public AuthService(IUserRepository userRepository,IUserRoleRepository userRoleRepository,ILogService logService)
         {
             _userRepository = userRepository;
             _userRoleRepository= userRoleRepository;
+            _logService=logService;
         }
         public  async Task<CommonResponseDto> Register(LoginDto userDtls)
         { 
@@ -112,7 +114,7 @@ namespace RecipeManagement.Service.Services
             }
             catch(Exception ex)
             {
-               throw ex;
+                _logService.CreateLogAsync(ex.Message,"DecryptString");
             }
    
             return decrypt;

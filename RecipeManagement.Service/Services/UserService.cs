@@ -2,6 +2,8 @@ using RecipeManagement.Service.Interfaces;
 using RecipeManagement.Service.Dtos;
 using RecipeManagement.Data.Interfaces;
 using RecipeManagement.Data.Models;
+using SQLitePCL;
+using System.Runtime.CompilerServices;
 
 namespace RecipeManagement.Service.Services
 {
@@ -9,14 +11,18 @@ namespace RecipeManagement.Service.Services
     {
        private readonly IUserRepository _userRepository;
         private readonly ICommonService _commonService;
-        public UserService(IUserRepository userRepository,ICommonService commonService)
+         private readonly ILogService _logService;
+        public UserService(IUserRepository userRepository,ICommonService commonService,ILogService logService)
         {
             _userRepository = userRepository;
             _commonService=commonService;
+            _logService =logService;
         }
 
-        public async Task<User> CreateUserAsync(UserDto user)
-        { 
+        public async Task<CommonResponseDto> CreateUserAsync(UserDto user)
+        {
+            CommonResponseDto responseDto = new  CommonResponseDto();
+            try{
             User userModel= new User()
             {
                 Email=user.Email,
@@ -29,52 +35,80 @@ namespace RecipeManagement.Service.Services
                 ImageUrl=user.ImageUrl,
                 StatusId= user.StatusId
             };
-            return await _userRepository.CreateUser(userModel);
+            var userData= await _userRepository.CreateUser(userModel);
+            if(userData!= null)
+            {
+                responseDto.Id=userData.UserId;
+                responseDto.Message="User successfully created";
+                responseDto.Status=true;
+            }
+            }
+            catch(Exception ex)
+            {
+               await  _logService.CreateLogAsync(ex.Message,"CreateUserAsync");
+            }
+            return responseDto;
         }
         public async Task<UserDto?> GetUserByIdAsync(int id)
         {
-            var userData = await _userRepository.GetUserById(id);
-             if (userData == null)
-            {
-                return null;
+            UserDto? userDto = null;
+            try{
+                var userData = await _userRepository.GetUserById(id);
+                if (userData == null)
+                {
+                    return null;
+                }
+                userDto= new  UserDto();
+                userDto.Email=userData.Email;
+                userDto. UserId=userData.UserId;
+                userDto.PasswordHash= userData.PasswordHash;
+                userDto. UserName=userData.UserName;
+                userDto. Bio=userData.Bio;
+                userDto.CreatedAt=userData.CreatedAt;
+                userDto.CreatedBy=1;
+                userDto. ImageUrl=  (userData.ImageUrl!=null && userData.ImageUrl!="" )?_commonService.GetCommonPath( userData.ImageUrl):"";
+                userDto. StatusId= userData.StatusId;
             }
-            return new UserDto
+            catch(Exception ex)
             {
-                
-                Email=userData.Email,
-                UserId=userData.UserId,
-                PasswordHash= userData.PasswordHash,
-                UserName=userData.UserName,
-                Bio=userData.Bio,
-                CreatedAt=userData.CreatedAt,
-                CreatedBy=1,
-                ImageUrl=  (userData.ImageUrl!=null && userData.ImageUrl!="" )?_commonService.GetCommonPath( userData.ImageUrl):"",
-                StatusId= userData.StatusId
-            };
+               await  _logService.CreateLogAsync(ex.Message,"GetUserByIdAsync");
+            }
+            return userDto;
         }
-        public async Task<List<UserDto>> GetAllUserAsync()
+        public async Task<List<UserDto>?> GetAllUserAsync()
         {
-
-            var usersModel = await _userRepository.GetAllUser();
-
-            return usersModel.Select(c => new UserDto
+            List<UserDto> lstUsrDto= new List<UserDto>();
+            try{
+                var usersModel = await _userRepository.GetAllUser();
+                 if (usersModel == null)
+                {
+                    return null;
+                }
+                lstUsrDto= usersModel.Select(c => new UserDto
+                {
+                    UserId = c.UserId,
+                    UserName = c.UserName,
+                    Email=c.Email,
+                    ImageUrl=(c.ImageUrl!=null && c.ImageUrl!="" )?_commonService.GetCommonPath( c.ImageUrl):"",
+                    Bio=c.Bio,
+                    PasswordHash= c.PasswordHash,
+                    StatusId=c.StatusId,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt,
+                    LastModifiedUserId = c.LastModifiedUserId,
+                    CreatedBy = c.CreatedBy
+                }).ToList();
+            }
+            catch(Exception ex)
             {
-                UserId = c.UserId,
-                UserName = c.UserName,
-                Email=c.Email,
-                ImageUrl=(c.ImageUrl!=null && c.ImageUrl!="" )?_commonService.GetCommonPath( c.ImageUrl):"",
-                Bio=c.Bio,
-                PasswordHash= c.PasswordHash,
-                StatusId=c.StatusId,
-                CreatedAt = c.CreatedAt,
-                UpdatedAt = c.UpdatedAt,
-                LastModifiedUserId = c.LastModifiedUserId,
-                CreatedBy = c.CreatedBy
-            }).ToList();
+               await  _logService.CreateLogAsync(ex.Message,"GetAllUserAsync");
+            }
+            return lstUsrDto;
         }  
         public async Task<User> UpdateUserAsync(int id,UserDto user)
         {
-            
+            User usrdetails= new User();
+            try{
             User userModel= new User()
             {
                 Email=user.Email,
@@ -87,11 +121,30 @@ namespace RecipeManagement.Service.Services
                 ImageUrl=user.ImageUrl,
                 StatusId= user.StatusId
             };
-            return await _userRepository.UpdateUser(id,userModel);
+            usrdetails=  await _userRepository.UpdateUser(id,userModel);
+            }
+            catch(Exception ex)
+            {
+               await  _logService.CreateLogAsync(ex.Message,"UpdateUserAsync");
+            }
+            return usrdetails;
         }
-        public async Task<bool> DeleteUserAsync(int id)
+        public async Task<CommonResponseDto> DeleteUserAsync(int id)
         {
-            return await _userRepository.DeleteUser(id);
+            CommonResponseDto responseDto= new CommonResponseDto();
+            try{
+                var result = await _userRepository.DeleteUser(id);   
+                if(result)
+                {
+                    responseDto.Message="User deleted successfully";
+                    responseDto.Status= true;
+                }
+             }
+            catch(Exception ex)
+            {
+               await  _logService.CreateLogAsync(ex.Message,"DeleteUserAsync");
+            }
+            return responseDto;
         }
         
     }   
