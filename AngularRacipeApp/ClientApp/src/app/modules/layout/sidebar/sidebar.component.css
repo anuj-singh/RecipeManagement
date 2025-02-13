@@ -56,7 +56,10 @@
   .border-white {
     border: 1px solid white;
   }
-  
-  .selected {
-    background-color: yellow;
+
+  .router-link-active{
+    background-color: rgba(225, 225, 225, 0.2);
+    border-radius: 6px;
+    padding: 10px 0px;
+    width: 100%;
   }

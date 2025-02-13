@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { RegisterComponent } from './modules/users/register/register.component';
 import { AuthInterceptor } from './shared/service/auth.interceptor';
 import { LoginComponent } from './modules/users/login/login.component';
+import { AuthGuard } from './shared/auth.guard';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { LoginComponent } from './modules/users/login/login.component';
         path: '',
         loadChildren: () =>
           import('./modules/layout/layout.module').then((m) => m.LayoutModule),
+        canActivate: [AuthGuard],
       },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
