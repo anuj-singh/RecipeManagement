@@ -22,6 +22,13 @@ const routes: Routes = [
             (m) => m.RecipesManagementModule
           ),
       },
+      {
+        path: 'user-management',
+        loadChildren: () =>
+          import('../users-management/users-management.module').then(
+            (m) => m.UsersManagementModule
+          ),
+      },
     ],
   },
 ];
