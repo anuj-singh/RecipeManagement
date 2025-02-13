@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/shared/service/data.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dataService: DataService
   ) {}
   ngOnInit(): void {
     this.userUpdateForm = this.fb.group({
@@ -47,10 +49,10 @@ export class HeaderComponent implements OnInit {
     this.userUpdateModelOpened = !this.userUpdateModelOpened;
   }
   signout(){
+    this.dataService.signOut();
     this.toggleDropdown();
-    localStorage.removeItem("tokenKey");
-    this.router.navigate(['/login']);
   }
+  
   onSubmit(){
     if (this.userUpdateForm.valid) {
       this.displayStyleUserUpdate = "none"; 

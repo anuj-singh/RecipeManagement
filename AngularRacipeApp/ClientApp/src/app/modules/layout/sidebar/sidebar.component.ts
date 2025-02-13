@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/shared/service/data.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
   @Input() sidenavStatus: boolean = false;
@@ -24,19 +25,12 @@ export class SidebarComponent {
       label: 'Users Management',
       icon: 'fa-solid fa-user',
     },
-   
-
   ];
 
-  constructor(private router: Router) {
-  }
-  ngOnInit(): void {
-   
-  }
+  constructor(private router: Router, private dataService: DataService) {}
+  ngOnInit(): void {}
 
-  signout(){
-    localStorage.removeItem("tokenKey");
-    this.router.navigate(['/login']);
+  signout() {
+    this.dataService.signOut();
   }
-  
 }
