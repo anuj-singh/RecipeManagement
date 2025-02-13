@@ -15,7 +15,7 @@ export class SidebarComponent {
       icon: 'fas fa-home-lg-alt',
     },
     {
-      routerLink: 'recipe-management',
+      routerLink: '/recipes-management',
       label: 'Recipes Management',
       icon: 'fa-regular fa-note-sticky',
     },
