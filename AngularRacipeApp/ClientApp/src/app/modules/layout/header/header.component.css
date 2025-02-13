@@ -1,6 +1,6 @@
 .header-cls {
   height: 100% !important;
-  background: #26518f;;
+  background: #26518f;
   overflow-x: hidden;
   display: flex;
   justify-content: space-between;
@@ -34,3 +34,39 @@
   padding-left: 8px;
   font-family: sans-serif;
 }
+.modal{
+  pointer-events: none;
+  
+  
+}
+.modal-user {
+    position: absolute;
+    right: 10px;
+    top: 35px;
+    width: 200px;
+
+    
+}
+.update-modal-content{
+    background-color: #fff;
+    
+    border-radius: 20px;
+    /* box-shadow: 10px 10px 5px #888888; */
+}
+.profile-update-modal{
+  pointer-events: auto;
+    top:50px;
+}
+.overlay{
+  position: fixed;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+

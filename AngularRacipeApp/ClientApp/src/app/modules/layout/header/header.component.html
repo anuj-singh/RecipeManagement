@@ -5,7 +5,8 @@
       {{ title }}
     </span>
   </div>
-  <div class="profile-cls" (click)="openPopup()">
+  <div class="profile-cls" [attr.tabindex]="-1" (click)="togglePopup()">
+    <!-- <a (click)="togglePopup()"><i class="fa-solid fa-bars"></i></a> -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="30px"
@@ -21,26 +22,64 @@
     </svg>
     <span class="username-cls">{{ user | uppercase }}</span>
   </div>
-  <div
-    class="modal"
-    tabindex="-1"
-    role="dialog"
-    [ngStyle]="{ display: displayStyle }"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">{{ user | uppercase }}</h4>
-        </div>
-        <div class="modal-body">
-          <!-- modal body -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="closePopup()">
-            X
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
-</div>
+ <div
+        class="modal"
+        role="dialog"
+        [ngStyle]="{'display':displayStyleUser}"
+    > 
+        <div class="modal-dialog modal-user" role="document"> 
+            <div class="modal-content"> 
+                <div class="modal-body d-flex flex-column gap-2"> 
+                
+                    <button class="btn btn-primary" data-bs-toggle="modal" (click)="openUpdateProfile()">edit profile</button>
+                    <button class="btn btn-primary" (click)="signout()">sign-out</button>
+                </div> 
+            </div> 
+        </div> 
+    </div>
+
+  <div
+        class="modal overlay "
+        role="dialog"
+        tabindex="-1"
+        style="border:1px solid black"
+        [ngStyle]="{'display':displayStyleUserUpdate}"
+    > 
+        <div class="modal-dialog profile-update-modal" role="document"> 
+            <div class="update-modal-content"> 
+                <div class="modal-header d-flex justify-content-between"> 
+                    <h4 class="modal-title">UPDATE PROFILE</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="openUpdateProfile()"></button>
+                </div> 
+                <div class="container mt-2">
+                  <form [formGroup]="userUpdateForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name" formControlName="name">
+                      <div *ngIf="userUpdateForm.get('name')?.invalid && userUpdateForm.get('name')?.touched" class="text-danger">
+                        Name is required.
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email address</label>
+                      <input type="email" class="form-control" id="email" formControlName="email">
+                      <div *ngIf="userUpdateForm.get('email')?.invalid && userUpdateForm.get('email')?.touched" class="text-danger">
+                        Enter a valid email.
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" id="password" formControlName="password">
+                      <div *ngIf="userUpdateForm.get('password')?.invalid && userUpdateForm.get('password')?.touched" class="text-danger">
+                        Password is required.
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2 mb-2" [disabled]="userUpdateForm.invalid">Submit</button>
+                  </form>
+                </div>
+            </div> 
+        </div> 
+    </div>
+
+
