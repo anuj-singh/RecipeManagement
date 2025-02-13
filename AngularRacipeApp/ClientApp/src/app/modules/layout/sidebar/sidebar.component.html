@@ -2,7 +2,7 @@
     <ul class="nav-list">
         <li class="nav-list-item" *ngFor="let nav of list">
             <a [routerLink]="[nav.routerLink]" routerLinkActive="router-link-active">
-                <i [class]="nav.icon" class="sidebar-nav-icon"></i>
+                <i [class]="nav.icon" class="sidebar-nav-icon" [title]="nav.label"></i>
                 <span class="sidebar-nav-text">
                     <a>{{nav.label}}</a>
                 </span>
@@ -12,7 +12,7 @@
         <li class="nav-list-item sign-out">
             <a (click)="signout()">
                 <span class="sidebar-nav-text">
-                    <i class="fa-solid fa-right-from-bracket sidebar-nav-icon"></i>
+                    <i class="fa-solid fa-right-from-bracket sidebar-nav-icon" title="Sign out"></i>
                     <a class="sidebar-nav-text">Sign Out</a>
                 </span>
             </a>
