@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class DataService {
   private HOME_URL: any = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   httpGetRequest(url: any) {
     return this.http.get(`${this.HOME_URL}${url}`);
@@ -23,5 +24,11 @@ export class DataService {
 
   httpDeleteRequest(url: any, id: any) {
     return this.http.delete(`${this.HOME_URL}${url}${id}`);
+  }
+
+  signOut(){
+    confirm("Are you sure wants to log out?");
+    localStorage.removeItem("tokenKey");
+    this.router.navigate(['/users']);
   }
 }
