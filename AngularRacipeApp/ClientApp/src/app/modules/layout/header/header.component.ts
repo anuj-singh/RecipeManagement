@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
     this.userModelOpened = !this.userModelOpened;
   }  
   openUpdateProfile(){
-    this.togglePopup();
+    this.displayStyleUser = "none"; 
     if(!this.userUpdateModelOpened === true){
       this.displayStyleUserUpdate = "block";
     } else {

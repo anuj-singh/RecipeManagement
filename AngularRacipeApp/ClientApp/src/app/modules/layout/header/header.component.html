@@ -40,7 +40,7 @@
     </div>
 
   <div
-        class="modal overlay "
+        class="modal overlay"
         role="dialog"
         tabindex="-1"
         style="border:1px solid black"
@@ -52,23 +52,23 @@
                     <h4 class="modal-title">UPDATE PROFILE</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="openUpdateProfile()"></button>
                 </div> 
-                <div class="container mt-2">
+                <div class="container p-4">
                   <form [formGroup]="userUpdateForm" (ngSubmit)="onSubmit()">
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                       <label for="name">Name</label>
                       <input type="text" class="form-control" id="name" formControlName="name">
                       <div *ngIf="userUpdateForm.get('name')?.invalid && userUpdateForm.get('name')?.touched" class="text-danger">
                         Name is required.
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                       <label for="email">Email address</label>
                       <input type="email" class="form-control" id="email" formControlName="email">
                       <div *ngIf="userUpdateForm.get('email')?.invalid && userUpdateForm.get('email')?.touched" class="text-danger">
                         Enter a valid email.
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                       <label for="password">Password</label>
                       <input type="password" class="form-control" id="password" formControlName="password">
                       <div *ngIf="userUpdateForm.get('password')?.invalid && userUpdateForm.get('password')?.touched" class="text-danger">
