@@ -36,15 +36,6 @@ export class HeaderComponent implements OnInit {
     this.sideMenu = !this.sideMenu;
     this.sideNavToggled.emit(this.sideMenu);
   }
-  
-  togglePopup() { 
-    if(!this.userModelOpened === true){
-      this.displayStyleUser = "block";
-    } else {
-      this.displayStyleUser = "none"; 
-    }
-    this.userModelOpened = !this.userModelOpened;
-  }  
   openUpdateProfile(){
     this.displayStyleUser = "none"; 
     if(!this.userUpdateModelOpened === true){
@@ -56,7 +47,7 @@ export class HeaderComponent implements OnInit {
     this.userUpdateModelOpened = !this.userUpdateModelOpened;
   }
   signout(){
-    this.togglePopup();
+    this.toggleDropdown();
     localStorage.removeItem("tokenKey");
     this.router.navigate(['/login']);
   }
@@ -65,11 +56,17 @@ export class HeaderComponent implements OnInit {
       this.displayStyleUserUpdate = "none"; 
       console.log('Form Submitted!', this.userUpdateForm.value);
       this.userUpdateForm.reset();
-      // You can add your form submission logic here
     } else {
       console.log('Form is invalid');
     }
   }
-
+toggleDropdown() {
+    if(!this.userModelOpened === true){
+      this.displayStyleUser = "block";
+    } else {
+      this.displayStyleUser = "none"; 
+    }
+    this.userModelOpened = !this.userModelOpened;
+  }
 }
 
