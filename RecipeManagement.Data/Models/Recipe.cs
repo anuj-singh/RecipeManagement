@@ -14,11 +14,11 @@ namespace RecipeManagement.Data.Models
  
                 public int UserId { get; set; }
  
-                public required User User { get; set; }
+                public  User? User { get; set; }=null;
                 
                 [Required]
                 [MaxLength(200)]
-                public required string Title { get; set; }
+                public  string Title { get; set; }="";
  
                 [MaxLength(1000)]
                 public string? Description { get; set; }
@@ -39,7 +39,7 @@ namespace RecipeManagement.Data.Models
                 public int StatusId { get; set; }
  
                 public int CategoryId { get; set; }
-                public required Category Category { get; set; }
+                public  Category? Category { get; set; }
  
                 public DateTime CreatedAt { get; set; }
  

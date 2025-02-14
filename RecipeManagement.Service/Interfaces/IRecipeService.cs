@@ -1,6 +1,7 @@
 using RecipeManagement.Data.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RecipeManagement.Service.Dtos;
 
 namespace RecipeManagement.Service.Interfaces
 {
@@ -9,8 +10,8 @@ namespace RecipeManagement.Service.Interfaces
         Task<List<Recipe>> GetAllRecipesAsync();
         Task<Recipe> GetRecipeByIdAsync(int id);
         Task<List<Recipe>> GetAllRecipebyUserIdAsync(int userId); 
-        Task<Recipe> CreateRecipeAsync(Recipe recipe);
+        Task<CommonResponseDto> CreateRecipeAsync(Recipe recipe);
         Task<Recipe> UpdateRecipeAsync(int id, Recipe recipe);
-        Task<bool> DeleteRecipeAsync(int id);
+        Task<CommonResponseDto> DeleteRecipeAsync(int id);
     }
 }

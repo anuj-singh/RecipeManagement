@@ -138,6 +138,10 @@ namespace RecipeManagement.Service.Services
                 {
                     responseDto.Message="User deleted successfully";
                     responseDto.Status= true;
+                }else
+                {
+                    responseDto.Message="User not deleted";
+                    responseDto.Status= false;
                 }
              }
             catch(Exception ex)

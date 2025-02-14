@@ -11,8 +11,8 @@ using RecipeManagement.Data;
 namespace RecipeManagement.Data.Migrations
 {
     [DbContext(typeof(RecipeDBContext))]
-    [Migration("20250212061754_Logtable")]
-    partial class Logtable
+    [Migration("20250214091202_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,7 +245,7 @@ namespace RecipeManagement.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("RecipeManagement.Data.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Recipes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -272,6 +272,11 @@ namespace RecipeManagement.Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RecipeManagement.Data.Models.User", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }

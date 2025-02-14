@@ -27,5 +27,6 @@ namespace RecipeManagement.Data.Models
         public DateTime? UpdatedAt { get; set; }
         public int? LastModifiedUserId  { get; set; }
         public int CreatedBy { get; set; }
+        public List<Recipe>? Recipes {get;set;}
     }
 }

@@ -115,6 +115,11 @@ namespace RecipeManagement.Service.Services
                     responseDto.Message="Category deleted successfully";
                     responseDto.Status= true;
                 }
+                else
+                {
+                    responseDto.Message="Category not deleted";
+                    responseDto.Status= true;
+                }
             }
             catch(Exception ex)
             {
