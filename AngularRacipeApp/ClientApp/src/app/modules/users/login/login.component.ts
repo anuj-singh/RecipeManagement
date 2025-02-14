@@ -40,13 +40,36 @@ export class LoginComponent implements OnInit {
       (this.loginForm.value['email'] == 'user@gmail.com' &&
         this.loginForm.value['password'] == 'user123')
     ) {
-      this.router.navigate(['/main-dashboard']);
-      console.log(this.loginForm.value);
-      this.dataService
-        .httpPostRequest('', this.loginForm.value)
-        .subscribe((res) => {
-          console.log(res);
-        });
+      let user: any = {
+        id: 1,
+        username: 'User',
+        bio: 'Just a regular user enjoying life.',
+        pic: 'https://th.bing.com/th/id/OIP.EFchTjQLTexrr4eFgDAruwHaHa?rs=1&pid=ImgDetMain',
+        token: 'user8584894jdfkifjfjgkdkdjo56840fskckifabc123xyz',
+        userType: 'user',
+      };
+
+      let admin: any = {
+        id: 2,
+        username: 'Admin',
+        bio: 'Just a regular admin user enjoying life.',
+        pic: 'https://th.bing.com/th/id/OIP.EFchTjQLTexrr4eFgDAruwHaHa?rs=1&pid=ImgDetMain',
+        token: 'admindkefooejfi45838274038vjdjfogfj487595',
+        userType: 'admin',
+      };
+      if (this.loginForm.controls['email'].value == 'user@gmail.com') {
+        JSON.stringify(sessionStorage.setItem('tokenKey', user));
+        this.router.navigate(['/main-dashboard']);
+      } else {
+        sessionStorage.setItem('tokenKey', JSON.stringify(admin));
+        this.router.navigate(['/main-dashboard']);
+      }
+      // console.log(this.loginForm.value);
+      // this.dataService
+      //   .httpPostRequest('', this.loginForm.value)
+      //   .subscribe((res) => {
+      //     console.log(res);
+      //   });
     } else {
       alert('Username or password is invalid');
     }
@@ -56,9 +79,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/users/register']);
   }
 
-  navigateToForgotpassword(){
+  navigateToForgotpassword() {
     this.router.navigate(['/users/forgot-password']);
   }
-
-  
 }

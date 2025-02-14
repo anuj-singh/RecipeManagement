@@ -16,10 +16,19 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const authToken = 'abcxyz';
-    sessionStorage.setItem('tokenKey', authToken);
+    let storedAdmin = sessionStorage.getItem('tokenKey');
+
+    let token: string | null = null; // Initialize token
+
+    if (storedAdmin) {
+      const parsedAdmin = JSON.parse(storedAdmin);
+      token = parsedAdmin.token; // Extract token
+      console.log(token);
+    }
+
+    // Only set the Authorization header if token is available
     const authRequest = request.clone({
-      headers: request.headers.set('Authorization', `Bearer ${authToken}`),
+      headers: token ? request.headers.set('Authorization', `Bearer ${token}`) : request.headers,
     });
 
     return next.handle(authRequest).pipe(
