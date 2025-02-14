@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeManagement.Data.Models;
 
-namespace  RecipeManagement.Data 
-{
+namespace  RecipeManagement.Data {
 public partial class RecipeDBContext : DbContext
 {
      public RecipeDBContext() {}
