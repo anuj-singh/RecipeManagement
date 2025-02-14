@@ -38,17 +38,8 @@ export class HeaderComponent implements OnInit {
     this.sideMenu = !this.sideMenu;
     this.sideNavToggled.emit(this.sideMenu);
   }
-  
-  togglePopup() { 
-    if(!this.userModelOpened === true){
-      this.displayStyleUser = "block";
-    } else {
-      this.displayStyleUser = "none"; 
-    }
-    this.userModelOpened = !this.userModelOpened;
-  }  
   openUpdateProfile(){
-    this.togglePopup();
+    this.displayStyleUser = "none"; 
     if(!this.userUpdateModelOpened === true){
       this.displayStyleUserUpdate = "block";
     } else {
@@ -59,7 +50,7 @@ export class HeaderComponent implements OnInit {
   }
   signout(){
     this.dataService.signOut();
-    this.togglePopup();
+    this.toggleDropdown();
   }
   
   onSubmit(){
@@ -67,11 +58,17 @@ export class HeaderComponent implements OnInit {
       this.displayStyleUserUpdate = "none"; 
       console.log('Form Submitted!', this.userUpdateForm.value);
       this.userUpdateForm.reset();
-      // You can add your form submission logic here
     } else {
       console.log('Form is invalid');
     }
   }
-
+toggleDropdown() {
+    if(!this.userModelOpened === true){
+      this.displayStyleUser = "block";
+    } else {
+      this.displayStyleUser = "none"; 
+    }
+    this.userModelOpened = !this.userModelOpened;
+  }
 }
 
