@@ -23,12 +23,11 @@ export class AuthInterceptor implements HttpInterceptor {
     if (storedAdmin) {
       const parsedAdmin = JSON.parse(storedAdmin);
       token = parsedAdmin.token; // Extract token
-      console.log(token);
     }
 
     // Only set the Authorization header if token is available
     const authRequest = request.clone({
-      headers: token ? request.headers.set('Authorization', `Bearer ${token}`) : request.headers,
+      headers: request.headers.set('Authorization', `Bearer ${token}`),
     });
 
     return next.handle(authRequest).pipe(

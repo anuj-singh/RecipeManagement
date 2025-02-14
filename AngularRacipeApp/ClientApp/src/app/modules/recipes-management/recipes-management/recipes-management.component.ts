@@ -8,6 +8,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./recipes-management.component.css']
 })
 export class RecipesManagementComponent implements OnInit {
+  userDetails: any = sessionStorage.getItem('tokenKey');
+  loggedInUser: any;
+
   addUpdateRecipesForm!: FormGroup;
   recipeMangementList = [
     {
@@ -48,6 +51,9 @@ export class RecipesManagementComponent implements OnInit {
   selectedFile: any | null = null;
   imagePath: string | null = null;
   ngOnInit(): void {
+    if (this.userDetails) {
+      this.loggedInUser = JSON.parse(this.userDetails);
+    }
     this.createRecipesForm();
 
   }

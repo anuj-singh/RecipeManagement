@@ -15,15 +15,14 @@
   background: #26518f;
   height: 100% !important;
 }
-.dropdown-menu{
-  position: absolute;
+/* .dropdown-menu{
+  position: absolute !important;
   top: 60px;
-}
-.profile-icon{
-  width: 160px;
-}
+  right: 20px;
+} */
+
 .nav-link svg{
-  margin-right: 20px;
+  margin-right: 10px;
 }
 .profile-update-modal{
   pointer-events: auto;

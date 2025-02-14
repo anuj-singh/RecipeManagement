@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-management.component.css'],
 })
 export class UserManagementComponent implements OnInit {
-  userObj: any = sessionStorage.getItem('tokenKey');
-  loggedInUser: any = '';
+  userDetails: any = sessionStorage.getItem('tokenKey');
+  loggedInUser: any;
   userMangementList = [
     {
       id: 1,
@@ -62,11 +62,8 @@ export class UserManagementComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
-    if (this.userObj) {
-      this.loggedInUser = JSON.parse(this.userObj);
+    if (this.userDetails) {
+      this.loggedInUser = JSON.parse(this.userDetails);
     }
   }
 }
