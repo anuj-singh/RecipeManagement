@@ -55,7 +55,17 @@ public class CategoryRepository : ICategoryRepository
             }
             return false;
     }
-
-       
+    public async Task<(Category?,bool)> GetCategoryByName(string categoryName)
+    {
+        bool flag = true;
+        var getCategory = await _recipeDBContext.Categories
+                .FirstOrDefaultAsync(r => r.CategoryName.ToLower() == categoryName.ToLower());
+       if(getCategory == null)
+       {
+           flag = false;
+       }
+        return (getCategory,flag);
     }
+       
+    }   
 }

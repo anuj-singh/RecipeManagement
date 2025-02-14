@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Data.Models;
 using RecipeManagement.Service.Interfaces;
 
 namespace CoreApiProject.Controllers;
+
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 

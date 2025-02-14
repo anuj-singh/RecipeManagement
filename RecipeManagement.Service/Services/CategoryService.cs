@@ -19,8 +19,8 @@ namespace RecipeManagement.Service.Services
         { 
              CommonResponseDto response= new  CommonResponseDto();
              try{
-                var existingCategory = await _categoryRepository.GetCategoryById(category.CategoryId);
-                if (existingCategory != null)
+                var existingCategory = await _categoryRepository.GetCategoryByName(category.CategoryName.ToLower());
+                if (existingCategory.Item1 != null && existingCategory.Item2)
                 {
                     response.Message = "Category already exists";
                     response.Status = false;
