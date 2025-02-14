@@ -1,22 +1,26 @@
-<button
-  *ngIf="loggedInUser?.userType == 'admin'"
-  type="button"
-  class="btn btn-primary button-add"
-  data-bs-toggle="modal"
-  data-bs-target="#exampleModal"
-  (click)="setCurrentActivity('add');"
->
-  Add Recipe
-</button>
+<div class="filter-section">
+  <input type="text" class="form-control" placeholder="Search recipes" />
+  <button
+    *ngIf="loggedInUser?.userType == 'admin'"
+    type="button"
+    class="btn btn-primary button-add"
+    style="white-space: nowrap; margin-left: 10px"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+    (click)="setCurrentActivity('add')"
+  >
+    Add Recipe
+  </button>
+</div>
 
 <div
   class="card mt-2"
-  style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; margin-bottom: 65px;"
+  style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; margin-bottom: 65px"
 >
   <div class="card-body">
     <table class="table table-striped">
       <thead>
-        <tr>
+        <tr class="text-center">
           <th scope="col">Sr. No</th>
           <th scope="col">Title</th>
           <th scope="col">Ingredients</th>
@@ -26,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let recipe of recipeMangementList; let i = index">
+        <tr *ngFor="let recipe of recipeMangementList; let i = index" class="text-center">
           <td>{{ i + 1 }}</td>
           <td>{{ recipe.title }}</td>
           <td>{{ recipe.ingredients }}</td>
@@ -39,11 +43,17 @@
               style="margin-right: 6px"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"
-              (click)="setCurrentActivity('edit'); enableEdit(recipe);"
+              (click)="setCurrentActivity('edit'); enableEdit(recipe)"
             >
               Edit
             </button>
-            <button type="button" class="btn btn-danger" (click)="deleteRecipe(i+1)">Delete</button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="deleteRecipe(i + 1)"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
@@ -61,7 +71,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}}</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{ modalTitle }}</h5>
         <button
           type="button"
           class="btn-close"
