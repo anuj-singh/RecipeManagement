@@ -26,7 +26,7 @@
                 <td><img [src]="recipe.images" alt="" class="image"></td>
                 <td>
                     <button type="button" class="btn btn-primary" style="margin-right: 6px;">Edit</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger" (click)="deleteRecipe(i+1)">Delete</button>
                 </td>
 
                     </tr>
@@ -75,7 +75,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" (click)="addupdateRecipes()">Save</button>
+              <button type="button" class="btn btn-primary" (click)="addupdateRecipes()" data-bs-dismiss="modal">Save</button>
             </div>
           </div>
         </div>
