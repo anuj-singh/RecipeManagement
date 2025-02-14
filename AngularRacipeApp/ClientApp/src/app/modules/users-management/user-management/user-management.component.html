@@ -2,7 +2,7 @@
 
 <div
   class="card mt-4"
-  style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
+  style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; margin-bottom: 65px"
 >
   <div class="card-body">
     <table class="table table-striped">
@@ -12,7 +12,9 @@
           <th scope="col">Username</th>
           <th scope="col">Profile</th>
           <th scope="col">Email</th>
-          <th scope="col" *ngIf="loggedInUser.userType == 'admin'">Enable/Disable User</th>
+          <th scope="col" *ngIf="loggedInUser.userType == 'admin'">
+            Enable/Disable User
+          </th>
         </tr>
       </thead>
       <tbody>

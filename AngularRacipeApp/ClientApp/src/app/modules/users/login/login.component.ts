@@ -57,8 +57,9 @@ export class LoginComponent implements OnInit {
         token: 'admindkefooejfi45838274038vjdjfogfj487595',
         userType: 'admin',
       };
+
       if (this.loginForm.controls['email'].value == 'user@gmail.com') {
-        JSON.stringify(sessionStorage.setItem('tokenKey', user));
+        sessionStorage.setItem('tokenKey', JSON.stringify(user));
         this.router.navigate(['/main-dashboard']);
       } else {
         sessionStorage.setItem('tokenKey', JSON.stringify(admin));

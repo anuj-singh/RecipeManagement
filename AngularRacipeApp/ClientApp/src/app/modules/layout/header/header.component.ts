@@ -9,17 +9,17 @@ import { DataService } from 'src/app/shared/service/data.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  userDetails: any = sessionStorage.getItem('tokenKey');
+  loggedInUser: any;
   title: string = 'Recipes Management';
-  user: string = 'admin';
-  displayStyleUser = "none"; 
-  displayStyleUserUpdate = "none"; 
-  userModelOpened: boolean= false;
-  userUpdateModelOpened: boolean= false;
+  displayStyleUser = 'none';
+  displayStyleUserUpdate = 'none';
+  userModelOpened: boolean = false;
+  userUpdateModelOpened: boolean = false;
 
   sideMenu: boolean = true;
   userUpdateForm!: FormGroup;
   @Output() sideNavToggled = new EventEmitter();
-  
 
   constructor(
     private router: Router,
@@ -27,10 +27,14 @@ export class HeaderComponent implements OnInit {
     private dataService: DataService
   ) {}
   ngOnInit(): void {
+    if (this.userDetails) {
+      this.loggedInUser = JSON.parse(this.userDetails);
+    }
+
     this.userUpdateForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
@@ -38,37 +42,36 @@ export class HeaderComponent implements OnInit {
     this.sideMenu = !this.sideMenu;
     this.sideNavToggled.emit(this.sideMenu);
   }
-  openUpdateProfile(){
-    this.displayStyleUser = "none"; 
-    if(!this.userUpdateModelOpened === true){
-      this.displayStyleUserUpdate = "block";
+  openUpdateProfile() {
+    this.displayStyleUser = 'none';
+    if (!this.userUpdateModelOpened === true) {
+      this.displayStyleUserUpdate = 'block';
     } else {
       this.userUpdateForm.reset();
-      this.displayStyleUserUpdate = "none"; 
+      this.displayStyleUserUpdate = 'none';
     }
     this.userUpdateModelOpened = !this.userUpdateModelOpened;
   }
-  signout(){
+  signout() {
     this.dataService.signOut();
     this.toggleDropdown();
   }
-  
-  onSubmit(){
+
+  onSubmit() {
     if (this.userUpdateForm.valid) {
-      this.displayStyleUserUpdate = "none"; 
+      this.displayStyleUserUpdate = 'none';
       console.log('Form Submitted!', this.userUpdateForm.value);
       this.userUpdateForm.reset();
     } else {
       console.log('Form is invalid');
     }
   }
-toggleDropdown() {
-    if(!this.userModelOpened === true){
-      this.displayStyleUser = "block";
+  toggleDropdown() {
+    if (!this.userModelOpened === true) {
+      this.displayStyleUser = 'block';
     } else {
-      this.displayStyleUser = "none"; 
+      this.displayStyleUser = 'none';
     }
     this.userModelOpened = !this.userModelOpened;
   }
 }
-

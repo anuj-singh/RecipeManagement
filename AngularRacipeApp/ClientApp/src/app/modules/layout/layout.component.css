@@ -44,6 +44,8 @@ app-header {
     width: calc(100% - 250px);
     transition: all 0.2s ease-in-out;
     padding: 16px 14px 60px 14px;
+    height: 100vh !important;
+    overflow-y: auto !important;
   }
   
   .footer-area {

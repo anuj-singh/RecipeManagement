@@ -14,6 +14,9 @@ export interface recipe {
   styleUrls: ['./recipes-management.component.css']
 })
 export class RecipesManagementComponent implements OnInit {
+  userDetails: any = sessionStorage.getItem('tokenKey');
+  loggedInUser: any;
+
   addUpdateRecipesForm!: FormGroup;
   currentActivity?: string;
   modalTitle = '';
@@ -58,6 +61,9 @@ export class RecipesManagementComponent implements OnInit {
   selectedFile: any | null = null;
   imagePath: string | null = null;
   ngOnInit(): void {
+    if (this.userDetails) {
+      this.loggedInUser = JSON.parse(this.userDetails);
+    }
     this.createRecipesForm();
 
   }
@@ -84,6 +90,7 @@ export class RecipesManagementComponent implements OnInit {
   setCurrentActivity(activity: string){
     if(activity === 'add'){
       this.modalTitle ='Add Recipe';
+      this.addUpdateRecipesForm.reset();
     } else{
       this.modalTitle ='Update Recipe';
     }
@@ -102,7 +109,6 @@ export class RecipesManagementComponent implements OnInit {
    
   }
   addupdateRecipes() {
-    
     const recipesObj:recipe = {
       id: this.recipeMangementList.length+1,
       title: this.addUpdateRecipesForm.controls['title'].value,
@@ -117,6 +123,5 @@ export class RecipesManagementComponent implements OnInit {
   deleteRecipe(id:number) {
     let newRecipeList = this.recipeMangementList.filter(recipe=> recipe.id !== id);
     this.recipeMangementList = newRecipeList;
-    let newssd!:string;
   }
 }
