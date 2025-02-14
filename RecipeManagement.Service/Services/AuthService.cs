@@ -151,40 +151,81 @@ namespace RecipeManagement.Service.Services
 
     private AuthResponseDto GenerateToken(User user, Role role)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var keyString = "your-256-bit-secret-key-which-is-32-bytes-long";
-            var key = Encoding.UTF8.GetBytes(keyString);
+            // var tokenHandler = new JwtSecurityTokenHandler();
+            // var keyString = "your-256-bit-secret-key-which-is-32-bytes-long";
+            // var key = Encoding.UTF8.GetBytes(keyString);
 
-            var claims = new List<Claim>
-            {
-                new Claim("UserId", user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role.RoleName)
-            };
+            // var claims = new List<Claim>
+            // {
+            //     //new Claim("UserId", user.UserId.ToString()),
+            //     new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+            //     new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            //     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            //     new Claim("UserId", user.UserId.ToString()),
+            //     new Claim(ClaimTypes.Name, user.UserName),
+            //     new Claim(ClaimTypes.Email, user.Email),
+            //     new Claim(ClaimTypes.Role, role.RoleName)
+            // };
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+            // var tokenDescriptor = new SecurityTokenDescriptor
+            // {
+            //     Subject = new ClaimsIdentity(claims),
+            //     Expires = DateTime.UtcNow.Add(TimeSpan.FromHours(10)),
+            //     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            // };
 
-             var token = tokenHandler.CreateToken(tokenDescriptor);
-             var tokenString = tokenHandler.WriteToken(token);
-             var refreshToken = Guid.NewGuid().ToString();
+            //  var token = tokenHandler.CreateToken(tokenDescriptor);
+            //  var tokenString = tokenHandler.WriteToken(token);
+            //  var refreshToken = GenerateRefreshToken();
 
-             return new AuthResponseDto
+            //  return new AuthResponseDto
+            //  {
+            //     UserId = user.UserId.ToString(),
+            //     UserName = user.UserName,
+            //     Email = user.Email,
+            //     Role = role.RoleName,
+            //     Token = tokenString,
+            //     RefreshToken = refreshToken
+            // };
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-secret-key-which-is-32-bytes-long"));
+    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+    var claims = new[]
+    {
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim("UserId", user.UserId.ToString()),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, role.RoleName)
+    };
+
+    var token = new JwtSecurityToken(
+        issuer: "yourIssuer",
+        audience: "yourAudience",
+        claims: claims,
+        expires: DateTime.Now.AddMinutes(60),
+        signingCredentials: credentials);
+
+    var tokenString= new JwtSecurityTokenHandler().WriteToken(token);
+    return new AuthResponseDto
              {
                 UserId = user.UserId.ToString(),
                 UserName = user.UserName,
                 Email = user.Email,
                 Role = role.RoleName,
                 Token = tokenString,
-                RefreshToken = refreshToken
+                RefreshToken = GenerateRefreshToken()
             };
         }       
-
+    private static string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
 
 }
 }

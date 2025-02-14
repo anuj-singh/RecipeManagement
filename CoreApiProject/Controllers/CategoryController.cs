@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Data.Models;
 using RecipeManagement.Service.Interfaces;
 
 namespace CoreApiProject.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class CategoryController : ControllerBase
@@ -21,7 +22,7 @@ public class CategoryController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("{GetCategoryByIdAsync}")]
+    [HttpGet("GetCategoryByIdAsync")]
     public async Task<IActionResult> GetCategoryByIdAsync(int id) 
     {
         var category =  await _categoryService.GetCategoryByIdAsync(id);
@@ -39,7 +40,7 @@ public class CategoryController : ControllerBase
         return Ok(users);
     }
 
-    [HttpPut("{UpdateCategoryAsync}")]
+    [HttpPut("UpdateCategoryAsync")]
     public async Task<IActionResult> UpdateCategoryAsync(int id,[FromBody]Category category)
     {
         var updatecategory = await _categoryService.UpdateCategoryAsync(id,category);
