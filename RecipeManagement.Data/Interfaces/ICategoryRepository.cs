@@ -11,7 +11,7 @@ public interface ICategoryRepository
     Task<List<Category>> GetAllCategory();  
     Task<Category> UpdateCategory(int CategoryId,Category user);
     Task<bool> DeleteCategory(int CategoryId);
-
+    Task<(Category?,bool)> GetCategoryByName(string categoryName);
 
 }
 }
