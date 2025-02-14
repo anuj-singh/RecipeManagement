@@ -15,6 +15,8 @@ export interface recipe {
 })
 export class RecipesManagementComponent implements OnInit {
   addUpdateRecipesForm!: FormGroup;
+  currentActivity?: string;
+  modalTitle = '';
   recipeMangementList: recipe[] = [
     {
       id: 1,
@@ -77,11 +79,30 @@ export class RecipesManagementComponent implements OnInit {
         this.imageUrl = reader.result;
       };
       reader.readAsDataURL(this.file);
-      console.log(reader);
     }
-    console.log(this.imageUrl)
+  }
+  setCurrentActivity(activity: string){
+    if(activity === 'add'){
+      this.modalTitle ='Add Recipe';
+    } else{
+      this.modalTitle ='Update Recipe';
+    }
+  }
+  enableEdit(recipe: recipe) {
+    if(recipe){
+      this.addUpdateRecipesForm.patchValue({
+        title:recipe.title,
+        images:recipe.images,
+        ingredients: recipe.ingredients,
+        instructions: recipe.instructions
+      });
+    } else{
+      this.addUpdateRecipesForm.reset();
+    }
+   
   }
   addupdateRecipes() {
+    
     const recipesObj:recipe = {
       id: this.recipeMangementList.length+1,
       title: this.addUpdateRecipesForm.controls['title'].value,
@@ -96,5 +117,6 @@ export class RecipesManagementComponent implements OnInit {
   deleteRecipe(id:number) {
     let newRecipeList = this.recipeMangementList.filter(recipe=> recipe.id !== id);
     this.recipeMangementList = newRecipeList;
+    let newssd!:string;
   }
 }

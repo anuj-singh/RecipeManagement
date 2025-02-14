@@ -1,5 +1,5 @@
 
- <button type="button" class="btn btn-primary button-add" data-bs-toggle="modal" data-bs-target="#exampleModal">
+ <button type="button" class="btn btn-primary button-add" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="setCurrentActivity('add')">
     Add Recipe
   </button>
 
@@ -25,7 +25,8 @@
                 <td>{{ recipe.instructions }}</td>
                 <td><img [src]="recipe.images" alt="" class="image"></td>
                 <td>
-                    <button type="button" class="btn btn-primary" style="margin-right: 6px;">Edit</button>
+                    <button 
+                    type="button" class="btn btn-primary" style="margin-right: 6px;" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="setCurrentActivity('edit'); enableEdit(recipe);">Edit</button>
                     <button type="button" class="btn btn-danger" (click)="deleteRecipe(i+1)">Delete</button>
                 </td>
 
@@ -38,7 +39,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Recipe</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{ modalTitle }}</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -67,7 +68,7 @@
                     <div class="col mb-3">
                         <label for="images" class="form-label">Select images</label>
                         <br/>
-                        <input type="file" (change)="onFileSelected($event)" />
+                        <input class="form-control" formControlName="images" type="file" (change)="onFileSelected($event)" />
                     </div>
                 </div>
             </form>
