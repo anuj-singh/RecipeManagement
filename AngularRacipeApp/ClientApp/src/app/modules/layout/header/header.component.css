@@ -15,11 +15,10 @@
   background: #26518f;
   height: 100% !important;
 }
-/* .dropdown-menu{
-  position: absolute !important;
-  top: 60px;
-  right: 20px;
-} */
+.dropdown-menu{
+  right: -30px; 
+  top: 55px;
+}
 
 .nav-link svg{
   margin-right: 10px;
