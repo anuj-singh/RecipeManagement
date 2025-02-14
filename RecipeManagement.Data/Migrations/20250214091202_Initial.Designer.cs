@@ -11,8 +11,8 @@ using RecipeManagement.Data;
 namespace RecipeManagement.Data.Migrations
 {
     [DbContext(typeof(RecipeDBContext))]
-    [Migration("20250204060638_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250214091202_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,15 +36,37 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("RecipeManagement.Data.Models.Log", b =>
+                {
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ErrorInformation")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FunctionName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LogId");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("RecipeManagement.Data.Models.Recipe", b =>
@@ -66,26 +88,22 @@ namespace RecipeManagement.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Ingredients")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Instructions")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("StatusId")
@@ -96,7 +114,7 @@ namespace RecipeManagement.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
@@ -123,7 +141,7 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("RoleName")
@@ -131,7 +149,7 @@ namespace RecipeManagement.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.HasKey("RoleId");
@@ -146,7 +164,6 @@ namespace RecipeManagement.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
@@ -160,7 +177,10 @@ namespace RecipeManagement.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
@@ -170,7 +190,7 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
@@ -195,13 +215,13 @@ namespace RecipeManagement.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastModifiedUserId")
+                    b.Property<int?>("LastModifiedUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
@@ -225,7 +245,7 @@ namespace RecipeManagement.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("RecipeManagement.Data.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Recipes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -252,6 +272,11 @@ namespace RecipeManagement.Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RecipeManagement.Data.Models.User", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }
