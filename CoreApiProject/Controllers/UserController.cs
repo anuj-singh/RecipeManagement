@@ -88,7 +88,6 @@ public class UserController : ControllerBase
             var updateuser = await _userService.UpdateUserAsync(id,userDtls);
             response.Message= "Image successfully uploaded.";
             response.Status= true;
-         
        }
         else
         {
