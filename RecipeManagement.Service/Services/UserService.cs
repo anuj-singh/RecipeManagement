@@ -162,8 +162,17 @@ namespace RecipeManagement.Service.Services
                        UserId=s.UserId,
                         UserName=s.UserName,
                         Email= s.Email,
-                        StatusName=Enum.GetName(typeof(Status), s.StatusId)
-                        //Recipe details to be fetched.
+                        StatusName=Enum.GetName(typeof(Status), s.StatusId),
+                        Recipes= s.Recipes.Select(r=> new RecipeDTO
+                        {
+                            RecipeId = r.RecipeId,
+                            Title = r.Title,
+                            Ingredients = r.Ingredients,
+                             CategoryId=r.CategoryId,
+                             CookingTime= r.CookingTime,
+                             Instructions= r.Instructions
+                        }).ToList()
+                       
                     }).ToList();
                 }
             }
