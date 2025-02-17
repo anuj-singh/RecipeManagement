@@ -28,5 +28,15 @@ namespace RecipeManagement.Data.Models
         public int? LastModifiedUserId  { get; set; }
         public int CreatedBy { get; set; }
         public List<Recipe>? Recipes {get;set;}
+
+        public string? PasswordResetToken { get; set; }
+
+        public DateTime? PasswordResetTokenExpiration { get; set; }
+
+        // Foreign Key
+        public int SecurityQuestionId { get; set; }
+
+        // Navigation property for the related SecurityQuestion
+        public SecurityQuestion? SecurityQuestion { get; set; }
     }
 }

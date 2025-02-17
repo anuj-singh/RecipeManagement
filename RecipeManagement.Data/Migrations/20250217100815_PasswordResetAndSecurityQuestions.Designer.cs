@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipeManagement.Data;
 
@@ -10,9 +11,11 @@ using RecipeManagement.Data;
 namespace RecipeManagement.Data.Migrations
 {
     [DbContext(typeof(RecipeDBContext))]
-    partial class RecipeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250217100815_PasswordResetAndSecurityQuestions")]
+    partial class PasswordResetAndSecurityQuestions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");

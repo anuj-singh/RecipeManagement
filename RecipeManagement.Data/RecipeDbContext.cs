@@ -15,7 +15,9 @@ public partial class RecipeDBContext : DbContext
      public DbSet<UserRole> UserRoles { get; set; } 
      public DbSet<Category> Categories { get; set; } 
      public DbSet<Recipe> Recipes { get; set; } 
-      public DbSet<Log> Logs { get; set; } 
+     public DbSet<Log> Logs { get; set; }
+     public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+     public DbSet<SecurityQuestion> SecurityQuestions { get; set; }
    
      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,6 +29,19 @@ public partial class RecipeDBContext : DbContext
                 optionsBuilder.UseSqlite($"Data Source={databasePath}");
             }
         }
+
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configure one-to-one relationship between User and SecurityQuestion
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.SecurityQuestion)  // User has one SecurityQuestion
+                .WithOne(sq => sq.User)           // SecurityQuestion has one User
+                .HasForeignKey<User>(u => u.SecurityQuestionId) // The foreign key property in User
+                .OnDelete(DeleteBehavior.Cascade); // Optional: configure cascade delete behavior (can be modified)
+        }
+
 
 }
 

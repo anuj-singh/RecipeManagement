@@ -17,17 +17,36 @@ public class UserController : ControllerBase
         _userService = userService;
         _commonservice= commonservice;
     }
-    // [HttpPost("CreateUser")]
-    // public async Task<IActionResult> CreateUser([FromBody]UserDto user)
-    // { 
-    //     var createuser = await _userService.CreateUserAsync(user);
-    //     return Ok(createuser);
-    // }
+
+    [HttpPost("CreateUser")]
+    public async Task<IActionResult> CreateUser([FromBody] UserDto userDto)
+    {
+        try
+        {
+            if (userDto == null)
+            {
+                return BadRequest(new { Message = "Invalid user data." });
+            }
+
+            // Create the user and security question
+            var user = await _userService.CreateUserAsync(userDto, userDto.SecurityQuestion, userDto.SecurityAnswer);
+
+            return Ok(new { Message = "User created successfully.", User = user });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+    }
 
     [HttpGet("GetById")]
     public async Task<IActionResult> GetUserById(int id) 
     {
         var user =  await _userService.GetUserByIdAsync(id);
+        if(user == null)
+        {
+            return NotFound();
+        }
         return Ok(user);
     }
 
@@ -53,7 +72,8 @@ public class UserController : ControllerBase
         var updateuser = await _userService.UpdateUserAsync(id,user);
         return Ok(updateuser);
     }
- [HttpPut("UpdateUser")]
+    
+    [HttpPut("UpdateUser")]
     public async Task<IActionResult> UpdateUser(int id ,UserDto user)
     {
         var updateuser = await _userService.UpdateUserAsync(id,user);
@@ -90,5 +110,33 @@ public class UserController : ControllerBase
             response.Status= false;
         }
         return Ok(response);
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto forgotPasswordRequestDto)
+    {
+        try
+        {
+            var token = await _userService.ForgotPasswordAsync(forgotPasswordRequestDto.Email, forgotPasswordRequestDto.SecurityAnswer); // Use security answer validation
+            return Ok(new { Message = "Password reset token generated successfully : ", token });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
+    {
+        try
+        {
+            await _userService.ResetPasswordAsync(request.Token, request.NewPassword);
+            return Ok(new { Message = "Password has been reset successfully." });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 }
