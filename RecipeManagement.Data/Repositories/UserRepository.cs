@@ -75,5 +75,33 @@ public class UserRepository : IUserRepository
        }
         return (getUser,flag);
     }
+    public async Task<List<User>> SearchUserByFilter(string userName, string email,int statusId)
+        {
+            List<User> lstUser= new List<User>();
+            try{
+                var result= await  _recipeDBContext.Users
+                                     .Include(r => r.Recipes)
+                                     .ToListAsync();
+                                     
+                if(!string.IsNullOrEmpty(userName))
+                {
+                    lstUser=result.Where (s=>s.UserName.ToLower()==userName.ToLower()).ToList();
+                }
+                if(!string.IsNullOrEmpty(email))
+                {
+                    lstUser=result.Where (s=>s.Email.ToLower()==(email).ToLower()).ToList();
+                }
+                if(statusId!=0 )
+                {
+                    lstUser=result.Where (s=>s.StatusId==statusId).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while searching the user with filters.", ex);
+            }
+            return lstUser;
+        }
+
 }
 }

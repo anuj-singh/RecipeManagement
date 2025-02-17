@@ -50,10 +50,7 @@ namespace RecipeManagement.Service.Services
                 }
                 categoryDto.CategoryId = category.CategoryId;
                 categoryDto. CategoryName = category.CategoryName;
-                categoryDto.CreatedAt = category.CreatedAt;
-                categoryDto.UpdatedAt = category.UpdatedAt;
-                categoryDto. LastModifiedUserId = category.LastModifiedUserId; 
-                categoryDto. CreatedBy = category.CreatedBy;
+                
             }
             catch(Exception ex)
             {
@@ -71,10 +68,7 @@ namespace RecipeManagement.Service.Services
             {
                 CategoryId = c.CategoryId,
                 CategoryName = c.CategoryName,
-                CreatedAt = c.CreatedAt,
-                UpdatedAt = c.UpdatedAt,
-                LastModifiedUserId = c.LastModifiedUserId,
-                CreatedBy = c.CreatedBy
+               
             }).ToList();
             }
             catch(Exception ex)
@@ -94,10 +88,10 @@ namespace RecipeManagement.Service.Services
                 }
                 categoryDto.CategoryId = updatedCategory.CategoryId;
                 categoryDto.CategoryName = updatedCategory.CategoryName;
-                categoryDto. CreatedAt = updatedCategory.CreatedAt;
-                categoryDto.UpdatedAt = updatedCategory.UpdatedAt;
-                categoryDto. LastModifiedUserId = updatedCategory.LastModifiedUserId;
-                categoryDto.CreatedBy = updatedCategory.CreatedBy;
+                // categoryDto. CreatedAt = updatedCategory.CreatedAt;
+                // categoryDto.UpdatedAt = updatedCategory.UpdatedAt;
+                // categoryDto. LastModifiedUserId = updatedCategory.LastModifiedUserId;
+                // categoryDto.CreatedBy = updatedCategory.CreatedBy;
             }
             catch(Exception ex)
             {
