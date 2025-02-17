@@ -12,5 +12,7 @@ namespace RecipeManagement.Data.Interfaces
         Task<Recipe> AddRecipeAsync(Recipe recipe);
         Task<Recipe> UpdateRecipeAsync(int id, Recipe recipe);
         Task<bool> DeleteRecipeAsync(int id);
+        Task<List<Recipe>> SearchRecipeByFilter(string title, string ingredient,int userId, int categoryId);
+
     }
 }

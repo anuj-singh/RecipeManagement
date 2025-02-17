@@ -11,7 +11,7 @@ using RecipeManagement.Data;
 namespace RecipeManagement.Data.Migrations
 {
     [DbContext(typeof(RecipeDBContext))]
-    [Migration("20250214091202_Initial")]
+    [Migration("20250217072516_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -96,10 +96,12 @@ namespace RecipeManagement.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Ingredients")
+                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Instructions")
+                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
@@ -239,7 +241,7 @@ namespace RecipeManagement.Data.Migrations
             modelBuilder.Entity("RecipeManagement.Data.Models.Recipe", b =>
                 {
                     b.HasOne("RecipeManagement.Data.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Recipes")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -272,6 +274,11 @@ namespace RecipeManagement.Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RecipeManagement.Data.Models.Category", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 
             modelBuilder.Entity("RecipeManagement.Data.Models.User", b =>
