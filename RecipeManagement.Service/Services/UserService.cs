@@ -152,6 +152,39 @@ namespace RecipeManagement.Service.Services
             }
             return responseDto;
         }
+         public async Task<List< UserSearchResultDto>> SearchUser(UserFilterDto filter){
+           List< UserSearchResultDto> resultDto= new List<UserSearchResultDto>();
+           try
+            {
+                var result=  await _userRepository.SearchUserByFilter(filter.UserName,filter.Email,filter.StatusId);
+                if(result!= null && result.Count>0)
+                {
+                    resultDto=  result.Select(s=>new UserSearchResultDto
+                    {
+                       UserId=s.UserId,
+                        UserName=s.UserName,
+                        Email= s.Email,
+                        StatusName=Enum.GetName(typeof(Status), s.StatusId),
+                        Recipes= s.Recipes.Select(r=> new RecipeDTO
+                        {
+                            RecipeId = r.RecipeId,
+                            Title = r.Title,
+                            Ingredients = r.Ingredients,
+                             CategoryId=r.CategoryId,
+                             CookingTime= r.CookingTime,
+                             Instructions= r.Instructions
+                        }).ToList()
+                       
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                await  _logService.CreateLogAsync(ex.Message,"Search User Filter");
+            }
+           return resultDto; 
+        }
+
 
         public async Task<string> ForgotPasswordAsync(string email, string answer)
         {

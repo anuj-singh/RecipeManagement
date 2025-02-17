@@ -204,5 +204,37 @@ namespace RecipeManagement.Service.Services
             }
             return responseDto;
         }
+         public async Task<List< RecipeSearchResultDto>> SearchRecipe(RecipeFilterDto filter){
+           List< RecipeSearchResultDto> resultDto= new List<RecipeSearchResultDto>();
+           try
+            {
+                var result=  await _recipeRepository.SearchRecipeByFilter(filter.Title,filter.Ingredients,filter.UserId,filter.CategoryId);
+                if(result!= null && result.Count>0)
+                {
+                    resultDto=  result.Select(s=>new RecipeSearchResultDto
+                    {
+                        RecipeId=s.RecipeId,
+                        Title=s.Title,
+                        Ingredients= s.Ingredients,
+                        User =new UserDto{
+                            UserId=s.User.UserId,
+                            UserName=s.User.UserName,
+                            Email=s.User.Email
+                        },
+                        Category=new CategoryDto{
+                            CategoryId=s.Category.CategoryId,
+                            CategoryName=s.Category.CategoryName
+                        }
+
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                await  _logService.CreateLogAsync(ex.Message,"SearchRecipe");
+            }
+           return resultDto; 
+        }
+
     }
 }

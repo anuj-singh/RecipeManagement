@@ -5,22 +5,22 @@ namespace RecipeManagement.Service.Dtos
     public class RecipeCreateDto
 {
     [Required]
-    public string Title { get; set; }
+    public string Title { get; set; }="";
 
     [MaxLength(1000)]
-    public string Description { get; set; }
+    public string Description { get; set; }="";
 
     [MaxLength(2000)]
-    public string Ingredients { get; set; }
+    public string Ingredients { get; set; }="";
 
     [Required]
     public int CookingTime { get; set; }
 
     [MaxLength(2000)]
-    public string Instructions { get; set; }
+    public string Instructions { get; set; }="";
 
     [MaxLength(500)]
-    public string ImageUrl { get; set; }
+    public string ImageUrl { get; set; }="";
 
     [Required]
     public int StatusId { get; set; }

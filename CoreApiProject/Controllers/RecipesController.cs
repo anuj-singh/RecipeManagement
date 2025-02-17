@@ -85,6 +85,13 @@ namespace CoreApiProject.Controllers
             }
         }
 
+        [HttpGet("GetRecipeDetailsForSearch")]
+        public async Task<IActionResult> GetRecipeDetailsForSearch(RecipeFilterDto filter)
+        {
+            var users = await _recipeService.SearchRecipe(filter);
+            return Ok(users);
+        }
+
          [HttpPost("CreateRecipeWithImage")]
         public async Task<IActionResult> CreateRecipeWithImage([FromForm]RecipeCreateDto recipeCreateDto,IFormFile file)
         {

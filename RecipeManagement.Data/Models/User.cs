@@ -8,7 +8,7 @@ namespace RecipeManagement.Data.Models
 {
     public class User
     {
-        [Key]
+         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         [Required]
@@ -27,7 +27,7 @@ namespace RecipeManagement.Data.Models
         public DateTime? UpdatedAt { get; set; }
         public int? LastModifiedUserId  { get; set; }
         public int CreatedBy { get; set; }
-        public List<Recipe>? Recipes {get;set;}
+        public ICollection<Recipe>? Recipes {get;set;}
 
         public string? PasswordResetToken { get; set; }
 

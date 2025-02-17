@@ -8,7 +8,7 @@ namespace RecipeManagement.Data.Models
 {
         public class Recipe
         {
-                 [Key]
+                [Key]
                 [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
                 public int RecipeId { get; set; }
  
@@ -24,13 +24,13 @@ namespace RecipeManagement.Data.Models
                 public string? Description { get; set; }
  
                 [MaxLength(2000)]
-                public string? Ingredients { get; set; }
+                public string Ingredients { get; set; }="";
  
                 [Required]
                 public int CookingTime { get; set; }
  
                 [MaxLength(2000)]
-                public string? Instructions { get; set; }
+                public string Instructions { get; set; }="";
  
                 [MaxLength(500)]
                 public string? ImageUrl { get; set; }
@@ -48,7 +48,6 @@ namespace RecipeManagement.Data.Models
                 public int? LastModifiedUserId { get; set; }
  
                 public int CreatedBy { get; set; }
- 
  
         }
 }

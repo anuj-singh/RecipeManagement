@@ -56,6 +56,12 @@ public class UserController : ControllerBase
         var users = await _userService.GetAllUserAsync();
         return Ok(users);
     }
+[HttpGet("GetUserDetailsForSearch")]
+    public async Task<IActionResult> GetUserDetailsForSearch(UserFilterDto filter)
+    {
+        var users = await _userService.SearchUser(filter);
+        return Ok(users);
+    }
 
     [HttpPost("UpdateUserWithImage")]
     public async Task<IActionResult> UpdateUserWithImage(IFormFile file ,int id,[FromForm]UserDto user)
@@ -102,7 +108,6 @@ public class UserController : ControllerBase
             var updateuser = await _userService.UpdateUserAsync(id,userDtls);
             response.Message= "Image successfully uploaded.";
             response.Status= true;
-         
        }
         else
         {

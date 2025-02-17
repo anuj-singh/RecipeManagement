@@ -13,6 +13,8 @@ namespace RecipeManagement.Service.Interfaces
         Task<List<UserDto>?> GetAllUserAsync();  
         Task<User> UpdateUserAsync(int id,UserDto user);
         Task<CommonResponseDto> DeleteUserAsync(int id);
+         Task<List<UserSearchResultDto>> SearchUser(UserFilterDto filter);
+
         Task<string> ForgotPasswordAsync(string email, string securityAnswer);
         Task ResetPasswordAsync(string token, string newPassword);
     }
