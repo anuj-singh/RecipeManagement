@@ -9,12 +9,23 @@ using RecipeManagement.Data.Repositories;
 using RecipeManagement.Service.Interfaces;
 using RecipeManagement.Service.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var key = Encoding.UTF8.GetBytes("your-256-bit-secret-key-which-is-32-bytes-long");
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin() // Allows any origin (change as needed)
+              .AllowAnyHeader() // Allows any header
+              .AllowAnyMethod(); // Allows any HTTP method (GET, POST, etc.)
+    });
+});
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -69,6 +80,9 @@ builder.Services.AddTransient<ICategoryService,CategoryService>();
 builder.Services.AddTransient<ICommonService,CommonService>();
 builder.Services.AddTransient<ILogService,LogService>();
 builder.Services.AddTransient<ILogRepository,LogRepository>();
+
+builder.Services.AddTransient<IPasswordResetTokenRepository,PasswordResetTokenRepository>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

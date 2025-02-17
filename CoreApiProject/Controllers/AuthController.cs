@@ -16,10 +16,21 @@ namespace CoreApiProject.Controllers
             _authService = authService;
         }
          [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody]LoginDto user)
-        { 
+        public async Task<IActionResult> Register([FromBody]RegisterDto user)
+        {
+            if (user == null || string.IsNullOrEmpty(user.SecurityQuestion) || string.IsNullOrEmpty(user.SecurityAnswer))
+            {
+                return BadRequest("Invalid input. Please provide security question and answer.");
+            }  
             var response = await _authService.Register(user);
-            return Ok(response);
+            if (response.Status)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response.Message);
+            }
         }
         
         [HttpPost("Authenticate")]

@@ -29,5 +29,14 @@ namespace RecipeManagement.Data.Models
         public int CreatedBy { get; set; }
         public ICollection<Recipe>? Recipes {get;set;}
 
+        public string? PasswordResetToken { get; set; }
+
+        public DateTime? PasswordResetTokenExpiration { get; set; }
+
+        // Foreign Key
+        public int SecurityQuestionId { get; set; }
+
+        // Navigation property for the related SecurityQuestion
+        public SecurityQuestion? SecurityQuestion { get; set; }
     }
 }

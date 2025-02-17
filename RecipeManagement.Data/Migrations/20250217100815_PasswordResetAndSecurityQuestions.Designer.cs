@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipeManagement.Data;
 
@@ -10,9 +11,11 @@ using RecipeManagement.Data;
 namespace RecipeManagement.Data.Migrations
 {
     [DbContext(typeof(RecipeDBContext))]
-    partial class RecipeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250217100815_PasswordResetAndSecurityQuestions")]
+    partial class PasswordResetAndSecurityQuestions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -116,12 +119,10 @@ namespace RecipeManagement.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Ingredients")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Instructions")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
@@ -306,7 +307,7 @@ namespace RecipeManagement.Data.Migrations
             modelBuilder.Entity("RecipeManagement.Data.Models.Recipe", b =>
                 {
                     b.HasOne("RecipeManagement.Data.Models.Category", "Category")
-                        .WithMany("Recipes")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -350,11 +351,6 @@ namespace RecipeManagement.Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RecipeManagement.Data.Models.Category", b =>
-                {
-                    b.Navigation("Recipes");
                 });
 
             modelBuilder.Entity("RecipeManagement.Data.Models.SecurityQuestion", b =>

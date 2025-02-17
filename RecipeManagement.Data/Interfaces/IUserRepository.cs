@@ -6,7 +6,7 @@ namespace RecipeManagement.Data.Interfaces
 {
 public interface IUserRepository
 {
-    Task<User> CreateUser(User user);
+    Task<User> CreateUser(User user, string securityQuestion, string securityAnswer);
     Task<User> GetUserById(int id);
     Task<List<User>> GetAllUser();  
     Task<User> UpdateUser(int id,User user);
@@ -14,6 +14,7 @@ public interface IUserRepository
    Task<(User?,bool)> GetUserByEmaiAsync(string Email);
    Task<List<User>> SearchUserByFilter(string userName, string Email,int statusId);
 
+   Task<SecurityQuestion>? GetSecurityQuestionByUserIdAsync(int userId);
 
 }
 }

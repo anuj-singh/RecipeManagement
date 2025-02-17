@@ -59,16 +59,29 @@ namespace CoreApiProject.Controllers
 
         // POST: api/recipes
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe([FromBody] Recipe recipe)
+        public async Task<IActionResult> CreateRecipe([FromBody] RecipeCreateDto recipeCreateDto)
         {
             try
             {
-                var result=  await _recipeService.CreateRecipeAsync(recipe);
-                return Ok(result);
+                var response = await _recipeService.CreateRecipeAsync(recipeCreateDto);
+
+                if (response.Status)
+                {
+                    return StatusCode(response.StatusCode, response); // Success response
+                }
+                else
+                {
+                    return StatusCode(response.StatusCode, response); // Error response
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An error occurred while creating the recipe.", details = ex.Message });
+                return StatusCode(500, new CommonResponseDto
+                {
+                    Status = false,
+                    StatusCode = 500,
+                    Message = $"An unexpected error occurred: {ex.Message}"
+                });
             }
         }
 
@@ -80,7 +93,7 @@ namespace CoreApiProject.Controllers
         }
 
          [HttpPost("CreateRecipeWithImage")]
-        public async Task<IActionResult> CreateRecipeWithImage([FromForm]Recipe recipe,IFormFile file)
+        public async Task<IActionResult> CreateRecipeWithImage([FromForm]RecipeCreateDto recipeCreateDto,IFormFile file)
         {
             CommonResponseDto response = new CommonResponseDto();
         
@@ -92,8 +105,8 @@ namespace CoreApiProject.Controllers
                 var isUploaded = await _commonservice.UploadPicture( file);
                 if(isUploaded.Item1 )
                 {
-                        recipe.ImageUrl= isUploaded.Item2;
-                        var result=  await _recipeService.CreateRecipeAsync(recipe);
+                        recipeCreateDto.ImageUrl= isUploaded.Item2;
+                        var result=  await _recipeService.CreateRecipeAsync(recipeCreateDto);
                         response.Message= "Image successfully uploaded.";
                         response.Status= true;
                 }
@@ -174,8 +187,24 @@ namespace CoreApiProject.Controllers
        var recipeDtls= await _recipeService.GetRecipeByIdAsync(id);
        if(result.Item1 && recipeDtls!= null)
        {
+            var recipeEntity = new Recipe
+            {
+                RecipeId = recipeDtls.RecipeId,
+                Title = recipeDtls.Title,
+                Description = recipeDtls.Description,
+                Ingredients = recipeDtls.Ingredients,
+                CookingTime = recipeDtls.CookingTime,
+                Instructions = recipeDtls.Instructions,
+                ImageUrl = result.Item2,
+                StatusId = recipeDtls.StatusId,
+                CategoryId = recipeDtls.CategoryId,
+                CreatedAt = recipeDtls.CreatedAt,
+                UpdatedAt = recipeDtls.UpdatedAt,
+                LastModifiedUserId = recipeDtls.LastModifiedUserId,
+                CreatedBy = recipeDtls.CreatedBy
+            };
             recipeDtls.ImageUrl= result.Item2;
-            var updateuser = await _recipeService.UpdateRecipeAsync(id,recipeDtls);
+            var updateuser = await _recipeService.UpdateRecipeAsync(id,recipeEntity);
             response.Message= "Image successfully uploaded.";
             response.Status= true;
          

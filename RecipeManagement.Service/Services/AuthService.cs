@@ -22,12 +22,12 @@ namespace RecipeManagement.Service.Services
             _userRoleRepository= userRoleRepository;
             _logService=logService;
         }
-        public  async Task<CommonResponseDto> Register(LoginDto userDtls)
+        public  async Task<CommonResponseDto> Register(RegisterDto userDtls)
         { 
             CommonResponseDto response= new  CommonResponseDto();
            if(userDtls!= null)
            {
-                var userExists= await _userRepository.GetUserByEmaiAsync(userDtls.Email.ToLower());
+                var userExists= await _userRepository.GetUserByEmaiAsync(userDtls.LoginDto.Email.ToLower());
                 if(userExists.Item1 != null && userExists.Item2 == true)
                 {
                     response.Message="User already exists";
@@ -36,17 +36,17 @@ namespace RecipeManagement.Service.Services
                 {
                     //string passwordSalt= GetRandomSalt();
                     //string passwordHash=PasswordHash(userDtls.Password,passwordSalt);
-                    string passwordEncrypt= EncryptString(userDtls.Password);
+                    string passwordEncrypt= EncryptString(userDtls.LoginDto.Password);
                     User userData= new  User()
                     {
-                        Email= userDtls.Email,
-                        UserName= userDtls.UserName,
+                        Email= userDtls.LoginDto.Email,
+                        UserName= userDtls.LoginDto.UserName,
                         PasswordHash=passwordEncrypt,
                         CreatedAt= DateTime.UtcNow,
                         CreatedBy= 1,
                         StatusId=1
                     };
-                    var result= await _userRepository.CreateUser(userData);
+                    var result= await _userRepository.CreateUser(userData,userDtls.SecurityQuestion, userDtls.SecurityAnswer);
                     var roleDtls= await _userRoleRepository.GetRoleById(3);
                     UserRole role= new UserRole()
                     {
@@ -64,45 +64,7 @@ namespace RecipeManagement.Service.Services
            }
            return response;
         }
-        //  public async Task<CommonResponseDto> Authenticate(LoginDto userDtls)
-        // { 
-        //     CommonResponseDto response= new  CommonResponseDto();
-        //    if(userDtls!= null)
-        //    {
-        //         var userExists= await _userRepository.GetUserByEmaiAsync(userDtls.Email.ToLower());
-        //         if(userExists != null)
-        //         {
-        //             var decryptPwd= DecryptString(userExists.PasswordHash);
-        //             if(userDtls.Password== decryptPwd)
-        //             {
-        //                 response.Message="User validated successfully";
-        //                 response.Status=true;
-
-        //             }
-
-        //         }
-        //         else
-        //         {
-        //             response.Message="User does not exists";
-        //         }
-                
-        //    }
-        //    return response;
-        // }
-        //  public  async Task<CommonResponseDto> ForgotPassword(LoginDto userDtls)
-        // { 
-        //     CommonResponseDto response = new  CommonResponseDto();
         
-        //     return   response;
-        // }
-        
-        //public string GetRandomSalt()=>BCrypt.Net.BCrypt.GenerateSalt(12);
-       // public string PasswordHash(string password,string passwordSalt)=>BCrypt.Net.BCrypt.HashPassword(password,passwordSalt);
-       // public bool ValidatePassword(string password,string correctHash)=> BCrypt.Net.BCrypt.Verify(password,correctHash);
-        // public string DecryptPassword(string text)
-        // {
-            
-        // }
         public string DecryptString(string password)
         {
             byte[] b;
