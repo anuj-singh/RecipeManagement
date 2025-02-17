@@ -101,7 +101,7 @@ namespace RecipeManagement.Data.Repositories
 
                 existingRecipe.Title = recipe.Title;
                 existingRecipe.UserId = recipe.UserId;
-                existingRecipe.CategoryID = recipe.CategoryID;
+                existingRecipe.CategoryId = recipe.CategoryId;
 
                 await _context.SaveChangesAsync();
 

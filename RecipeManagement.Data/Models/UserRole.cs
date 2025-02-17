@@ -11,21 +11,18 @@ namespace RecipeManagement.Data.Models
                 [Key]
                 [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
                 public int UserRoleId { get; set; }
-
-                [Required]
-                [ForeignKey("UserId")]
+ 
+                 public  int UserId { get; set; }
                 public required User User { get; set; }
-
-                [Required]
-                [ForeignKey("RoleId")]
+ 
+                public  int RoleId { get; set; }
                 public required Role Role { get; set; }
-
+ 
                 public DateTime CreatedAt { get; set; }
-
+ 
                 public DateTime? UpdatedAt { get; set; }
-
+ 
                 public int? LastModifiedUserId { get; set; }
-
-                public int CreatedBy { get; set; }
-        }
+ 
+                public int CreatedBy { get; set; }       }
 }
