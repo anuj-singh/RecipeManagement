@@ -71,6 +71,14 @@ namespace CoreApiProject.Controllers
                 return StatusCode(500, new { message = "An error occurred while creating the recipe.", details = ex.Message });
             }
         }
+
+        [HttpGet("GetRecipeDetailsForSearch")]
+        public async Task<IActionResult> GetRecipeDetailsForSearch(RecipeFilterDto filter)
+        {
+            var users = await _recipeService.SearchRecipe(filter);
+            return Ok(users);
+        }
+
          [HttpPost("CreateRecipeWithImage")]
         public async Task<IActionResult> CreateRecipeWithImage([FromForm]Recipe recipe,IFormFile file)
         {
