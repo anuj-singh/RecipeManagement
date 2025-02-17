@@ -13,5 +13,7 @@ namespace RecipeManagement.Service.Interfaces
         Task<CommonResponseDto> CreateRecipeAsync(Recipe recipe);
         Task<Recipe> UpdateRecipeAsync(int id, Recipe recipe);
         Task<CommonResponseDto> DeleteRecipeAsync(int id);
+         Task<List< RecipeSearchResultDto>> SearchRecipe(RecipeFilterDto filter);
+
     }
 }
