@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  private HOME_URL: any = '';
+  private HOME_URL: any = environment.BASE_URL;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -26,9 +27,9 @@ export class DataService {
     return this.http.delete(`${this.HOME_URL}${url}${id}`);
   }
 
-  signOut(){
-    confirm("Are you sure wants to log out?");
-    localStorage.removeItem("tokenKey");
+  signOut() {
+    confirm('Are you sure wants to log out?');
+    localStorage.removeItem('tokenKey');
     this.router.navigate(['/users']);
   }
 }
