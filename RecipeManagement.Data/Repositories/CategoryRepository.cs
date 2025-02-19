@@ -23,7 +23,10 @@ public class CategoryRepository : ICategoryRepository
     { 
         var getCategory = await _recipeDBContext.Categories
                 .FirstOrDefaultAsync(r => r.CategoryId == CategoryId);
-       
+       if(getCategory == null)
+        {
+            throw new KeyNotFoundException($"Category with ID {CategoryId} not found") ;
+        }
         return getCategory;
     }
     public async Task<List<Category>> GetAllCategory()

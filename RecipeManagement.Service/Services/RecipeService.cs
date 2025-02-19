@@ -10,33 +10,64 @@ namespace RecipeManagement.Service.Services
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly ILogService _logService;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
         public RecipeService(IRecipeRepository recipeRepository,ILogService logService)
         {
             _recipeRepository = recipeRepository;
             _logService= logService;
         }
 
-        public async Task<List<Recipe>> GetAllRecipesAsync()
+        public RecipeService(IRecipeRepository recipeRepository, ICategoryRepository categoryRepository, IUserRepository userRepository, ILogService logService)
         {
-            List<Recipe> lstRecipe= new  List<Recipe>();
+            _recipeRepository = recipeRepository;
+            _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
+            _logService = logService;
+        }
+
+        private RecipeDTO MapToRecipeDTO(Recipe recipe)
+        {
+            return new RecipeDTO
+            {
+                RecipeId = recipe.RecipeId,
+                Title = recipe.Title,
+                Description = recipe.Description,
+                Ingredients = recipe.Ingredients,
+                CookingTime = recipe.CookingTime,
+                Instructions = recipe.Instructions,
+                ImageUrl = recipe.ImageUrl,
+                StatusId = recipe.StatusId,
+                CategoryId = recipe.CategoryId,
+                CreatedAt = recipe.CreatedAt,
+                UpdatedAt = recipe.UpdatedAt,
+                CreatedBy = recipe.CreatedBy,
+                LastModifiedUserId = recipe.LastModifiedUserId
+            };
+        }
+
+        public async Task<List<RecipeDTO>> GetAllRecipesAsync()
+        {
             try
             {
-                lstRecipe= await _recipeRepository.GetAllRecipesAsync();
+                var recipes = await _recipeRepository.GetAllRecipesAsync();
+                return recipes.ConvertAll(recipe => MapToRecipeDTO(recipe));
             }
             catch (Exception ex)
             {
                 await  _logService.CreateLogAsync(ex.Message,"GetAllRecipesAsync");
+                return new List<RecipeDTO>();
             }
-            return lstRecipe;
         }
 
         // Get a recipe by its ID
-        public async Task<Recipe> GetRecipeByIdAsync(int id)
+        public async Task<RecipeDTO> GetRecipeByIdAsync(int id)
         {
-            Recipe recipe= new  Recipe();
+            var defaultRecipe= new List<RecipeDTO>();
             try
             {
-                recipe= await _recipeRepository.GetRecipeByIdAsync(id);
+                var recipe= await _recipeRepository.GetRecipeByIdAsync(id);
+                return MapToRecipeDTO(recipe);
             }
             catch (KeyNotFoundException ex)
             {
@@ -45,37 +76,84 @@ namespace RecipeManagement.Service.Services
             catch (Exception ex)
             {
                 await  _logService.CreateLogAsync(ex.Message,"GetRecipeByIdAsync");
+                return null;
             }
-            return recipe;
         }
 
         // Get all recipes by a specific user ID
-        public async Task<List<Recipe>> GetAllRecipebyUserIdAsync(int userId)
+        public async Task<List<RecipeDTO>> GetAllRecipebyUserIdAsync(int userId)
         {
-            List<Recipe> lstRecipe= new  List<Recipe>();
             try
             {
-                lstRecipe= await _recipeRepository.GetRecipesByUserIdAsync(userId);
+                var recipes = await _recipeRepository.GetRecipesByUserIdAsync(userId);
+                return recipes.ConvertAll(recipe => MapToRecipeDTO(recipe));
             }
             catch (Exception ex)
             {
                  await  _logService.CreateLogAsync(ex.Message,"GetRecipeByIdAsync");
+                 return new List<RecipeDTO>();
             }
-            return lstRecipe;
         }
 
         // Create a new recipe
-        public async Task<CommonResponseDto> CreateRecipeAsync(Recipe recipe)
+        public async Task<CommonResponseDto> CreateRecipeAsync(RecipeCreateDto recipeCreateDto)
         {
             CommonResponseDto responseDto= new  CommonResponseDto();
             try
             {
-                var recipeData= await _recipeRepository.AddRecipeAsync(recipe);
-                if(recipeData!= null)
+                // Validate CategoryId
+                var category = await _categoryRepository.GetCategoryById(recipeCreateDto.CategoryId);
+                if (category == null)
                 {
-                    responseDto.Message="Recipe added successfully";
-                    responseDto.Status=true;
+                    return new CommonResponseDto
+                    {
+                        Status = false,
+                        StatusCode = 404,
+                        Message = $"Category with ID {recipeCreateDto.CategoryId} does not exist."
+                    };
                 }
+
+                // Validate UserId
+                var user = await _userRepository.GetUserById(recipeCreateDto.UserId);
+                if (user == null)
+                {
+                    return new CommonResponseDto
+                    {
+                        Status = false,
+                        StatusCode = 404,
+                        Message = $"User with ID {recipeCreateDto.UserId} does not exist."
+                    };
+                }
+
+                // Map DTO to Entity
+                var recipe = new Recipe
+                {
+                    Title = recipeCreateDto.Title,
+                    Description = recipeCreateDto.Description,
+                    Ingredients = recipeCreateDto.Ingredients,
+                    CookingTime = recipeCreateDto.CookingTime,
+                    Instructions = recipeCreateDto.Instructions,
+                    ImageUrl = recipeCreateDto.ImageUrl,
+                    StatusId = recipeCreateDto.StatusId,
+                    CategoryId = recipeCreateDto.CategoryId,
+                    UserId = recipeCreateDto.UserId,
+                    CreatedAt = DateTime.UtcNow,
+                    User = user,
+                    Category = category,
+                    CreatedBy = user.UserId
+                };
+
+                // Add Recipe to Repository
+                var createdRecipe = await _recipeRepository.AddRecipeAsync(recipe);
+
+                // Return success response with the created RecipeId
+                return new CommonResponseDto
+                {
+                    Status = true,
+                    StatusCode = 201,
+                    Message = "Recipe created successfully.",
+                    Id = createdRecipe.RecipeId
+                };
             }
             catch (Exception ex)
             {
