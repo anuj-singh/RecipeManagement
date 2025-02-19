@@ -1,0 +1,46 @@
+.fa-bars {
+  padding: 6px 16px 0px 0px;
+  font-size: 1.2rem;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bolder;
+  margin-left: 30px;
+  cursor: pointer;
+}
+.header{
+  background: #26518f;
+  height: 100% !important;
+}
+.dropdown-menu{
+  right: -30px; 
+  top: 55px;
+}
+
+.nav-link svg{
+  margin-right: 10px;
+}
+.profile-update-modal{
+  pointer-events: auto;
+    top:50px;
+}
+.overlay{
+  position: fixed;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+.update-modal-content{
+  background-color: #fff;
+  
+  border-radius: 20px;
+}

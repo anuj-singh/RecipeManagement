@@ -1,0 +1,145 @@
+<nav class="navbar navbar-expand-lg navbar-light header">
+  <div class="container-fluid" style="margin: 0px 16px">
+    <div
+      class="d-flex align-items-center"
+      style="color: white; font-weight: bold"
+    >
+      <a (click)="sideNavToggle()" data-bs-toggle="dropdown"
+        ><i class="fa-solid fa-bars"></i
+      ></a>
+      <span style="font-size: 20px; margin-left: 10px">
+        {{ title }}
+      </span>
+    </div>
+    <div class="ms-auto">
+      <ul class="navbar-nav profile-icon">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            (click)="toggleDropdown()"
+          >
+            <img
+              [src]="loggedInUser.pic"
+              alt=""
+              style="width: 26px; border-radius: 22px; margin-right: 10px;"
+            />
+            <span style="color: white">{{ loggedInUser.username }}</span>
+          </a>
+          <ul
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdownMenuLink"
+            [ngStyle]="{ display: displayStyleUser }"
+          >
+            <li>
+              <a
+                class="dropdown-item"
+                role="button"
+                (click)="openUpdateProfile()"
+                >Update Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" role="button" (click)="signout()"
+                >Sign-Out</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div
+  class="modal overlay"
+  role="dialog"
+  tabindex="-1"
+  style="border: 1px solid black"
+  [ngStyle]="{ display: displayStyleUserUpdate }"
+>
+  <div class="modal-dialog profile-update-modal" role="document">
+    <div class="update-modal-content">
+      <div class="modal-header d-flex justify-content-between">
+        <h4 class="modal-title">Update Profile</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="openUpdateProfile()"
+        ></button>
+      </div>
+      <div class="container">
+        <form [formGroup]="userUpdateForm" (ngSubmit)="onSubmit()">
+          <div class="form-group mt-2">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Name"
+              formControlName="name"
+            />
+            <div
+              *ngIf="
+                userUpdateForm.get('name')?.invalid &&
+                userUpdateForm.get('name')?.touched
+              "
+              class="text-danger"
+            >
+              Name is required.
+            </div>
+          </div>
+          <div class="form-group mt-2">
+            <label for="email">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              formControlName="email"
+              placeholder="Email address"
+            />
+            <div
+              *ngIf="
+                userUpdateForm.get('email')?.invalid &&
+                userUpdateForm.get('email')?.touched
+              "
+              class="text-danger"
+            >
+              Enter a valid email.
+            </div>
+          </div>
+          <div class="form-group mt-2">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              formControlName="password"
+              placeholder="Password"
+            />
+            <div
+              *ngIf="
+                userUpdateForm.get('password')?.invalid &&
+                userUpdateForm.get('password')?.touched
+              "
+              class="text-danger"
+            >
+              Password is required.
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary mt-2 mb-2"
+            [disabled]="userUpdateForm.invalid"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

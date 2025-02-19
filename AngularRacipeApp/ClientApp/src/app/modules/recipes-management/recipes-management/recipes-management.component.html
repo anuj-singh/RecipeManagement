@@ -1,0 +1,142 @@
+<div class="filter-section">
+  <input type="text" class="form-control" placeholder="Search recipes" />
+  <button
+    *ngIf="loggedInUser?.userType == 'admin'"
+    type="button"
+    class="btn btn-primary button-add"
+    style="white-space: nowrap; margin-left: 10px"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+    (click)="setCurrentActivity('add')"
+  >
+    Add Recipe
+  </button>
+</div>
+
+<div
+  class="card mt-2"
+  style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; margin-bottom: 65px"
+>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr class="text-center">
+          <th scope="col">Sr. No</th>
+          <th scope="col">Title</th>
+          <th scope="col">Ingredients</th>
+          <th scope="col">Instructions</th>
+          <th scope="col">Images</th>
+          <th scope="col" *ngIf="loggedInUser?.userType == 'admin'">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let recipe of recipeMangementList; let i = index" class="text-center">
+          <td>{{ i + 1 }}</td>
+          <td>{{ recipe.title }}</td>
+          <td>{{ recipe.ingredients }}</td>
+          <td>{{ recipe.instructions }}</td>
+          <td><img [src]="recipe.images" alt="" class="image" /></td>
+          <td *ngIf="loggedInUser?.userType == 'admin'">
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="margin-right: 6px"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              (click)="setCurrentActivity('edit'); enableEdit(recipe)"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="deleteRecipe(i + 1)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Add  and update Recipes--- -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ modalTitle }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addUpdateRecipesForm">
+          <div class="row">
+            <div class="col mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input
+                type="title"
+                class="form-control"
+                formControlName="title"
+                placeholder="Title"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label for="ingredients" class="form-label">Ingredients</label>
+              <input
+                type="ingredients"
+                class="form-control"
+                formControlName="ingredients"
+                placeholder="Ingredients"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label for="instructions" class="form-label">Instructions</label>
+              <input
+                type="instructions"
+                class="form-control"
+                formControlName="instructions"
+                placeholder="Instructions"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label for="images" class="form-label">Select images</label>
+              <br />
+              <input type="file" (change)="onFileSelected($event)" />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="addupdateRecipes()"
+          data-bs-dismiss="modal"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add  and update Recipes end-- -->

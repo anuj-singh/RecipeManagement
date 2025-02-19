@@ -1,0 +1,13 @@
+<div class="layout">
+  <app-header (sideNavToggled)="sidenavStatus = $event"></app-header>
+  <div class="main">
+      <app-sidebar [sidenavStatus]="sidenavStatus" [class.close-sidenav-menu]="sidenavStatus"></app-sidebar>
+      <div class="display-area" [class.display-area-shrink]="sidenavStatus">
+          <router-outlet></router-outlet>
+      </div>
+
+      <div class="footer-section">
+          <app-footer class="footer-area" [class.close-footer]="sidenavStatus"></app-footer>
+      </div>
+  </div>
+</div>
