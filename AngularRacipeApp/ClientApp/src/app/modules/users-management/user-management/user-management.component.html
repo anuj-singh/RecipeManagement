@@ -1,8 +1,9 @@
-<span class="title">
-  Users Management
-</span>
+<span class="title"> Users Management </span>
 
-<div class="card mt-4" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+<div
+  class="card mt-4"
+  style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; margin-bottom: 65px"
+>
   <div class="card-body">
     <table class="table table-striped">
       <thead>
@@ -11,16 +12,24 @@
           <th scope="col">Username</th>
           <th scope="col">Profile</th>
           <th scope="col">Email</th>
-          <th scope="col">Enable/Disable User</th>
+          <th scope="col" *ngIf="loggedInUser.userType == 'admin'">
+            Enable/Disable User
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of userMangementList; let i = index" class="text-center">
+        <tr
+          *ngFor="let user of userMangementList; let i = index"
+          class="text-center"
+        >
           <td>{{ i + 1 }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.profile }}</td>
           <td>{{ user.email }}</td>
-          <td class="d-flex justify-content-center">
+          <td
+            *ngIf="loggedInUser.userType == 'admin'"
+            class="d-flex justify-content-center"
+          >
             <div class="form-check form-switch">
               <input
                 class="form-check-input"
@@ -28,9 +37,6 @@
                 role="switch"
                 [checked]="user.isActivated"
               />
-              <!-- <label class="form-check-label" for="flexSwitchCheckChecked"
-                ></label
-              > -->
             </div>
           </td>
         </tr>

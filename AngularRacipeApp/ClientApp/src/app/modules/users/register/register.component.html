@@ -8,7 +8,7 @@
                 <form [formGroup] ="registerForm" (ngSubmit)="registerSubmitted()">
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="username" class="form-label">User Name</label>
+                            <label for="username" class="form-label">User name</label>
                             <input type="username" class="form-control" id="username" formControlName="username" placeholder="UserName">
                             <div class="form-text text-danger" *ngIf="UserName.errors?.['required'] && (UserName.dirty || UserName.touched)">
                                 UserName is Required.
@@ -36,7 +36,7 @@
                      <div class="row">
                         <div class="col mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" formControlName="password" placeholder="assword">
+                            <input type="password" class="form-control" id="password" formControlName="password" placeholder="password">
                             <div class="form-text text-danger" 
                             *ngIf="Password.errors?.['required'] && (Password.dirty || Password.touched)">
                                 Password is Required.

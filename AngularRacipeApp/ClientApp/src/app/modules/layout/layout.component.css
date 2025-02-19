@@ -3,14 +3,13 @@ app-header {
     top: 0px;
     height: 4rem;
     width: 100%;
-    z-index: 2;
+    z-index: 1;
   }
   
   .main {
     position: absolute;
     top: 4rem;
     width: 100%;
-    z-index: 1;
   }
   
   app-sidebar {
@@ -34,6 +33,9 @@ app-header {
     position: absolute;
     left: 60px !important;
     transition: all 0.2s ease-in-out;
+    width: calc(100% - 60px) !important;
+    height: calc(100vh - 4rem - 3rem); /* Adjust height to fit within the viewport */
+    overflow-y: auto; /* Enable vertical scrolling */
   }
   
   .display-area {
@@ -42,6 +44,8 @@ app-header {
     width: calc(100% - 250px);
     transition: all 0.2s ease-in-out;
     padding: 16px 14px 60px 14px;
+    height: 100vh !important;
+    overflow-y: auto !important;
   }
   
   .footer-area {
@@ -61,27 +65,12 @@ app-header {
     left: 60px;
     transition: all 0.2s ease-in-out;
   }
-  
-/* .layout{
-    height: 100%;
-}
-.main {
-    overflow-y: auto;
-    height: calc(100% - 80px);;
-    display: flex;
-    flex-direction: column;
-} */
-/* .display-area {
-    flex: 1;
-    display: flex;
-    width: 100%;
-} */
-/* .footer-area {
-    position: relative;
-    bottom: 0;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: aliceblue;
-} */
+  .display-area {
+    position: absolute;
+    left: 250px;
+    width: calc(100% - 250px);
+    transition: all 0.2s ease-in-out;
+    padding: 16px 14px 60px 14px;
+    height: calc(100vh - 4rem - 3rem); /* Adjust height to fit within the viewport */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }

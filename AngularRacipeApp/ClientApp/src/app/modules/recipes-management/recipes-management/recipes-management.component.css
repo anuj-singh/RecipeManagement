@@ -1,0 +1,23 @@
+.title {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 80%;
+  }
+  .image{
+    width: 80px;
+    height: 70px;
+    border-radius: 8px;
+  }
+  .button-add{
+    display: block;
+    margin-left: auto;
+  }
+
+  .filter-section{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }

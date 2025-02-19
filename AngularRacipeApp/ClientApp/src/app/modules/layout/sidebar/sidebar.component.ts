@@ -5,7 +5,7 @@ import { DataService } from 'src/app/shared/service/data.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
+  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
   @Input() sidenavStatus: boolean = false;
@@ -25,12 +25,18 @@ export class SidebarComponent {
       label: 'Users Management',
       icon: 'fa-solid fa-user',
     },
+   
+
   ];
 
-  constructor(private router: Router, private dataService: DataService) {}
-  ngOnInit(): void {}
+  constructor(private router: Router, private dataService: DataService) {
+  }
+  ngOnInit(): void {
+   
+  }
 
-  signout() {
+  signout(){
     this.dataService.signOut();
   }
+  
 }
