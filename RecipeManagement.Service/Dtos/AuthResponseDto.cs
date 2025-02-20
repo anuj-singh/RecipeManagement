@@ -1,6 +1,6 @@
 using System;
 
-namespace RecipeManagement.Service.Dtos 
+namespace RecipeManagement.Service.Dtos
 {
 public class AuthResponseDto
 {

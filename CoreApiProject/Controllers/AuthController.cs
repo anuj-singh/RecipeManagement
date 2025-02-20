@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Service.Interfaces;
 using RecipeManagement.Data.Models;
 using RecipeManagement.Service.Dtos;
+using Microsoft.AspNetCore.Cors;
 
 namespace CoreApiProject.Controllers
 {
+    [EnableCors("AllowAll")]
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase

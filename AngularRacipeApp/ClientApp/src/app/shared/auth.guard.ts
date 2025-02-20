@@ -22,13 +22,13 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const token = localStorage.getItem('tokenKey');
-    return true;
-    // if (token) {
-    //   return true;
-    // } else {
-    //   this.router.navigate(['/users']);
-    //   return false;
-    // }
+    const loggedInUsersDetails: any = sessionStorage.getItem('tokenKey');
+    const parsedUserDetails = JSON.parse(loggedInUsersDetails);
+    if (parsedUserDetails?.token) {
+      return true;
+    } else {
+      this.router.navigate(['/users']);
+      return false;
+    }
   }
 }
