@@ -16,12 +16,12 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let storedAdmin = sessionStorage.getItem('tokenKey');
+    let loggedInUsersDetails = sessionStorage.getItem('tokenKey');
 
     let token: string | null = null; // Initialize token
 
-    if (storedAdmin) {
-      const parsedAdmin = JSON.parse(storedAdmin);
+    if (loggedInUsersDetails) {
+      const parsedAdmin = JSON.parse(loggedInUsersDetails);
       token = parsedAdmin.token; // Extract token
     }
 
@@ -33,13 +33,13 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authRequest).pipe(
       catchError((err: HttpErrorResponse) => {
         let errorMessage = '';
-        if (err.error instanceof ErrorEvent) {
-          errorMessage = `Error: ${err.error.message}`;
-        } else {
-          errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`;
+        if (err.status === 401) {
+          errorMessage = err.error.message;
+          alert(errorMessage);
+        }else{
+          alert("Something went wrong!")
         }
 
-        console.error(errorMessage);
         return throwError(errorMessage);
       })
     );
