@@ -85,7 +85,7 @@ namespace CoreApiProject.Controllers
             }
         }
 
-        [HttpGet("GetRecipeDetailsForSearch")]
+        [HttpPost("GetRecipeDetailsForSearch")]
         public async Task<IActionResult> GetRecipeDetailsForSearch(RecipeFilterDto filter)
         {
             var users = await _recipeService.SearchRecipe(filter);

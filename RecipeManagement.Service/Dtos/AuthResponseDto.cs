@@ -1,6 +1,6 @@
 using System;
 
-namespace RecipeManagement.Service.Dtos 
+namespace RecipeManagement.Service.Dtos
 {
 public class AuthResponseDto
 {
@@ -11,5 +11,6 @@ public class AuthResponseDto
     public required string Role { get; set; } 
     public string Token { get; set; }="";
     public string RefreshToken { get; set; }="";
+    public string Message {get;set;}="";
 }
 }

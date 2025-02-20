@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   displayStyleUserUpdate = 'none';
   userModelOpened: boolean = false;
   userUpdateModelOpened: boolean = false;
+  userLogo = "https://th.bing.com/th/id/OIP.EFchTjQLTexrr4eFgDAruwHaHa?rs=1&pid=ImgDetMain";
 
   sideMenu: boolean = true;
   userUpdateForm!: FormGroup;
@@ -29,6 +30,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     if (this.userDetails) {
       this.loggedInUser = JSON.parse(this.userDetails);
+      console.log(this.loggedInUser);
+      
     }
 
     this.userUpdateForm = this.fb.group({
