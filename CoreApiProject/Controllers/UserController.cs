@@ -43,10 +43,10 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUserById(int id) 
     {
         var user =  await _userService.GetUserByIdAsync(id);
-        if(user == null)
-        {
-            return NotFound();
-        }
+        // if(user == null)
+        // {
+        //     return NotFound();
+        // }
         return Ok(user);
     }
 
@@ -56,15 +56,10 @@ public class UserController : ControllerBase
         var users = await _userService.GetAllUserAsync();
         return Ok(users);
     }
-[HttpGet("GetUserDetailsForSearch")]
-    public async Task<IActionResult> GetUserDetailsForSearch(UserFilterDto filter)
-    {
-        var users = await _userService.SearchUser(filter);
-        return Ok(users);
-    }
+
 
     [HttpPost("UpdateUserWithImage")]
-    public async Task<IActionResult> UpdateUserWithImage(IFormFile file ,int id,[FromForm]UserDto user)
+    public async Task<IActionResult> UpdateUserWithImage(IFormFile file ,int id,[FromForm]UpdateUserDto user)
     {
          if (file != null && file.Length != 0)
            {
@@ -80,7 +75,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPut("UpdateUser")]
-    public async Task<IActionResult> UpdateUser(int id ,UserDto user)
+    public async Task<IActionResult> UpdateUser(int id ,UpdateUserDto user)
     {
         var updateuser = await _userService.UpdateUserAsync(id,user);
         
@@ -105,7 +100,7 @@ public class UserController : ControllerBase
        if(result.Item1 && userDtls!= null)
        {
             userDtls.ImageUrl= result.Item2;
-            var updateuser = await _userService.UpdateUserAsync(id,userDtls);
+            var updateuser = await _userService.UpdateUserDetailsAsync(id,userDtls);
             response.Message= "Image successfully uploaded.";
             response.Status= true;
        }
@@ -143,5 +138,12 @@ public class UserController : ControllerBase
         {
             return BadRequest(new { Message = ex.Message });
         }
+    }
+
+    [HttpGet("GetUserDetailsForSearch")]
+    public async Task<IActionResult> GetUserDetailsForSearch([FromBody]UserFilterDto filter)
+    {
+        var users = await _userService.SearchUser(filter);
+        return Ok(users);
     }
 }

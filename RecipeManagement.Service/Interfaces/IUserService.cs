@@ -11,7 +11,8 @@ namespace RecipeManagement.Service.Interfaces
         Task<UserDto?> GetUserByIdAsync(int id);
        // Task<CommonResponseDto> GetUserByEmailAsync(LoginDto userDtls);
         Task<List<UserDto>?> GetAllUserAsync();  
-        Task<User> UpdateUserAsync(int id,UserDto user);
+        Task<User> UpdateUserAsync(int id,UpdateUserDto user);
+        Task<User> UpdateUserDetailsAsync(int id,UserDto user);
         Task<CommonResponseDto> DeleteUserAsync(int id);
          Task<List<UserSearchResultDto>> SearchUser(UserFilterDto filter);
 

@@ -8,7 +8,7 @@ namespace RecipeManagement.Service.Interfaces
     public interface IAuthService
     {
         Task<CommonResponseDto> Register(RegisterDto userDtls);
-        Task<AuthResponseDto?> Authenticate(LoginDto userDtls);
+        Task<AuthResponseDto?> Authenticate(AuthRequestDto userDtls);
        // Task<CommonResponseDto> ForgotPassword(LoginDto userDtls);
     }
 }

@@ -15,7 +15,7 @@ namespace RecipeManagement.Service.Services
             _logService=logService;
         }
 
-        public async Task<CommonResponseDto> CreateCategoryAsync(Category category)
+        public async Task<CommonResponseDto> CreateCategoryAsync(CategoryDto category)
         { 
              CommonResponseDto response= new  CommonResponseDto();
              try{
@@ -27,7 +27,14 @@ namespace RecipeManagement.Service.Services
                 }
                 else
                 {
-                    var createdCategory = await _categoryRepository.CreateCategory(category);
+                    Category cateDtls= new Category()
+                    {
+                        CategoryId=category.CategoryId,
+                        CategoryName=category.CategoryName,
+                        CreatedAt=DateTime.Now,
+                        CreatedBy=1
+                    };
+                    var createdCategory = await _categoryRepository.CreateCategory(cateDtls);
                     response.Message = "Category successfully created";
                     response.Status = true;
                 }
@@ -77,21 +84,22 @@ namespace RecipeManagement.Service.Services
             }
             return categoryDtos;
         }  
-        public async Task<CategoryDto?> UpdateCategoryAsync(int CategoryId,Category category)
+        public async Task<CategoryDto?> UpdateCategoryAsync(int CategoryId,CategoryDto category)
         {
             CategoryDto categoryDto= new CategoryDto();
             try{
-                var updatedCategory = await _categoryRepository.UpdateCategory(CategoryId, category);
+                var cateDtls= new Category()
+                {
+                    CategoryName=category.CategoryName,
+                    CategoryId=category.CategoryId
+                };
+                var updatedCategory = await _categoryRepository.UpdateCategory(CategoryId, cateDtls);
                 if (updatedCategory == null)
                 {
                     return null;
                 }
                 categoryDto.CategoryId = updatedCategory.CategoryId;
                 categoryDto.CategoryName = updatedCategory.CategoryName;
-                // categoryDto. CreatedAt = updatedCategory.CreatedAt;
-                // categoryDto.UpdatedAt = updatedCategory.UpdatedAt;
-                // categoryDto. LastModifiedUserId = updatedCategory.LastModifiedUserId;
-                // categoryDto.CreatedBy = updatedCategory.CreatedBy;
             }
             catch(Exception ex)
             {
