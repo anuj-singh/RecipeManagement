@@ -140,7 +140,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("GetUserDetailsForSearch")]
+    [HttpPost("GetUserDetailsForSearch")]
     public async Task<IActionResult> GetUserDetailsForSearch([FromBody]UserFilterDto filter)
     {
         var users = await _userService.SearchUser(filter);
