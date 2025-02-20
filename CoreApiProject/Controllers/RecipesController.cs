@@ -201,7 +201,8 @@ namespace CoreApiProject.Controllers
                 CreatedAt = recipeDtls.CreatedAt,
                 UpdatedAt = recipeDtls.UpdatedAt,
                 LastModifiedUserId = recipeDtls.LastModifiedUserId,
-                CreatedBy = recipeDtls.CreatedBy
+                CreatedBy = recipeDtls.CreatedBy,
+                UserId = recipeDtls.userId                
             };
             recipeDtls.ImageUrl= result.Item2;
             var updateuser = await _recipeService.UpdateRecipeAsync(id,recipeEntity);

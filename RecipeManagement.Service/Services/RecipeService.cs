@@ -42,7 +42,8 @@ namespace RecipeManagement.Service.Services
                 CreatedAt = recipe.CreatedAt,
                 UpdatedAt = recipe.UpdatedAt,
                 CreatedBy = recipe.CreatedBy,
-                LastModifiedUserId = recipe.LastModifiedUserId
+                LastModifiedUserId = recipe.LastModifiedUserId,
+                userId = recipe.UserId
             };
         }
 
