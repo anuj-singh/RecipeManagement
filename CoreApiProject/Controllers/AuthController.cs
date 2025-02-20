@@ -36,7 +36,7 @@ namespace CoreApiProject.Controllers
         }
         
         [HttpPost("Authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] LoginDto user)
+        public async Task<IActionResult> Authenticate([FromBody] AuthRequestDto user)
         {
             var response = await _authService.Authenticate(user);
             if (response == null)

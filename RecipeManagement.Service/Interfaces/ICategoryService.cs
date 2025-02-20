@@ -7,10 +7,10 @@ namespace RecipeManagement.Service.Interfaces
 {
     public interface ICategoryService
     {
-        Task<CommonResponseDto> CreateCategoryAsync(Category category);
+        Task<CommonResponseDto> CreateCategoryAsync(CategoryDto category);
         Task<CategoryDto?> GetCategoryByIdAsync(int categoryId);   
         Task<List<CategoryDto>> GetAllCategoryAsync();  
-        Task<CategoryDto?> UpdateCategoryAsync(int CategoryId,Category category);
+        Task<CategoryDto?> UpdateCategoryAsync(int CategoryId,CategoryDto category);
         Task<CommonResponseDto> DeleteCategoryAsync(int CategoryId);
     }
 }
