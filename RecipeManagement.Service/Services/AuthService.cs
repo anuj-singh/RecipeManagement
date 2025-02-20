@@ -90,7 +90,7 @@ namespace RecipeManagement.Service.Services
             return encryptedString;
         }
 
-        public async Task<AuthResponseDto?> Authenticate(LoginDto userDtls)
+     public async Task<AuthResponseDto?> Authenticate(AuthRequestDto userDtls)
         {
             if (userDtls != null)
             {
@@ -179,8 +179,8 @@ namespace RecipeManagement.Service.Services
                 Email = user.Email,
                 Role = role.RoleName,
                 Token = tokenString,
-                Message = "Logged in successfully",
-                RefreshToken = GenerateRefreshToken()
+                RefreshToken = GenerateRefreshToken(),
+                Message="Logged-in successfully"
             };
         }
         private static string GenerateRefreshToken()
