@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
         password: this.registerForm.controls['password'].value
       },
       securityQuestion: "nickname",
-      securityAnswer: "test"
+      securityAnswer: "dharitri"
     }
     //console.log(JSON.stringify(registerUserObj, null , 2));
     this.dataService.httpPostRequest('Auth/Register', registerUserObj)
