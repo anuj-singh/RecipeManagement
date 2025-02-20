@@ -23,11 +23,11 @@
             (click)="toggleDropdown()"
           >
             <img
-              [src]="loggedInUser.pic"
+              [src]="userLogo"
               alt=""
               style="width: 26px; border-radius: 22px; margin-right: 10px;"
             />
-            <span style="color: white">{{ loggedInUser.username }}</span>
+            <span style="color: white">{{ loggedInUser.userName }}</span>
           </a>
           <ul
             class="dropdown-menu"
