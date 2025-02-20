@@ -28,8 +28,9 @@ export class DataService {
   }
 
   signOut() {
-    confirm('Are you sure wants to log out?');
-    localStorage.removeItem('tokenKey');
-    this.router.navigate(['/users']);
+    if (confirm('Are you sure wants to log out?')) {
+      sessionStorage.removeItem('tokenKey');
+      this.router.navigate(['/users']);
+    }
   }
 }

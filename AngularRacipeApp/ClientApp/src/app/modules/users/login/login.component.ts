@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
     this.dataService
       .httpPostRequest('Auth/Authenticate', this.loginForm.value)
       .subscribe((res) => {
-        console.log(res);
         sessionStorage.setItem('tokenKey', JSON.stringify(res));
         this.router.navigate(['/main-dashboard'])
       });

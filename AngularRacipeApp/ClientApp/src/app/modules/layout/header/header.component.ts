@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     if (this.userDetails) {
       this.loggedInUser = JSON.parse(this.userDetails);
-      console.log(this.loggedInUser);
       
     }
 
