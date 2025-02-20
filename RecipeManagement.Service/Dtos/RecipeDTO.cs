@@ -15,5 +15,6 @@ namespace RecipeManagement.Service.Dtos
         public DateTime? UpdatedAt { get; set; } 
         public int CreatedBy { get; set; }
         public int? LastModifiedUserId { get; set; } 
+        public int userId { get; set; } 
     }
 }
