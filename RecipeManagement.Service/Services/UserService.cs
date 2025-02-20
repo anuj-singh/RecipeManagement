@@ -107,7 +107,8 @@ namespace RecipeManagement.Service.Services
             }
             return lstUsrDto;
         }  
-        public async Task<User> UpdateUserAsync(int id,UserDto user)
+
+public async Task<User> UpdateUserDetailsAsync(int id,UserDto user)
         {
             User usrdetails= new User();
             try{
@@ -115,11 +116,35 @@ namespace RecipeManagement.Service.Services
             {
                 Email=user.Email,
                 UserId=user.UserId,
-                PasswordHash= user.PasswordHash,
+                //PasswordHash= user.PasswordHash,
                 UserName=user.UserName,
                 Bio=user.Bio,
                 CreatedAt=DateTime.UtcNow,
-                CreatedBy=user.CreatedBy,
+                CreatedBy=1,
+                ImageUrl=user.ImageUrl,
+                StatusId= user.StatusId
+            };
+            usrdetails=  await _userRepository.UpdateUser(id,userModel);
+            }
+            catch(Exception ex)
+            {
+               await  _logService.CreateLogAsync(ex.Message,"UpdateUserAsync");
+            }
+            return usrdetails;
+        }
+        public async Task<User> UpdateUserAsync(int id,UpdateUserDto user)
+        {
+            User usrdetails= new User();
+            try{
+            User userModel= new User()
+            {
+                Email=user.Email,
+                UserId=user.UserId,
+                //PasswordHash= user.PasswordHash,
+                UserName=user.UserName,
+                Bio=user.Bio,
+                CreatedAt=DateTime.UtcNow,
+                CreatedBy=1,
                 ImageUrl=user.ImageUrl,
                 StatusId= user.StatusId
             };
