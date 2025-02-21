@@ -1,6 +1,7 @@
 <span class="title"> Users Management </span>
-<div class="filter-section mt-5">
-  <input type="text" class="form-control" placeholder="Search user" (input)="onSearchUser($event)" />
+<div class="filter-section d-flex mt-5">
+  <input type="text" class="form-control" placeholder="Search user by username..." (click)="onSearchUser()" />
+  <button class="btn btn-primary" style="margin-left: 10px;"><i class="fa-solid fa-search"></i></button>
 </div>
 <div
   class="card mt-2"

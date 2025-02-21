@@ -47,9 +47,9 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  onSearchUser(event: any) {
+  onSearchUser() {
     const searchUserObj = {
-      userName: event.target.value,
+      userName: '',
       email: '',
     };
 
