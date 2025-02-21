@@ -7,7 +7,7 @@
 
                 <form [formGroup] ="registerForm" (ngSubmit)="registerSubmitted()">
                     <div class="row">
-                        <div class="col mb-3">
+                        <div class="col mb-2">
                             <label for="username" class="form-label">User name</label>
                             <input type="username" class="form-control" id="username" formControlName="username" placeholder="UserName">
                             <div class="form-text text-danger" *ngIf="UserName.errors?.['required'] && (UserName.dirty || UserName.touched)">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col mb-3">
+                        <div class="col mb-2">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
                             <div class="form-text text-danger" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                      <div class="row">
-                        <div class="col mb-3">
+                        <div class="col mb-2">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" formControlName="password" placeholder="password">
                             <div class="form-text text-danger" 
