@@ -6,53 +6,70 @@ import { DataService } from 'src/app/shared/service/data.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  
-constructor(private router: Router, private dataService: DataService ){
-  
-}
+  roleList: any[] = [];
+  constructor(private router: Router, private dataService: DataService) {}
 
-ngOnInit(): void {
-}
+  ngOnInit(): void {
+    this.getAllRoles();
+  }
 
-registerForm=new FormGroup({
-  username:new FormControl('',[
+  registerForm = new FormGroup({
+    username: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
-      Validators.pattern("[a-zA-Z].*")]),
-  email:new FormControl('',[Validators.required]),
-  password:new FormControl('',[
-    Validators.required,
-    Validators.minLength(6),
-    Validators.maxLength(15)
-  ]),
-})
+      Validators.pattern('[a-zA-Z].*'),
+    ]),
+    email: new FormControl('', [Validators.required]),
+    roleId: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(15),
+    ]),
+  });
 
-registerSubmitted(){
- console.log(this.registerForm.value);
- this.dataService.httpPostRequest(this.router.navigate(['/main-dashboard']),this.registerForm.value).subscribe((response)=>{
- console.log(response);
-})
- //this.dataService.httpPostRequest('',this.registerForm.value).subscribe((response)=>{
- // console.log(response);
-//})
-//this.router.navigate(['/main-dashboard']);
-}
+  registerSubmitted() {
+    //this.router.navigate(['/main-dashboard']);
+    const registerObj = {
+      roleId: 1,
+      loginDto: {
+        userName: this.registerForm['controls'].username.value,
+        email: this.registerForm['controls'].email.value,
+        password: this.registerForm['controls'].password.value,
+      },
+      securityQuestion: 'abcxyz',
+      securityAnswer: 'test123',
+    };
 
-get UserName():FormControl{
-  return this.registerForm.get("username")as FormControl;
-}
-get Email():FormControl{
-  return this.registerForm.get("email")as FormControl;
-}
-get Password():FormControl{
-  return this.registerForm.get("password")as FormControl;
-}
+    console.log(registerObj);
+  }
 
-navigateToLogin() {
-  this.router.navigate(['/users/']);
-}
+  get UserName(): FormControl {
+    return this.registerForm.get('username') as FormControl;
+  }
+  get Email(): FormControl {
+    return this.registerForm.get('email') as FormControl;
+  }
 
+  get roleId(): FormControl {
+    return this.registerForm.get('roleId') as FormControl;
+  }
+
+  get Password(): FormControl {
+    return this.registerForm.get('password') as FormControl;
+  }
+
+  getAllRoles() {
+    this.dataService
+      .httpGetRequest('User/GetAllRoles')
+      .subscribe((res: any) => {
+        console.log(res);
+      });
+  }
+  navigateToLogin() {
+    this.router.navigate(['/users/']);
+  }
 }
