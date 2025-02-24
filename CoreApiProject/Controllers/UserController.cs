@@ -57,6 +57,27 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
+    [HttpGet("GetAllRoles")]
+    public async Task<IActionResult> GetAllRoles()
+    {
+        try
+        {
+            var roles = await _userService.GetAllRoles();
+            if (roles == null || roles.Count == 0)
+            {
+                return NotFound(new { Message = "No roles found" });
+            }
+            return Ok(roles);
+        }
+        catch (Exception ex)
+        {
+
+            return StatusCode(500, new { Message = "An error occurred while processing your request.", Details = ex.Message });
+        }
+    }
+
+
+
 
     [HttpPost("UpdateUserWithImage")]
     public async Task<IActionResult> UpdateUserWithImage(IFormFile file, int id, [FromForm] UpdateUserDto user)
