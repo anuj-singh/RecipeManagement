@@ -58,6 +58,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("GetAllRoles")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllRoles()
     {
         try
