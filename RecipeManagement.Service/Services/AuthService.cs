@@ -47,16 +47,17 @@ namespace RecipeManagement.Service.Services
                         StatusId = 1
                     };
                     var result = await _userRepository.CreateUser(userData, userDtls.SecurityQuestion, userDtls.SecurityAnswer);
-                    var roleDtls = await _userRoleRepository.GetRoleById(3);
+                    var roleDtls = await _userRoleRepository.GetRoleById(userDtls.RoleId);
                     UserRole role = new UserRole()
                     {
-                        RoleId = 3,
+                        RoleId = userDtls.RoleId,
                         UserId = result.UserId,
                         User = result,
                         Role = roleDtls,
                         CreatedAt = DateTime.UtcNow,
                         CreatedBy = 1
                     };
+
                     var usrRole = await _userRoleRepository.CreateUserRole(role);
                     response.Message = "User successfully registered";
                     response.Status = true;
@@ -90,7 +91,7 @@ namespace RecipeManagement.Service.Services
             return encryptedString;
         }
 
-     public async Task<AuthResponseDto?> Authenticate(AuthRequestDto userDtls)
+        public async Task<AuthResponseDto?> Authenticate(AuthRequestDto userDtls)
         {
             if (userDtls != null)
             {
@@ -180,7 +181,7 @@ namespace RecipeManagement.Service.Services
                 Role = role.RoleName,
                 Token = tokenString,
                 RefreshToken = GenerateRefreshToken(),
-                Message="Logged-in successfully"
+                Message = "Logged-in successfully"
             };
         }
         private static string GenerateRefreshToken()

@@ -9,205 +9,235 @@ namespace RecipeManagement.Service.Services
 {
     public class UserService : IUserService
     {
-       private readonly IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly ICommonService _commonService;
-         private readonly ILogService _logService;
-         private readonly IPasswordResetTokenRepository _passwordResetTokenRepository;
-        public UserService(IUserRepository userRepository,ICommonService commonService,ILogService logService, IPasswordResetTokenRepository passwordResetTokenRepository)
+        private readonly ILogService _logService;
+        private readonly IPasswordResetTokenRepository _passwordResetTokenRepository;
+        public UserService(IUserRepository userRepository, ICommonService commonService, ILogService logService, IPasswordResetTokenRepository passwordResetTokenRepository)
         {
             _userRepository = userRepository;
-            _commonService=commonService;
-            _logService =logService;
+            _commonService = commonService;
+            _logService = logService;
             _passwordResetTokenRepository = passwordResetTokenRepository;
         }
 
         public async Task<CommonResponseDto> CreateUserAsync(UserDto userDto, string securityQuestion, string securityAnswer)
         {
-            CommonResponseDto responseDto = new  CommonResponseDto();
-            try{
-            User userModel= new User()
+            CommonResponseDto responseDto = new CommonResponseDto();
+            try
             {
-                Email=userDto.Email,
-                UserId=userDto.UserId,
-                PasswordHash= userDto.PasswordHash,
-                UserName=userDto.UserName,
-                Bio=userDto.Bio,
-                CreatedAt=DateTime.UtcNow,
-                CreatedBy=1,
-                ImageUrl=userDto.ImageUrl,
-                StatusId= userDto.StatusId,
-            };
-            var userData= await _userRepository.CreateUser(userModel,securityQuestion,securityAnswer);
-            if(userData!= null)
-            {
-                responseDto.Id=userData.UserId;
-                responseDto.Message="User successfully created";
-                responseDto.Status=true;
+                User userModel = new User()
+                {
+                    Email = userDto.Email,
+                    UserId = userDto.UserId,
+                    PasswordHash = userDto.PasswordHash,
+                    UserName = userDto.UserName,
+                    Bio = userDto.Bio,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = 1,
+                    ImageUrl = userDto.ImageUrl,
+                    StatusId = userDto.StatusId,
+                };
+                var userData = await _userRepository.CreateUser(userModel, securityQuestion, securityAnswer);
+                if (userData != null)
+                {
+                    responseDto.Id = userData.UserId;
+                    responseDto.Message = "User successfully created";
+                    responseDto.Status = true;
+                }
             }
-            }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               await  _logService.CreateLogAsync(ex.Message,"CreateUserAsync");
+                await _logService.CreateLogAsync(ex.Message, "CreateUserAsync");
             }
             return responseDto;
         }
         public async Task<UserDto?> GetUserByIdAsync(int id)
         {
             UserDto? userDto = null;
-            try{
+            try
+            {
                 var userData = await _userRepository.GetUserById(id);
                 if (userData == null)
                 {
                     return null;
                 }
-                userDto= new  UserDto();
-                userDto.Email=userData.Email;
-                userDto. UserId=userData.UserId;
-                userDto.PasswordHash= userData.PasswordHash;
-                userDto. UserName=userData.UserName;
-                userDto. Bio=userData.Bio;
-                userDto.CreatedAt=userData.CreatedAt;
-                userDto.CreatedBy=1;
-                userDto. ImageUrl=  (userData.ImageUrl!=null && userData.ImageUrl!="" )?_commonService.GetCommonPath( userData.ImageUrl):"";
-                userDto. StatusId= userData.StatusId;
+                userDto = new UserDto();
+                userDto.Email = userData.Email;
+                userDto.UserId = userData.UserId;
+                userDto.PasswordHash = userData.PasswordHash;
+                userDto.UserName = userData.UserName;
+                userDto.Bio = userData.Bio;
+                userDto.CreatedAt = userData.CreatedAt;
+                userDto.CreatedBy = 1;
+                userDto.ImageUrl = (userData.ImageUrl != null && userData.ImageUrl != "") ? _commonService.GetCommonPath(userData.ImageUrl) : "";
+                userDto.StatusId = userData.StatusId;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               await  _logService.CreateLogAsync(ex.Message,"GetUserByIdAsync");
+                await _logService.CreateLogAsync(ex.Message, "GetUserByIdAsync");
             }
             return userDto;
         }
         public async Task<List<UserDto>?> GetAllUserAsync()
         {
-            List<UserDto> lstUsrDto= new List<UserDto>();
-            try{
+            List<UserDto> lstUsrDto = new List<UserDto>();
+            try
+            {
                 var usersModel = await _userRepository.GetAllUser();
-                 if (usersModel == null)
+                if (usersModel == null)
                 {
                     return null;
                 }
-                lstUsrDto= usersModel.Select(c => new UserDto
+                lstUsrDto = usersModel.Select(c => new UserDto
                 {
                     UserId = c.UserId,
                     UserName = c.UserName,
-                    Email=c.Email,
-                    ImageUrl=(c.ImageUrl!=null && c.ImageUrl!="" )?_commonService.GetCommonPath( c.ImageUrl):"",
-                    Bio=c.Bio,
-                    PasswordHash= c.PasswordHash,
-                    StatusId=c.StatusId,
+                    Email = c.Email,
+                    ImageUrl = (c.ImageUrl != null && c.ImageUrl != "") ? _commonService.GetCommonPath(c.ImageUrl) : "",
+                    Bio = c.Bio,
+                    PasswordHash = c.PasswordHash,
+                    StatusId = c.StatusId,
                     CreatedAt = c.CreatedAt,
                     UpdatedAt = c.UpdatedAt,
                     LastModifiedUserId = c.LastModifiedUserId,
                     CreatedBy = c.CreatedBy
                 }).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               await  _logService.CreateLogAsync(ex.Message,"GetAllUserAsync");
+                await _logService.CreateLogAsync(ex.Message, "GetAllUserAsync");
             }
             return lstUsrDto;
-        }  
-
-public async Task<User> UpdateUserDetailsAsync(int id,UserDto user)
+        }
+        public async Task<List<RoleDto>?> GetAllRoles()
         {
-            User usrdetails= new User();
-            try{
-            User userModel= new User()
+            List<RoleDto> lstRoleDto = new List<RoleDto>();
+            try
             {
-                Email=user.Email,
-                UserId=user.UserId,
-                //PasswordHash= user.PasswordHash,
-                UserName=user.UserName,
-                Bio=user.Bio,
-                CreatedAt=DateTime.UtcNow,
-                CreatedBy=1,
-                ImageUrl=user.ImageUrl,
-                StatusId= user.StatusId
-            };
-            usrdetails=  await _userRepository.UpdateUser(id,userModel);
+                var rolesModel = await _userRepository.GetAllRoles();
+                if (rolesModel == null)
+                {
+                    return null;
+                }
+                lstRoleDto = rolesModel.Select(r => new RoleDto
+                {
+                    RoleId = r.RoleId,
+                    RoleName = r.RoleName
+                }).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               await  _logService.CreateLogAsync(ex.Message,"UpdateUserAsync");
+                await _logService.CreateLogAsync(ex.Message, "GetAllRoles");
+            }
+            return lstRoleDto;
+        }
+
+        public async Task<User> UpdateUserDetailsAsync(int id, UserDto user)
+        {
+            User usrdetails = new User();
+            try
+            {
+                User userModel = new User()
+                {
+                    Email = user.Email,
+                    UserId = user.UserId,
+                    //PasswordHash= user.PasswordHash,
+                    UserName = user.UserName,
+                    Bio = user.Bio,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = 1,
+                    ImageUrl = user.ImageUrl,
+                    StatusId = user.StatusId
+                };
+                usrdetails = await _userRepository.UpdateUser(id, userModel);
+            }
+            catch (Exception ex)
+            {
+                await _logService.CreateLogAsync(ex.Message, "UpdateUserAsync");
             }
             return usrdetails;
         }
-        public async Task<User> UpdateUserAsync(int id,UpdateUserDto user)
+        public async Task<User> UpdateUserAsync(int id, UpdateUserDto user)
         {
-            User usrdetails= new User();
-            try{
-            User userModel= new User()
+            User usrdetails = new User();
+            try
             {
-                Email=user.Email,
-                UserId=user.UserId,
-                //PasswordHash= user.PasswordHash,
-                UserName=user.UserName,
-                Bio=user.Bio,
-                CreatedAt=DateTime.UtcNow,
-                CreatedBy=1,
-                ImageUrl=user.ImageUrl,
-                StatusId= user.StatusId
-            };
-            usrdetails=  await _userRepository.UpdateUser(id,userModel);
+                User userModel = new User()
+                {
+                    Email = user.Email,
+                    UserId = user.UserId,
+                    //PasswordHash= user.PasswordHash,
+                    UserName = user.UserName,
+                    Bio = user.Bio,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = 1,
+                    ImageUrl = user.ImageUrl,
+                    StatusId = user.StatusId
+                };
+                usrdetails = await _userRepository.UpdateUser(id, userModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               await  _logService.CreateLogAsync(ex.Message,"UpdateUserAsync");
+                await _logService.CreateLogAsync(ex.Message, "UpdateUserAsync");
             }
             return usrdetails;
         }
         public async Task<CommonResponseDto> DeleteUserAsync(int id)
         {
-            CommonResponseDto responseDto= new CommonResponseDto();
-            try{
-                var result = await _userRepository.DeleteUser(id);   
-                if(result)
-                {
-                    responseDto.Message="User deleted successfully";
-                    responseDto.Status= true;
-                }else
-                {
-                    responseDto.Message="User not deleted";
-                    responseDto.Status= false;
-                }
-             }
-            catch(Exception ex)
+            CommonResponseDto responseDto = new CommonResponseDto();
+            try
             {
-               await  _logService.CreateLogAsync(ex.Message,"DeleteUserAsync");
+                var result = await _userRepository.DeleteUser(id);
+                if (result)
+                {
+                    responseDto.Message = "User deleted successfully";
+                    responseDto.Status = true;
+                }
+                else
+                {
+                    responseDto.Message = "User not deleted";
+                    responseDto.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _logService.CreateLogAsync(ex.Message, "DeleteUserAsync");
             }
             return responseDto;
         }
-         public async Task<List< UserSearchResultDto>> SearchUser(UserFilterDto filter){
-           List< UserSearchResultDto> resultDto= new List<UserSearchResultDto>();
-           try
+        public async Task<List<UserSearchResultDto>> SearchUser(UserFilterDto filter)
+        {
+            List<UserSearchResultDto> resultDto = new List<UserSearchResultDto>();
+            try
             {
-                var result=  await _userRepository.SearchUserByFilter(filter.UserName,filter.Email,filter.StatusId);
-                if(result!= null && result.Count>0)
+                var result = await _userRepository.SearchUserByFilter(filter.UserName, filter.Email, filter.StatusId);
+                if (result != null && result.Count > 0)
                 {
-                    resultDto=  result.Select(s=>new UserSearchResultDto
+                    resultDto = result.Select(s => new UserSearchResultDto
                     {
-                       UserId=s.UserId,
-                        UserName=s.UserName,
-                        Email= s.Email,
-                        StatusName=Enum.GetName(typeof(Status), s.StatusId),
-                        Recipes= s.Recipes.Select(r=> new RecipeDTO
+                        UserId = s.UserId,
+                        UserName = s.UserName,
+                        Email = s.Email,
+                        StatusName = Enum.GetName(typeof(Status), s.StatusId),
+                        Recipes = s.Recipes.Select(r => new RecipeDTO
                         {
                             RecipeId = r.RecipeId,
                             Title = r.Title,
                             Ingredients = r.Ingredients,
-                             CategoryId=r.CategoryId,
-                             CookingTime= r.CookingTime,
-                             Instructions= r.Instructions
+                            CategoryId = r.CategoryId,
+                            CookingTime = r.CookingTime,
+                            Instructions = r.Instructions
                         }).ToList()
-                       
+
                     }).ToList();
                 }
             }
             catch (Exception ex)
             {
-                await  _logService.CreateLogAsync(ex.Message,"Search User Filter");
+                await _logService.CreateLogAsync(ex.Message, "Search User Filter");
             }
-           return resultDto; 
+            return resultDto;
         }
 
 
@@ -216,7 +246,7 @@ public async Task<User> UpdateUserDetailsAsync(int id,UserDto user)
             try
             {
                 // Step 1: Retrieve user by email
-                var (user,found) = await _userRepository.GetUserByEmaiAsync(email);
+                var (user, found) = await _userRepository.GetUserByEmaiAsync(email);
                 if (user == null)
                 {
                     throw new InvalidOperationException("User not found.");
@@ -234,7 +264,7 @@ public async Task<User> UpdateUserDetailsAsync(int id,UserDto user)
                 {
                     throw new InvalidOperationException("Incorrect answer to security question.");
                 }
-                
+
                 // Step 3: Generate a secure password reset token
                 var token = Guid.NewGuid().ToString(); // Secure token generation
                 var expirationTime = DateTime.Now.AddHours(1); // Token expiration time (1 hour)
@@ -249,7 +279,7 @@ public async Task<User> UpdateUserDetailsAsync(int id,UserDto user)
             }
             catch (Exception ex)
             {
-                await  _logService.CreateLogAsync(ex.Message,"ForgotPasswordAsync");
+                await _logService.CreateLogAsync(ex.Message, "ForgotPasswordAsync");
                 throw new ApplicationException("An error occurred during password reset process.", ex);
             }
         }
@@ -290,17 +320,17 @@ public async Task<User> UpdateUserDetailsAsync(int id,UserDto user)
             }
             catch (Exception ex)
             {
-                await  _logService.CreateLogAsync(ex.Message,"ResetPasswordAsync");
+                await _logService.CreateLogAsync(ex.Message, "ResetPasswordAsync");
                 throw new ApplicationException("An error occurred during the password reset.", ex);
             }
         }
 
         public string EncryptString(string strPassword)
         {
-            byte[] b= System.Text.ASCIIEncoding.ASCII.GetBytes(strPassword);
-            string encryptedString= Convert.ToBase64String(b);
+            byte[] b = System.Text.ASCIIEncoding.ASCII.GetBytes(strPassword);
+            string encryptedString = Convert.ToBase64String(b);
             return encryptedString;
         }
-        
-    }   
+
+    }
 }
