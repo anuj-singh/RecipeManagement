@@ -23,8 +23,8 @@ export class DataService {
     return this.http.put(`${this.HOME_URL}${url}`, payload);
   }
 
-  httpDeleteRequest(url: any, id: any) {
-    return this.http.delete(`${this.HOME_URL}${url}${id}`);
+  httpDeleteRequest(url: any) {
+    return this.http.delete(`${this.HOME_URL}${url}`);
   }
 
   signOut() {

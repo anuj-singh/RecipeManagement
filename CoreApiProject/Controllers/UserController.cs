@@ -12,10 +12,10 @@ public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly ICommonService _commonservice;
-    public UserController(IUserService userService,ICommonService commonservice)
+    public UserController(IUserService userService, ICommonService commonservice)
     {
         _userService = userService;
-        _commonservice= commonservice;
+        _commonservice = commonservice;
     }
 
     [HttpPost("CreateUser")]
@@ -40,9 +40,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("GetById")]
-    public async Task<IActionResult> GetUserById(int id) 
+    public async Task<IActionResult> GetUserById(int id)
     {
-        var user =  await _userService.GetUserByIdAsync(id);
+        var user = await _userService.GetUserByIdAsync(id);
         // if(user == null)
         // {
         //     return NotFound();
@@ -57,35 +57,56 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
+    [HttpGet("GetAllRoles")]
+    public async Task<IActionResult> GetAllRoles()
+    {
+        try
+        {
+            var roles = await _userService.GetAllRoles();
+            if (roles == null || roles.Count == 0)
+            {
+                return NotFound(new { Message = "No roles found" });
+            }
+            return Ok(roles);
+        }
+        catch (Exception ex)
+        {
+
+            return StatusCode(500, new { Message = "An error occurred while processing your request.", Details = ex.Message });
+        }
+    }
+
+
+
 
     [HttpPost("UpdateUserWithImage")]
-    public async Task<IActionResult> UpdateUserWithImage(IFormFile file ,int id,[FromForm]UpdateUserDto user)
+    public async Task<IActionResult> UpdateUserWithImage(IFormFile file, int id, [FromForm] UpdateUserDto user)
     {
-         if (file != null && file.Length != 0)
-           {
-                var isDeleted=   _commonservice.DeletePicture(file.FileName);
-                var result= await _commonservice.UploadPicture( file);
-                if(result.Item1) 
-                {
-                    user.ImageUrl= result.Item2;
-                }
-           }
-        var updateuser = await _userService.UpdateUserAsync(id,user);
+        if (file != null && file.Length != 0)
+        {
+            var isDeleted = _commonservice.DeletePicture(file.FileName);
+            var result = await _commonservice.UploadPicture(file);
+            if (result.Item1)
+            {
+                user.ImageUrl = result.Item2;
+            }
+        }
+        var updateuser = await _userService.UpdateUserAsync(id, user);
         return Ok(updateuser);
     }
-    
+
     [HttpPut("UpdateUser")]
-    public async Task<IActionResult> UpdateUser(int id ,UpdateUserDto user)
+    public async Task<IActionResult> UpdateUser(int id, UpdateUserDto user)
     {
-        var updateuser = await _userService.UpdateUserAsync(id,user);
-        
+        var updateuser = await _userService.UpdateUserAsync(id, user);
+
         return Ok(updateuser);
     }
     [HttpDelete("DeleteUser")]
     public async Task<IActionResult> DeleteUser(int id)
     {
         var result = await _userService.DeleteUserAsync(id);
-       
+
         return Ok(result);
     }
     [HttpPost("UploadUserPic")]
@@ -95,19 +116,19 @@ public class UserController : ControllerBase
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded.");
 
-       var result= await _commonservice.UploadPicture( file);
-       var userDtls= await _userService.GetUserByIdAsync(id);
-       if(result.Item1 && userDtls!= null)
-       {
-            userDtls.ImageUrl= result.Item2;
-            var updateuser = await _userService.UpdateUserDetailsAsync(id,userDtls);
-            response.Message= "Image successfully uploaded.";
-            response.Status= true;
-       }
+        var result = await _commonservice.UploadPicture(file);
+        var userDtls = await _userService.GetUserByIdAsync(id);
+        if (result.Item1 && userDtls != null)
+        {
+            userDtls.ImageUrl = result.Item2;
+            var updateuser = await _userService.UpdateUserDetailsAsync(id, userDtls);
+            response.Message = "Image successfully uploaded.";
+            response.Status = true;
+        }
         else
         {
-            response.Message= "Image not uploaded.";
-            response.Status= false;
+            response.Message = "Image not uploaded.";
+            response.Status = false;
         }
         return Ok(response);
     }
@@ -127,6 +148,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("reset-password")]
+    [AllowAnonymous]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
     {
         try
@@ -141,7 +163,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("GetUserDetailsForSearch")]
-    public async Task<IActionResult> GetUserDetailsForSearch([FromBody]UserFilterDto filter)
+    public async Task<IActionResult> GetUserDetailsForSearch([FromBody] UserFilterDto filter)
     {
         var users = await _userService.SearchUser(filter);
         return Ok(users);

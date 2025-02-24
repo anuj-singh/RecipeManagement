@@ -27,9 +27,8 @@ export class ForgotPasswordComponent implements OnInit {
     return this.forgotPasswordForm.get('email');
   }
   onSubmit() {
-    this.router.navigate(['/users/recover-password']);
     this.dataService
-      .httpPostRequest('', this.forgotPasswordForm.value)
+      .httpPostRequest('User/forgot-password', this.forgotPasswordForm.value)
       .subscribe((res) => {
         this.message='password reset successful'
       });

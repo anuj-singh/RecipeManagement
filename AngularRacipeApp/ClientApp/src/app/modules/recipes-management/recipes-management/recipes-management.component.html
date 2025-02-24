@@ -1,7 +1,6 @@
 <div class="filter-section">
   <input type="text" class="form-control" placeholder="Search recipes" />
   <button
-    *ngIf="loggedInUser?.userType == 'admin'"
     type="button"
     class="btn btn-primary button-add"
     style="white-space: nowrap; margin-left: 10px"
@@ -30,13 +29,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let recipe of recipeMangementList; let i = index" class="text-center">
+        <tr
+          *ngFor="let recipe of recipeMangementList; let i = index"
+          class="text-center"
+        >
           <td>{{ i + 1 }}</td>
           <td>{{ recipe.title }}</td>
           <td>{{ recipe.ingredients }}</td>
           <td>{{ recipe.instructions }}</td>
-          <td><img [src]="recipe.images" alt="" class="image" /></td>
-          <td *ngIf="loggedInUser?.userType == 'admin'">
+          <td><img [src]="recipe.imageUrl" alt="" class="image" /></td>
+          <td>
             <button
               type="button"
               class="btn btn-primary"
@@ -50,7 +52,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              (click)="deleteRecipe(i + 1)"
+              (click)="deleteRecipe(recipe)"
             >
               Delete
             </button>

@@ -36,8 +36,10 @@ export class AuthInterceptor implements HttpInterceptor {
         if (err.status === 401) {
           errorMessage = err.error.message;
           alert(errorMessage);
-        }else{
-          alert("Something went wrong!")
+        } else if (err.status === 401) {
+          alert(errorMessage);
+        } else {
+          alert('Something went wrong!');
         }
 
         return throwError(errorMessage);

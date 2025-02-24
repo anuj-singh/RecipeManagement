@@ -46,4 +46,19 @@ export class UserManagementComponent implements OnInit {
         });
     }
   }
+
+  onSearchUser() {
+    const searchUserObj = {
+      userName: '',
+      email: '',
+    };
+
+    if (searchUserObj.userName.length > 2) {
+      this.dataService
+        .httpPostRequest('User/GetUserDetailsForSearch', searchUserObj)
+        .subscribe((res: any) => {
+          console.log(res);
+        });
+    }
+  }
 }

@@ -1,7 +1,10 @@
 <span class="title"> Users Management </span>
-
+<div class="filter-section d-flex mt-5">
+  <input type="text" class="form-control" placeholder="Search user by username..." (click)="onSearchUser()" />
+  <button class="btn btn-primary" style="margin-left: 10px;"><i class="fa-solid fa-search"></i></button>
+</div>
 <div
-  class="card mt-4"
+  class="card mt-2"
   style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; margin-bottom: 65px"
 >
   <div class="card-body">
@@ -24,11 +27,12 @@
           <td>{{ i + 1 }}</td>
           <td>{{ user.userName }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.bio ? user.bio : '-' }}</td>
+          <td>{{ user.bio ? user.bio : "-" }}</td>
           <td>{{ user.createdAt | date : "dd-MM-yyyy hh:mm:ss a" }}</td>
           <td class="d-flex justify-content-center">
             <div class="form-check form-switch">
-              <input (change)="onChangeUser(user)"
+              <input
+                (change)="onChangeUser(user)"
                 class="form-check-input"
                 type="checkbox"
                 role="switch"
