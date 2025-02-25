@@ -9,7 +9,7 @@ import { DataService } from 'src/app/shared/service/data.service';
 export class UserManagementComponent implements OnInit {
   userDetails: any = sessionStorage.getItem('tokenKey');
   loggedInUser: any;
-
+  searchedUser: any = '';
   userMangementList: any[] = [];
 
   constructor(private dataService: DataService) {}
@@ -21,6 +21,7 @@ export class UserManagementComponent implements OnInit {
     this.getAllUsers();
   }
 
+  // get all users functions
   getAllUsers() {
     this.dataService
       .httpGetRequest('User/GetAllUsers')
@@ -29,7 +30,8 @@ export class UserManagementComponent implements OnInit {
       });
   }
 
-  onChangeUser(event: any) {
+  // Banned unbanned user functions
+  bannedUnbannedUser(event: any) {
     if (event.statusId === 3) {
       this.dataService
         .httpPostRequest('Admin/UnBanSingleUser', event.userId)
@@ -47,9 +49,10 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
+  // Search user functions by username
   onSearchUser() {
     const searchUserObj = {
-      userName: '',
+      userName: this.searchedUser,
       email: '',
     };
 
@@ -57,8 +60,26 @@ export class UserManagementComponent implements OnInit {
       this.dataService
         .httpPostRequest('User/GetUserDetailsForSearch', searchUserObj)
         .subscribe((res: any) => {
-          console.log(res);
+          this.userMangementList = [];
+          this.userMangementList = res;
         });
     }
+  }
+
+  // Delete user functions
+  onDeleteUser(user: any) {
+    if (confirm('Are you sure wants to delete this user?')) {
+      this.dataService
+        .httpDeleteRequest(`User/DeleteUser?id=${user.userId}`)
+        .subscribe((res: any) => {
+          alert(res.message);
+          this.getAllUsers();
+        });
+    }
+  }
+
+  refreshPage() {
+    this.searchedUser = '';
+    this.getAllUsers();
   }
 }

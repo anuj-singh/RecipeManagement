@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UsersManagementRoutingModule } from './users-management-routing.module';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
   ],
   imports: [
     CommonModule,
+    FormsModule,
     UsersManagementRoutingModule
   ]
 })
