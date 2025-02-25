@@ -93,22 +93,40 @@ namespace RecipeManagement.Data.Repositories
         }
         public async Task<User> UpdateUser(int id, User user)
         {
-            var existinguser = await _recipeDBContext.Users.FindAsync(id);
-            if (existinguser == null)
+            var existingUser = await _recipeDBContext.Users.FindAsync(id);
+            if (existingUser == null)
             {
                 throw new KeyNotFoundException($"User with ID {id} not found.");
             }
 
-            existinguser.Bio = user.Bio;
-            existinguser.Email = user.Email;
-            existinguser.UserName = user.UserName;
-            existinguser.ImageUrl = user.ImageUrl;
-            // existinguser.PasswordHash=user.PasswordHash;
-            existinguser.LastModifiedUserId = 1;
-            existinguser.UpdatedAt = DateTime.UtcNow;
-            existinguser.StatusId = user.StatusId;
+            // Only update the fields that are provided (non-null)
+            if (!string.IsNullOrEmpty(user.Bio))
+            {
+                existingUser.Bio = user.Bio;
+            }
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                existingUser.Email = user.Email;
+            }
+            if (!string.IsNullOrEmpty(user.UserName))
+            {
+                existingUser.UserName = user.UserName;
+            }
+            if (!string.IsNullOrEmpty(user.ImageUrl))
+            {
+                existingUser.ImageUrl = user.ImageUrl;
+            }
+            if (user.StatusId != 0)
+            {
+                existingUser.StatusId = user.StatusId;
+            }
+
+            existingUser.LastModifiedUserId = 1;
+            existingUser.UpdatedAt = DateTime.UtcNow;
+
             await _recipeDBContext.SaveChangesAsync();
-            return user;
+
+            return existingUser;
         }
         public async Task<bool> DeleteUser(int id)
         {
