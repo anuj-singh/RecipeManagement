@@ -1,69 +1,192 @@
 <div class="container">
-    <div class="row">
-      <div class="register-section">
-        <div class="col-md-4">
-          <div class="card mt-4">
-            <div class="card-body">
+  <div class="card mt-4">
+    <div class="card-body">
+      <form [formGroup]="registerForm" (ngSubmit)="registerSubmitted()">
+        <div class="row">
+          <!-- Username field -->
+          <div class="col-md-6 col-12">
+            <div class="col mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="username"
+                class="form-control"
+                id="username"
+                formControlName="username"
+                placeholder="Username"
+              />
+              <div
+                class="form-text text-danger"
+                *ngIf="UserName.errors?.['required'] && (UserName.dirty || UserName.touched)"
+              >
+                Username is required.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="UserName.errors?.['minlength'] && (UserName.dirty || UserName.touched)"
+              >
+                Username is invalid.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="UserName.errors?.['pattern'] && (UserName.dirty || UserName.touched)"
+              >
+                Username should start with alphabet.
+              </div>
+            </div>
+          </div>
 
-                <form [formGroup] ="registerForm" (ngSubmit)="registerSubmitted()">
-                    <div class="row">
-                        <div class="col mb-2">
-                            <label for="username" class="form-label">User name</label>
-                            <input type="username" class="form-control" formControlName="userName" placeholder="User name">
-                            <div class="form-text text-danger" *ngIf="UserName.errors?.['required'] && (UserName.dirty || UserName.touched)">
-                                UserName is Required.
-                            </div>
-                            <div class="form-text text-danger" *ngIf="UserName.errors?.['minlength'] && (UserName.dirty || UserName.touched)">
-                                UserName is Invalid.
-                            </div>
-                            <div class="form-text text-danger" *ngIf="UserName.errors?.['pattern'] && (UserName.dirty || UserName.touched)">
-                                UserName should start with Alphabet.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col mb-2">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" formControlName="email" placeholder="Email">
-                            <div class="form-text text-danger" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
-                                Email is Required.
-                            </div>
-                            <div class="form-text text-danger" *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
-                                Email is Invalid.
-                            </div>
-                        </div>
-                    </div>
-                     <div class="row">
-                        <div class="col mb-2">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" formControlName="password" placeholder="password">
-                            <div class="form-text text-danger" 
-                            *ngIf="Password.errors?.['required'] && (Password.dirty || Password.touched)">
-                                Password is Required.
-                            </div>
-                            <div class="form-text text-danger" 
-                            *ngIf="Password.errors?.['minlength'] || Password.errors?.['maxlength'] && (Password.dirty || Password.touched)">
-                                Password should be atleast 6 and at the max 15 characters long..
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="row">
-                        <div class="col mb-3">
-                            <div class="d-grid">
-                                <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Signup</button>
-                                <p class="text-end mt-2">Already have an account?
-                                    <a class="login-link" (click)="navigateToLogin()">Login</a>
-                                    <!-- <a routerLink="/login">Login</a> -->
-                                </p>   
-                            </div>            
-                        </div>
-                    </div> 
-                </form>
+          <!-- Email field -->
+          <div class="col-md-6 col-12">
+            <div class="col mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                placeholder="Email address"
+              />
+              <div
+                class="form-text text-danger"
+                *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)"
+              >
+                Email is required.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)"
+              >
+                Email is invalid.
+              </div>
+            </div>
+          </div>
+
+          <!-- Role field -->
+          <div class="col-md-6 col-12">
+            <div class="col mb-3">
+              <label for="roleId" class="form-label">Role</label>
+              <select class="form-select" formControlName="roleId">
+                <option value="">Select Role</option>
+                <option *ngFor="let role of roleList" [value]="role.roleId">
+                  {{ role.roleName }}
+                </option>
+              </select>
+              <div
+                class="form-text text-danger"
+                *ngIf="roleId.errors?.['required'] && (roleId.dirty || roleId.touched)"
+              >
+                Role is required.
+              </div>
+            </div>
+          </div>
+
+          <!-- password field -->
+          <div class="col-md-6 col-12">
+            <div class="col mb-4">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                placeholder="password"
+              />
+              <div
+                class="form-text text-danger"
+                *ngIf="Password.errors?.['required'] && (Password.dirty || Password.touched)"
+              >
+                Password is required.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="Password.errors?.['minlength'] || Password.errors?.['maxlength'] && (Password.dirty || Password.touched)"
+              >
+                Password should be atleast 6 and at the max 15 characters long..
+              </div>
+            </div>
+          </div>
+
+          <!-- Security Question field -->
+          <div class="col-md-6 col-12">
+            <div class="col mb-3">
+              <label for="securityQuestion" class="form-label"
+                >Security Question</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="securityQuestion"
+                placeholder="Security Question"
+              />
+              <div
+                class="form-text text-danger"
+                *ngIf="securityQuestion.errors?.['required'] && (securityQuestion.dirty || securityQuestion.touched)"
+              >
+                Security question is required.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="securityQuestion.errors?.['minlength'] && (securityQuestion.dirty || securityQuestion.touched)"
+              >
+                Security Question is invalid.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="securityQuestion.errors?.['pattern'] && (securityQuestion.dirty || securityQuestion.touched)"
+              >
+                securityQuestion should start with alphabet.
+              </div>
+            </div>
+          </div>
+
+          <!-- Security answer -->
+          <div class="col-md-6 col-12">
+            <div class="col mb-3">
+              <label for="securityAnswer" class="form-label"
+                >Security Question</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="securityAnswer"
+                placeholder="Security answer"
+              />
+              <div
+                class="form-text text-danger"
+                *ngIf="securityAnswer.errors?.['required'] && (securityAnswer.dirty || securityAnswer.touched)"
+              >
+                Security answer is required.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="securityAnswer.errors?.['minlength'] && (securityAnswer.dirty || securityAnswer.touched)"
+              >
+                Security answer is invalid.
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="securityAnswer.errors?.['pattern'] && (securityAnswer.dirty || securityAnswer.touched)"
+              >
+                Security answer should start with alphabet.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-</div>
 
+        <div class="buttons d-grid">
+          <button
+            type="submit"
+            [disabled]="registerForm.invalid"
+            class="btn btn-primary"
+          >
+            Sign Up
+          </button>
+          <p class="text-end mt-2">
+            Already have an account?
+            <a class="login-link" (click)="navigateToLogin()">Login</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

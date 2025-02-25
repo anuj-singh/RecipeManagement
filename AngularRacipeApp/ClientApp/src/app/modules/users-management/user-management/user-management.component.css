@@ -5,3 +5,14 @@
   font-size: 18px;
   font-weight: 500;
 }
+
+.delete-btn {
+  color: red;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10%;
+}
+
+.delete-btn:hover {
+   background-color: rgb(215, 199, 199);
+}

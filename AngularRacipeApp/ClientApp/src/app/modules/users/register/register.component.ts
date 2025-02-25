@@ -6,72 +6,94 @@ import { DataService } from 'src/app/shared/service/data.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-
-
-  constructor(
-    private router: Router,
-    private dataService: DataService
-  ) { }
+  roleList: any[] = [];
+  constructor(private router: Router, private dataService: DataService) {}
 
   ngOnInit(): void {
+    this.getAllRoles();
   }
 
-
-
   registerForm = new FormGroup({
-    userName: new FormControl('', [
+    username: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
-      Validators.pattern("[a-zA-Z].*")
-    ]
-    ),
+      Validators.pattern('[a-zA-Z].*'),
+    ]),
     email: new FormControl('', [Validators.required]),
+    roleId: new FormControl('', [Validators.required]),
+    securityQuestion: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.pattern('[a-zA-Z].*'),
+    ]),
+    securityAnswer: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.pattern('[a-zA-Z].*'),
+    ]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
-      Validators.maxLength(15)
-    ]
-    ),
-  })
+      Validators.maxLength(15),
+    ]),
+  });
 
   registerSubmitted() {
-
-    let registerUserObj = {
+    const registerObj = {
+      roleId: this.registerForm['controls'].roleId.value,
       loginDto: {
-        userName: this.registerForm.controls['userName'].value,
-        email: this.registerForm.controls['email'].value,
-        password: this.registerForm.controls['password'].value
+        userName: this.registerForm['controls'].username.value,
+        email: this.registerForm['controls'].email.value,
+        password: this.registerForm['controls'].password.value,
       },
-      securityQuestion: "hometown",
-      securityAnswer: "Bhubaneswar"
-    }
-    //console.log(JSON.stringify(registerUserObj, null , 2));
-    this.dataService.httpPostRequest('Auth/Register', registerUserObj)
-      .subscribe((res) => {
-        console.log(res);
-        this.router.navigate(['/users/login'])
+      securityQuestion:  this.registerForm['controls'].securityQuestion.value,
+      securityAnswer:  this.registerForm['controls'].securityAnswer.value,
+    };
+
+    this.dataService
+      .httpPostRequest('Auth/Register', registerObj)
+      .subscribe((res: any) => {
+        alert(res.message);
+        this.router.navigate(['/users']);
       });
   }
 
   get UserName(): FormControl {
-    return this.registerForm.get("userName") as FormControl;
+    return this.registerForm.get('username') as FormControl;
   }
   get Email(): FormControl {
-    return this.registerForm.get("email") as FormControl;
-  }
-  get Password(): FormControl {
-    return this.registerForm.get("password") as FormControl;
+    return this.registerForm.get('email') as FormControl;
   }
 
+  get roleId(): FormControl {
+    return this.registerForm.get('roleId') as FormControl;
+  }
+
+  get securityQuestion(): FormControl {
+    return this.registerForm.get('securityQuestion') as FormControl;
+  }
+
+  get securityAnswer(): FormControl {
+    return this.registerForm.get('securityAnswer') as FormControl;
+  }
+
+  get Password(): FormControl {
+    return this.registerForm.get('password') as FormControl;
+  }
+
+  getAllRoles() {
+    this.dataService
+      .httpGetRequest('User/GetAllRoles')
+      .subscribe((res: any) => {
+        this.roleList = res;
+      });
+  }
   navigateToLogin() {
     this.router.navigate(['/users/']);
   }
-
-
-
 }
 
 

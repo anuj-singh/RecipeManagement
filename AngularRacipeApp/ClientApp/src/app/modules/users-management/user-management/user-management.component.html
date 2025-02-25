@@ -1,7 +1,9 @@
 <span class="title"> Users Management </span>
 <div class="filter-section d-flex mt-5">
-  <input type="text" class="form-control" placeholder="Search user by username..." (click)="onSearchUser()" />
-  <button class="btn btn-primary" style="margin-left: 10px;"><i class="fa-solid fa-search"></i></button>
+  <input type="text" class="form-control" [(ngModel)]="searchedUser" placeholder="Search user by username..." />
+  <button class="btn btn-primary" (click)="onSearchUser()" style="margin-left: 10px;"><i class="fa-solid fa-search"></i></button>
+  <button class="btn btn-primary" (click)="refreshPage()" style="margin-left: 10px;"><i class="fa-solid fa-refresh"></i></button>
+
 </div>
 <div
   class="card mt-2"
@@ -17,6 +19,7 @@
           <th scope="col">Bio</th>
           <th scope="col">Created At</th>
           <th scope="col">Banned/Unbanned User</th>
+          <th scope="col" *ngIf="loggedInUser.role == 'Admin'">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -32,7 +35,7 @@
           <td class="d-flex justify-content-center">
             <div class="form-check form-switch">
               <input
-                (change)="onChangeUser(user)"
+                (change)="bannedUnbannedUser(user)"
                 class="form-check-input"
                 type="checkbox"
                 role="switch"
@@ -40,6 +43,12 @@
               />
             </div>
           </td>
+          <td *ngIf="loggedInUser.role == 'Admin'">
+            <a class="delete-btn" (click)="onDeleteUser(user)"><i class="fa-solid fa-trash"></i></a>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="8" *ngIf="userMangementList.length == 0">No data found...</td>
         </tr>
       </tbody>
     </table>
