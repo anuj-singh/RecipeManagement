@@ -28,7 +28,7 @@ export class RecipesManagementComponent implements OnInit {
 
   //search and update recipe
   searchRecipesByIngredients: any = '';
-  recipes:any;
+  recipes: any;
   //end
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
@@ -55,7 +55,6 @@ export class RecipesManagementComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.fileName = input.files[0]['name'];
-      console.log(this.fileName);
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -73,9 +72,12 @@ export class RecipesManagementComponent implements OnInit {
     }
   }
 
-  enableEdit(recipe: recipe) {
-    this.recipes=recipe;
-    if (recipe.id) {
+  enableEdit(recipe: any) {
+    this.recipes = '';
+    this.recipes = recipe;
+    console.log(this.recipes);
+
+    if (recipe.recipeId) {
       this.addUpdateRecipesForm.patchValue({
         title: recipe.title,
         images: recipe.images,
@@ -84,46 +86,61 @@ export class RecipesManagementComponent implements OnInit {
       });
     } else {
       this.addUpdateRecipesForm.reset();
+      this.recipes = '';
     }
   }
 
   addupdateRecipes() {
-    if(this.recipes.recipeId){
-      // this.dataService
-      // .httpUpdateRequest('Recipes/' + this.recipes.recipeId,this.recipes)
-      // .subscribe((res: any) => {
-      //   alert(res.message);
-      //   this.getAllRecipes();
-      // });
-    }
-    const recipesObj = {
-      title: this.addUpdateRecipesForm.controls['title'].value,
-      ingredients: this.addUpdateRecipesForm.controls['ingredients'].value,
-      instructions: this.addUpdateRecipesForm.controls['instructions'].value,
-      imageUrl: this.fileName,
-      userId: this.loggedInUser.userId,
-      description: 'Good forhealth',
-      cookingTime: 45,
-      statusId: 1,
-      categoryId: 1,
-    };
+    debugger;
+    if (this.recipes?.recipeId) {
+      const updateRecipesObj = {
+        recipeId: this.recipes.recipeId,
+        userId: this.recipes.userId,
+        title: this.addUpdateRecipesForm.controls['title'].value,
+        description: this.recipes.description,
+        ingredients: this.addUpdateRecipesForm.controls['ingredients'].value,
+        cookingTime: this.recipes.cookingTime,
+        instructions: this.addUpdateRecipesForm.controls['instructions'].value,
+        imageUrl: this.fileName,
+        statusId: this.recipes.statusId,
+        categoryId: this.recipes.categoryId,
+      };
+      this.dataService
+        .httpUpdateRequest('Recipes/' + this.recipes.recipeId, updateRecipesObj)
+        .subscribe((res: any) => {
+          alert("Recipe updated successfully");
+          this.getAllRecipes();
+        });
+    } else {
+      const recipesObj = {
+        title: this.addUpdateRecipesForm.controls['title'].value,
+        ingredients: this.addUpdateRecipesForm.controls['ingredients'].value,
+        instructions: this.addUpdateRecipesForm.controls['instructions'].value,
+        imageUrl: this.fileName,
+        userId: this.loggedInUser.userId,
+        description: 'Good forhealth',
+        cookingTime: 45,
+        statusId: 1,
+        categoryId: 1,
+      };
 
-    this.dataService
-      .httpPostRequest('Recipes', recipesObj)
-      .subscribe((res: any) => {
-        alert(res.message);
-        this.getAllRecipes();
-      });
+      this.dataService
+        .httpPostRequest('Recipes', recipesObj)
+        .subscribe((res: any) => {
+          alert(res.message);
+          this.getAllRecipes();
+        });
+    }
   }
 
   deleteRecipe(recipe: any) {
     if (confirm('Are you sure wants to delete this recipe?')) {
       this.dataService
-      .httpDeleteRequest('Recipes/' + recipe.recipeId)
-      .subscribe((res: any) => {
-        alert(res.message);
-        this.getAllRecipes();
-      });
+        .httpDeleteRequest('Recipes/' + recipe.recipeId)
+        .subscribe((res: any) => {
+          alert(res.message);
+          this.getAllRecipes();
+        });
     }
   }
 
@@ -139,7 +156,7 @@ export class RecipesManagementComponent implements OnInit {
       title: '',
       ingredients: this.searchRecipesByIngredients,
       userId: 0,
-      categoryId: 0
+      categoryId: 0,
     };
 
     if (searchRecipeObj.ingredients.length > 2) {
@@ -156,7 +173,4 @@ export class RecipesManagementComponent implements OnInit {
     this.getAllRecipes();
   }
   //end
-
-  
-  
 }
