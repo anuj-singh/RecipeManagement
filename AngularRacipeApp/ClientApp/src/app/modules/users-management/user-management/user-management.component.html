@@ -47,6 +47,9 @@
             <a class="delete-btn" (click)="onDeleteUser(user)"><i class="fa-solid fa-trash"></i></a>
           </td>
         </tr>
+        <tr>
+          <td colspan="8" *ngIf="userMangementList.length == 0">No data found...</td>
+        </tr>
       </tbody>
     </table>
   </div>
