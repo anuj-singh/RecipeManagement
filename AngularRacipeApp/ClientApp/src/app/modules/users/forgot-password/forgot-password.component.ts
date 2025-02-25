@@ -38,6 +38,8 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     this.dataService
       .httpPostRequest('User/forgot-password', this.forgotPasswordForm.value)
-      .subscribe((res) => {});
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 }
