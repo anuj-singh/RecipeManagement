@@ -34,9 +34,9 @@ export class HeaderComponent implements OnInit {
     }
 
     this.userUpdateForm = this.fb.group({
-      name: ['', Validators.required],
+      username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      bio: [''],
     });
   }
 
@@ -47,12 +47,20 @@ export class HeaderComponent implements OnInit {
   openUpdateProfile() {
     this.displayStyleUser = 'none';
     if (!this.userUpdateModelOpened === true) {
+      this.populateUserData();
       this.displayStyleUserUpdate = 'block';
     } else {
       this.userUpdateForm.reset();
       this.displayStyleUserUpdate = 'none';
     }
     this.userUpdateModelOpened = !this.userUpdateModelOpened;
+  }
+  populateUserData(){
+    this.userUpdateForm.patchValue({
+      username: this.loggedInUser.userName,
+      email: this.loggedInUser.email,
+      bio: this.loggedInUser.bio,
+    });
   }
   signout() {
     this.dataService.signOut();
@@ -62,6 +70,21 @@ export class HeaderComponent implements OnInit {
   onSubmit() {
     if (this.userUpdateForm.valid) {
       this.displayStyleUserUpdate = 'none';
+      const url = 'User/UpdateUser';
+      const payload = {
+        userId: this.loggedInUser.userId,
+        userName: this.userUpdateForm.value['username'],
+        email: this.userUpdateForm.value['email'],
+        bio: this.userUpdateForm.value['bio'],
+        statusId:this.loggedInUser.userId,
+        imageUrl:'C:\\Users\\arun.mp\\Angular Project\\RecipeManagement\\CoreApiProject\\wwwroot\\uploads\\iurl5',
+      }
+      console.log(payload);
+      this.dataService.httpUpdateRequest(url, payload).subscribe((value)=> {
+        console.log(value);
+      },(error)=> {
+        console.log(error)
+      })
       console.log('Form Submitted!', this.userUpdateForm.value);
       this.userUpdateForm.reset();
     } else {
