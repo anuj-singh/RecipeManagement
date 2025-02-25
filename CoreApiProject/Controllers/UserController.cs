@@ -135,6 +135,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto forgotPasswordRequestDto)
     {
         try
