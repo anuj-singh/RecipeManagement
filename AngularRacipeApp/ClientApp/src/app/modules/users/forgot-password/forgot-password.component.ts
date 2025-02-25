@@ -38,8 +38,9 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     this.dataService
       .httpPostRequest('User/forgot-password', this.forgotPasswordForm.value)
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe((res: any) => {
+        alert(res.message);
+        this.router.navigate(['/users/recover-password'], { queryParams: { token: res.token } })
       });
   }
 }
