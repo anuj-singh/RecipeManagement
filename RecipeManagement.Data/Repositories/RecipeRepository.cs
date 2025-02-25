@@ -83,7 +83,7 @@ namespace RecipeManagement.Data.Repositories
                 return recipe;
             }
             catch (Exception ex)
-            {       
+            {
                 throw new Exception("An error occurred while adding the recipe.", ex);
             }
         }
@@ -100,10 +100,15 @@ namespace RecipeManagement.Data.Repositories
                 }
 
                 existingRecipe.Title = recipe.Title;
+                existingRecipe.Ingredients = recipe.Ingredients;
+                existingRecipe.Description = recipe.Description;
+                existingRecipe.CookingTime = recipe.CookingTime;
+                existingRecipe.Instructions = recipe.Instructions;
                 existingRecipe.UserId = recipe.UserId;
                 existingRecipe.CategoryId = recipe.CategoryId;
                 existingRecipe.ImageUrl = recipe.ImageUrl;
-
+                existingRecipe.StatusId = recipe.StatusId;
+                existingRecipe.UpdatedAt = DateTime.Now;
                 await _context.SaveChangesAsync();
 
                 return existingRecipe;
@@ -132,29 +137,30 @@ namespace RecipeManagement.Data.Repositories
                 throw new Exception($"An error occurred while deleting the recipe with ID {id}.", ex);
             }
         }
-        public async Task<List<Recipe>> SearchRecipeByFilter(string title, string ingredient,int userId, int categoryId)
+        public async Task<List<Recipe>> SearchRecipeByFilter(string title, string ingredient, int userId, int categoryId)
         {
-            List<Recipe> lstRecipes= new List<Recipe>();
-            try{
-                var result= await  _context.Recipes
+            List<Recipe> lstRecipes = new List<Recipe>();
+            try
+            {
+                var result = await _context.Recipes
                                      .Include(r => r.User)
                                      .Include(r => r.Category)
                                      .ToListAsync();
-                if(!string.IsNullOrEmpty(title))
+                if (!string.IsNullOrEmpty(title))
                 {
-                    lstRecipes=result.Where (s=>s.Title.Contains(title)).ToList();
+                    lstRecipes = result.Where(s => s.Title.Contains(title)).ToList();
                 }
-                if(!string.IsNullOrEmpty(ingredient))
+                if (!string.IsNullOrEmpty(ingredient))
                 {
-                    lstRecipes=result.Where (s=>s.Ingredients.Contains(ingredient)).ToList();
+                    lstRecipes = result.Where(s => s.Ingredients.Contains(ingredient)).ToList();
                 }
-                if(userId!=0 )
+                if (userId != 0)
                 {
-                    lstRecipes=result.Where (s=>s.UserId==userId).ToList();
+                    lstRecipes = result.Where(s => s.UserId == userId).ToList();
                 }
-                 if(categoryId!=0 )
+                if (categoryId != 0)
                 {
-                    lstRecipes=result.Where (s=>s.CategoryId==categoryId).ToList();
+                    lstRecipes = result.Where(s => s.CategoryId == categoryId).ToList();
                 }
             }
             catch (Exception ex)
