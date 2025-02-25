@@ -91,7 +91,6 @@ export class RecipesManagementComponent implements OnInit {
   }
 
   addupdateRecipes() {
-    debugger;
     if (this.recipes?.recipeId) {
       const updateRecipesObj = {
         recipeId: this.recipes.recipeId,
