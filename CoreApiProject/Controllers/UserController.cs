@@ -151,6 +151,7 @@ public class UserController : ControllerBase
 
     [HttpPost("reset-password")]
     [AllowAnonymous]
+
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
     {
         try
