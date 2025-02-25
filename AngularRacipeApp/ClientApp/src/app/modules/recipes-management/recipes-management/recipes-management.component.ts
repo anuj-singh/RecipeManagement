@@ -26,6 +26,11 @@ export class RecipesManagementComponent implements OnInit {
   imageUrl: string | ArrayBuffer | null = null;
   fileName: any = '';
 
+  //search and update recipe
+  searchRecipesByIngredients: any = '';
+  recipes:any;
+  //end
+
   constructor(private fb: FormBuilder, private dataService: DataService) {}
   selectedFile: any | null = null;
   imagePath: string | null = null;
@@ -69,7 +74,8 @@ export class RecipesManagementComponent implements OnInit {
   }
 
   enableEdit(recipe: recipe) {
-    if (recipe) {
+    this.recipes=recipe;
+    if (recipe.id) {
       this.addUpdateRecipesForm.patchValue({
         title: recipe.title,
         images: recipe.images,
@@ -82,6 +88,14 @@ export class RecipesManagementComponent implements OnInit {
   }
 
   addupdateRecipes() {
+    if(this.recipes.recipeId){
+      // this.dataService
+      // .httpUpdateRequest('Recipes/' + this.recipes.recipeId,this.recipes)
+      // .subscribe((res: any) => {
+      //   alert(res.message);
+      //   this.getAllRecipes();
+      // });
+    }
     const recipesObj = {
       title: this.addUpdateRecipesForm.controls['title'].value,
       ingredients: this.addUpdateRecipesForm.controls['ingredients'].value,
@@ -118,4 +132,31 @@ export class RecipesManagementComponent implements OnInit {
       this.recipeMangementList = res;
     });
   }
+
+  // Search Recipe  by ingredients
+  onSearchRecipes() {
+    const searchRecipeObj = {
+      title: '',
+      ingredients: this.searchRecipesByIngredients,
+      userId: 0,
+      categoryId: 0
+    };
+
+    if (searchRecipeObj.ingredients.length > 2) {
+      this.dataService
+        .httpPostRequest('Recipes/GetRecipeDetailsForSearch', searchRecipeObj)
+        .subscribe((res: any) => {
+          this.recipeMangementList = [];
+          this.recipeMangementList = res;
+        });
+    }
+  }
+  refreshPage() {
+    this.searchRecipesByIngredients = '';
+    this.getAllRecipes();
+  }
+  //end
+
+  
+  
 }
