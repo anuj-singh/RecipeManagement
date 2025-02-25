@@ -34,9 +34,9 @@ export class HeaderComponent implements OnInit {
     }
 
     this.userUpdateForm = this.fb.group({
-      name: ['', Validators.required],
+      username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      bio: [''],
     });
   }
 
@@ -47,12 +47,20 @@ export class HeaderComponent implements OnInit {
   openUpdateProfile() {
     this.displayStyleUser = 'none';
     if (!this.userUpdateModelOpened === true) {
+      this.populateUserData();
       this.displayStyleUserUpdate = 'block';
     } else {
       this.userUpdateForm.reset();
       this.displayStyleUserUpdate = 'none';
     }
     this.userUpdateModelOpened = !this.userUpdateModelOpened;
+  }
+  populateUserData(){
+    this.userUpdateForm.patchValue({
+      username: this.loggedInUser.userName,
+      email: this.loggedInUser.email,
+      bio: this.loggedInUser.bio,
+    });
   }
   signout() {
     this.dataService.signOut();
@@ -62,8 +70,21 @@ export class HeaderComponent implements OnInit {
   onSubmit() {
     if (this.userUpdateForm.valid) {
       this.displayStyleUserUpdate = 'none';
-      console.log('Form Submitted!', this.userUpdateForm.value);
-      this.userUpdateForm.reset();
+      const payload = {
+        userId: this.loggedInUser.userId,
+        userName: this.userUpdateForm.value['username'],
+        email: this.userUpdateForm.value['email'],
+        bio: this.userUpdateForm.value['bio'],
+        statusId:this.loggedInUser.userId,
+        imageUrl:'',
+      }
+      console.log(payload);
+      this.dataService.httpUpdateRequest(`User/UpdateUser?id=${this.loggedInUser.userId}`, payload).subscribe((value:any)=> {
+          this.loggedInUser.userName = value.userName;
+          this.loggedInUser.mail = value.mail;
+          console.log('pre session', this.loggedInUser);
+          sessionStorage.setItem('tokenKey', JSON.stringify(this.loggedInUser));
+      });
     } else {
       console.log('Form is invalid');
     }
