@@ -70,23 +70,21 @@ export class HeaderComponent implements OnInit {
   onSubmit() {
     if (this.userUpdateForm.valid) {
       this.displayStyleUserUpdate = 'none';
-      const url = 'User/UpdateUser';
       const payload = {
         userId: this.loggedInUser.userId,
         userName: this.userUpdateForm.value['username'],
         email: this.userUpdateForm.value['email'],
         bio: this.userUpdateForm.value['bio'],
         statusId:this.loggedInUser.userId,
-        imageUrl:'C:\\Users\\arun.mp\\Angular Project\\RecipeManagement\\CoreApiProject\\wwwroot\\uploads\\iurl5',
+        imageUrl:'',
       }
       console.log(payload);
-      this.dataService.httpUpdateRequest(url, payload).subscribe((value)=> {
-        console.log(value);
-      },(error)=> {
-        console.log(error)
-      })
-      console.log('Form Submitted!', this.userUpdateForm.value);
-      this.userUpdateForm.reset();
+      this.dataService.httpUpdateRequest(`User/UpdateUser?id=${this.loggedInUser.userId}`, payload).subscribe((value:any)=> {
+          this.loggedInUser.userName = value.userName;
+          this.loggedInUser.mail = value.mail;
+          console.log('pre session', this.loggedInUser);
+          sessionStorage.setItem('tokenKey', JSON.stringify(this.loggedInUser));
+      });
     } else {
       console.log('Form is invalid');
     }
