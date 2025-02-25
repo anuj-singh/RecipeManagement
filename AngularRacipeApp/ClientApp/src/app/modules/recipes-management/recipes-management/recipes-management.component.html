@@ -1,5 +1,11 @@
 <div class="filter-section">
-  <input type="text" class="form-control" placeholder="Search recipes" />
+  <!-- <input type="text" class="form-control" placeholder="Search recipes" /> -->
+<!-- search add -->
+  <input type="text" class="form-control" [(ngModel)]="searchRecipesByIngredients" placeholder="Search recipes by Ingredients..." />
+  <button class="btn btn-primary" (click)="onSearchRecipes()" style="margin-left: 10px;"><i class="fa-solid fa-search"></i></button>
+  <button class="btn btn-primary" (click)="refreshPage()" style="margin-left: 10px;"><i class="fa-solid fa-refresh"></i></button>
+<!-- search end -->
+
   <button
     type="button"
     class="btn btn-primary button-add"
@@ -7,6 +13,7 @@
     data-bs-toggle="modal"
     data-bs-target="#exampleModal"
     (click)="setCurrentActivity('add')"
+    *ngIf="loggedInUser?.role == 'Admin'"
   >
     Add Recipe
   </button>
@@ -25,7 +32,7 @@
           <th scope="col">Ingredients</th>
           <th scope="col">Instructions</th>
           <th scope="col">Images</th>
-          <th scope="col" *ngIf="loggedInUser?.userType == 'admin'">Action</th>
+          <th scope="col" *ngIf="loggedInUser?.role == 'Admin'">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -38,7 +45,7 @@
           <td>{{ recipe.ingredients }}</td>
           <td>{{ recipe.instructions }}</td>
           <td><img [src]="recipe.imageUrl" alt="" class="image" /></td>
-          <td>
+          <td *ngIf="loggedInUser?.role == 'Admin'">
             <button
               type="button"
               class="btn btn-primary"
@@ -57,6 +64,9 @@
               Delete
             </button>
           </td>
+        </tr>
+        <tr>
+          <td colspan="8" *ngIf="recipeMangementList.length == 0">No data found...</td>
         </tr>
       </tbody>
     </table>
