@@ -18,12 +18,15 @@ namespace RecipeManagement.Data.Repositories
         {
             try
             {
+
+
                 // First, create the security question for the user
                 //var existingQuestion = await _recipeDBContext.SecurityQuestions
                 //.FirstOrDefaultAsync(sq => sq.Question.ToLower() == securityQuestion.ToLower());                       
 
                 var existingQuestion = await _recipeDBContext.SecurityQuestions
-                                        .FirstOrDefaultAsync(sq => sq.Question.ToLower() == securityQuestion.ToLower() && sq.UserId == user.UserId);
+                                        .FirstOrDefaultAsync(sq => sq.Question.ToLower() == securityQuestion.ToLower()
+                                        && sq.UserId == user.UserId);
 
                 if (existingQuestion == null)
                 {
@@ -32,12 +35,26 @@ namespace RecipeManagement.Data.Repositories
                     {
                         Question = securityQuestion,
                         Answer = securityAnswer,
-                        UserId = user.UserId
+
                     };
+
+
 
                     // Save the security question to the database
                     _recipeDBContext.SecurityQuestions.Add(existingQuestion);
                     await _recipeDBContext.SaveChangesAsync();
+
+                    user.SecurityQuestionId = existingQuestion.SecurityQuestionId;
+                    user.SecurityQuestion = existingQuestion;
+                    _recipeDBContext.Users.Add(user);
+                    await _recipeDBContext.SaveChangesAsync();
+
+                    existingQuestion.UserId = user.UserId;
+
+                    _recipeDBContext.SecurityQuestions.Update(existingQuestion);
+                    await _recipeDBContext.SaveChangesAsync();
+
+
                 }
                 else
                 {
@@ -48,11 +65,8 @@ namespace RecipeManagement.Data.Repositories
                     }
                 }
 
-                // Now, associate the security question with the user
-                user.SecurityQuestion = existingQuestion;
 
-                _recipeDBContext.Users.Add(user);
-                await _recipeDBContext.SaveChangesAsync();
+
 
 
                 return user;
