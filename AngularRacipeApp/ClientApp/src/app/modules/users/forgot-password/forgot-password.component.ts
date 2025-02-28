@@ -6,33 +6,41 @@ import { DataService } from 'src/app/shared/service/data.service';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css']
+  styleUrls: ['./forgot-password.component.css'],
 })
 export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm!: FormGroup;
   message: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router,private dataService: DataService) {
-  
-  }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private dataService: DataService
+  ) {}
   ngOnInit(): void {
-    this.forgotpasswordform()
+    this.forgotpasswordform();
   }
-  forgotpasswordform(){
+  forgotpasswordform() {
     this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      securityAnswer: ['', [Validators.required]],
     });
   }
+
   get email() {
     return this.forgotPasswordForm.get('email');
   }
-  onSubmit() {
-    this.router.navigate(['/users/recover-password']);
-    this.dataService
-      .httpPostRequest('', this.forgotPasswordForm.value)
-      .subscribe((res) => {
-        this.message='password reset successful'
-      });
-    }
- 
+
+  get securityAnswer() {
+    return this.forgotPasswordForm.get('securityAnswer');
   }
+
+  onSubmit() {
+    this.dataService
+      .httpPostRequest('User/forgot-password', this.forgotPasswordForm.value)
+      .subscribe((res: any) => {
+        alert(res.message);
+        this.router.navigate(['/users/recover-password'], { queryParams: { token: res.token } })
+      });
+  }
+}
